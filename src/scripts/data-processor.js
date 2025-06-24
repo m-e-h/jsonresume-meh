@@ -201,7 +201,131 @@ class DataProcessor {
       result.meta = { ...this.defaultValues.meta, ...result.meta };
     }
 
-    return result;
+    // Apply graceful fallbacks for corrupted data
+    return this.sanitizeAndRepairData(result);
+  }
+
+  /**
+   * Sanitize and repair corrupted or malformed data
+   * @param {Object} data - Resume data to sanitize
+   * @returns {Object} Sanitized data
+   */
+  sanitizeAndRepairData(data) {
+    const sanitized = { ...data };
+
+    try {
+      // Repair basics section
+      if (sanitized.basics && typeof sanitized.basics === 'object') {
+        sanitized.basics = this.repairBasicsSection(sanitized.basics);
+      }
+
+      // Repair array sections
+      const arraySections = ['work', 'volunteer', 'education', 'awards', 'certificates', 'publications', 'skills', 'languages', 'interests', 'references', 'projects'];
+
+      arraySections.forEach(section => {
+        if (sanitized[section]) {
+          if (!Array.isArray(sanitized[section])) {
+            console.warn(`⚠️  ${section} section is not an array, converting to array`);
+            sanitized[section] = [sanitized[section]];
+          }
+          sanitized[section] = this.repairArraySection(sanitized[section], section);
+        }
+      });
+
+      // Ensure critical fields exist
+      if (!sanitized.basics?.name) {
+        sanitized.basics.name = 'Resume';
+        console.warn('⚠️  Missing name in basics, using default');
+      }
+
+    } catch (error) {
+      console.error('❌ Error sanitizing data, using defaults:', error);
+      return { ...this.defaultValues };
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * Repair basics section
+   * @param {Object} basics - Basics section data
+   * @returns {Object} Repaired basics data
+   */
+  repairBasicsSection(basics) {
+    const repaired = { ...basics };
+
+    // Ensure string fields are strings
+    const stringFields = ['name', 'label', 'email', 'phone', 'url', 'summary'];
+    stringFields.forEach(field => {
+      if (repaired[field] && typeof repaired[field] !== 'string') {
+        repaired[field] = String(repaired[field]);
+      }
+    });
+
+    // Repair location object
+    if (repaired.location && typeof repaired.location !== 'object') {
+      repaired.location = {};
+    }
+
+    // Repair profiles array
+    if (repaired.profiles) {
+      if (!Array.isArray(repaired.profiles)) {
+        repaired.profiles = [repaired.profiles];
+      }
+      repaired.profiles = repaired.profiles.filter(profile =>
+        profile && typeof profile === 'object' && (profile.network || profile.url)
+      );
+    }
+
+    return repaired;
+  }
+
+  /**
+   * Repair array section by filtering out invalid entries
+   * @param {Array} array - Array section data
+   * @param {string} sectionName - Name of the section for logging
+   * @returns {Array} Repaired array
+   */
+  repairArraySection(array, sectionName) {
+    return array.filter((item, index) => {
+      if (!item || typeof item !== 'object') {
+        console.warn(`⚠️  Invalid ${sectionName} item at index ${index}, removing`);
+        return false;
+      }
+
+      // Section-specific validation
+      switch (sectionName) {
+        case 'work':
+        case 'volunteer':
+          return item.name || item.company || item.organization;
+
+        case 'education':
+          return item.institution || item.area || item.studyType;
+
+        case 'skills':
+          return item.name || (item.keywords && item.keywords.length > 0);
+
+        case 'languages':
+          return item.language;
+
+        case 'interests':
+          return item.name || (item.keywords && item.keywords.length > 0);
+
+        case 'awards':
+        case 'certificates':
+        case 'publications':
+          return item.title || item.name;
+
+        case 'references':
+          return item.name || item.reference;
+
+        case 'projects':
+          return item.name || item.title;
+
+        default:
+          return true;
+      }
+    });
   }
 
   /**

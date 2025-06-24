@@ -10,7 +10,7 @@ import './styles/shared/_variables.scss';
 import { DataProcessor } from './scripts/data-processor.js';
 import { TemplateRenderer } from './scripts/template-renderer.js';
 import { pdfExporter } from './scripts/pdf-export.js';
-// import { ErrorHandler } from './scripts/error-handler.js';
+import { errorHandler } from './scripts/error-handler.js';
 
 /**
  * Main Application Class
@@ -94,20 +94,16 @@ class ResumeBuilder {
    * Initialize error handling system
    */
   initializeErrorHandling() {
-    // This will be implemented when ErrorHandler module is created
     console.log('🛡️  Error handling initialized');
 
-    // Global error handler for unhandled promises
-    window.addEventListener('unhandledrejection', (event) => {
-      console.error('Unhandled promise rejection:', event.reason);
-      this.handleError(event.reason);
-    });
+    // The errorHandler module automatically sets up global error handlers
+    // We just need to ensure it's initialized (it auto-initializes on import)
+    if (!errorHandler.isInitialized) {
+      errorHandler.init();
+    }
 
-    // Global error handler for JavaScript errors
-    window.addEventListener('error', (event) => {
-      console.error('Global error:', event.error);
-      this.handleError(event.error);
-    });
+    // Make error handler available globally for debugging
+    window.errorHandler = errorHandler;
   }
 
   /**
@@ -318,7 +314,7 @@ class ResumeBuilder {
 
     } catch (error) {
       console.error('Print failed:', error);
-      this.handleError(error);
+      this.handleError(error, { operation: 'Print resume' });
     }
   }
 
@@ -409,7 +405,7 @@ class ResumeBuilder {
 
     } catch (error) {
       console.error('❌ PDF export failed:', error);
-      this.handleError(error);
+      this.handleError(error, { operation: 'PDF export', templateId });
     } finally {
       // Reset button state
       if (exportButton) {
@@ -472,36 +468,12 @@ class ResumeBuilder {
   /**
    * Handle application errors
    */
-  handleError(error) {
-    console.error('Application error:', error);
-    // Error handling will be improved when ErrorHandler module is created
-
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'error-message';
-    errorMessage.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: #dc3545;
-      color: white;
-      padding: 15px;
-      border-radius: 5px;
-      z-index: 1001;
-      max-width: 400px;
-    `;
-    errorMessage.innerHTML = `
-      <strong>Error:</strong> ${error.message || 'An unexpected error occurred'}
-      <button onclick="this.parentElement.remove()" style="float: right; background: none; border: none; color: white; cursor: pointer;">×</button>
-    `;
-
-    document.body.appendChild(errorMessage);
-
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-      if (errorMessage.parentElement) {
-        errorMessage.remove();
-      }
-    }, 5000);
+  handleError(error, context = {}) {
+    // Use the centralized error handler
+    return errorHandler.handleError(error, {
+      component: 'ResumeBuilder',
+      ...context
+    });
   }
 
   /**
