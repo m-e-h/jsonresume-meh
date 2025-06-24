@@ -1,0 +1,306 @@
+{
+  "basics": {
+    "name": "Marty Helmick",
+    "label": "",
+    "email": "info@martyhelmick.com",
+    "phone": "704-728-9859",
+    "url": "",
+    "summary": "Experienced WordPress Developer with 13+ years of expertise building scalable, high-performance web solutions. Deeply skilled in custom theme and plugin development, Gutenberg block creation with React, REST API integrations, and performance optimization. Open Source contributor with impactful contributions to WordPress Core development.",
+    "location": {
+      "city": "Charlotte",
+      "region": "North Carolina",
+      "countryCode": "US"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "m-e-h",
+        "url": "https://github.com/m-e-h"
+      },
+      {
+        "network": "npm",
+        "username": "m-e-h",
+        "url": "https://www.npmjs.com/~m-e-h"
+      },
+      {
+        "network": "WordPress",
+        "username": "m-e-h",
+        "url": "https://profiles.wordpress.org/m-e-h/"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "martyhelmick",
+        "url": "https://www.linkedin.com/in/martyhelmick/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Awesome Motive",
+      "location": "Remote",
+      "position": "Developer",
+      "url": "https://awesomemotive.com",
+      "startDate": "2020-06-01",
+      "endDate": "2025-04-30",
+      "summary": "Lead developer for high-traffic marketing websites serving millions of users globally, with extensive experience in live event support and on-call operations.",
+      "highlights": [
+        "Spearheaded development and maintenance of complex, high-traffic product marketing sites (AIOSEO, SEOBoost, LowFruits) serving 3+ million websites globally",
+        "Engineered WordPress editor blocks (Table of Contents, FAQ) using React, significantly improving content creation workflows and user engagement",
+        "Collaborated extensively with cross-functional teams including leadership, marketing, support, and development to deliver high-impact solutions",
+        "Implemented custom API endpoints and integrated services (Help Scout, DocsBot AI, Drip, Unchurn) enhancing customer support and retention strategies",
+        "Improved website performance and PageSpeed scores through strategic optimizations, including Cloudflare APO implementation",
+        "Provided technical guidance and mentorship to team members on development projects and modern WordPress practices",
+        "Enhanced user experience and conversion rates through iterative development of pricing pages, checkout flows, and WooCommerce integrations",
+        "Developed flexible WordPress solutions including custom post types, taxonomies, and Gutenberg block patterns",
+        "Championed modern WordPress development practices ensuring code quality, maintainability, and industry standards compliance"
+      ]
+    },
+    {
+      "name": "The Idea People",
+      "position": "Senior WordPress Developer",
+      "location": "Charlotte, NC",
+      "startDate": "2019-09-01",
+      "endDate": "2020-05-31",
+      "summary": "Senior developer responsible for custom WordPress solutions for nationally recognized organizations.",
+      "highlights": [
+        "Engineered and maintained custom WordPress websites for nationally recognized organizations ensuring scalability, security, and seamless user experiences",
+        "Developed custom WordPress themes and plugins to meet specific business requirements",
+        "Implemented advanced workflows with WooCommerce, ACF, Gravity Forms, and tailored admin interfaces",
+        "Led technical discussions, gathered project requirements, and developed implementation plans",
+        "Supervised development team members and provided technical mentorship"
+      ]
+    },
+    {
+      "name": "Diocese of Charlotte",
+      "location": "Charlotte, NC",
+      "position": "Lead Web Developer",
+      "startDate": "2013-06-01",
+      "endDate": "2019-09-30",
+      "summary": "Lead developer managing web applications for multiple organizations with supervisory responsibilities.",
+      "highlights": [
+        "Developed and maintained web applications for schools, churches, campaigns, and diocese-related agencies",
+        "Built custom WordPress solutions with strong emphasis on accessibility and user experience",
+        "Led technical discussions, gathered project requirements, and developed implementation plans",
+        "Managed complex information architecture through custom post types and taxonomies",
+        "Supervised assigned development staff and carried out supervisory responsibilities including training, performance management, and project direction"
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "WordPress Core Development",
+      "position": "Gutenberg Development Team Member",
+      "url": "https://github.com/orgs/WordPress/people?query=marty",
+      "startDate": "2018-01-01",
+      "endDate": "2021-12-31",
+      "summary": "Open source contributor to WordPress core development.",
+      "highlights": [
+        "Contributed to six major WordPress releases (5.0, 5.2, 5.3, 5.4, 5.6, 5.8) as Gutenberg Development Team Member",
+        "Actively engaged in discussions, PRs, and issue triage for WordPress core and Gutenberg editor",
+        "Developed custom PostCSS plugin using Node.js to optimize styling workflows for WordPress block editor",
+        "Advanced functionality and user experience of the WordPress block editor for millions of users"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Keller Graduate School of Management",
+      "area": "Information Systems Management",
+      "studyType": "Master's Degree",
+      "startDate": "2010-01-01",
+      "endDate": "2012-07-31"
+    },
+    {
+      "institution": "West Virginia University",
+      "area": "Communication Studies",
+      "studyType": "Bachelor of Arts",
+      "startDate": "1998-08-01",
+      "endDate": "2002-08-31"
+    }
+  ],
+  "awards": [],
+  "certificates": [],
+  "publications": [
+    {
+      "name": "PostCSS Editor Styles Plugin",
+      "publisher": "GitHub",
+      "releaseDate": "2020-01-01",
+      "url": "https://github.com/m-e-h/postcss-editor-styles",
+      "summary": "Custom PostCSS plugin developed using Node.js to optimize styling workflows for WordPress block editor"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming Languages",
+      "level": "Expert",
+      "keywords": [
+        "PHP",
+        "JavaScript ES6",
+        "HTML5",
+        "CSS3",
+        "Sass"
+      ]
+    },
+    {
+      "name": "Frameworks & Libraries",
+      "level": "Expert",
+      "keywords": [
+        "React",
+        "React Native",
+        "Vue.js",
+        "jQuery",
+        "WordPress"
+      ]
+    },
+    {
+      "name": "Tools & Platforms",
+      "level": "Expert",
+      "keywords": [
+        "Git",
+        "Node.js",
+        "npm",
+        "Vite",
+        "Webpack",
+        "Gulp",
+        "Figma",
+        "VSCode",
+        "GitHub Copilot",
+        "Cursor AI"
+      ]
+    },
+    {
+      "name": "WordPress Development",
+      "level": "Expert",
+      "keywords": [
+        "Custom themes",
+        "Custom plugins",
+        "Gutenberg blocks",
+        "REST API",
+        "Multi-lingual implementation",
+        "Performance optimization",
+        "SEO best practices"
+      ]
+    },
+    {
+      "name": "Cloud & DevOps",
+      "level": "Advanced",
+      "keywords": [
+        "AWS",
+        "Cloudflare",
+        "Performance optimization",
+        "UNIX environments"
+      ]
+    },
+    {
+      "name": "E-commerce & Integrations",
+      "level": "Expert",
+      "keywords": [
+        "WooCommerce",
+        "API integrations",
+        "Payment gateways",
+        "Help Scout",
+        "Drip",
+        "Custom endpoints"
+      ]
+    },
+    {
+      "name": "Design & UX",
+      "level": "Advanced",
+      "keywords": [
+        "Responsive design",
+        "Mobile-first design",
+        "Accessibility standards",
+        "User experience optimization"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native speaker"
+    }
+  ],
+  "interests": [],
+  "references": [],
+  "projects": [
+    {
+      "name": "AIOSEO Marketing Site",
+      "description": "High-traffic marketing website for All in One SEO plugin trusted by 3+ million websites",
+      "highlights": [
+        "Custom WordPress theme development",
+        "Advanced plugin functionality",
+        "Multi-lingual capabilities",
+        "API integrations for customer support and retention",
+        "Performance optimization achieving improved PageSpeed scores"
+      ],
+      "keywords": [
+        "WordPress",
+        "PHP",
+        "JavaScript",
+        "React",
+        "Performance Optimization"
+      ],
+      "startDate": "2020-06-01",
+      "endDate": "2025-04-30",
+      "url": "https://aioseo.com",
+      "roles": [
+        "Lead Developer"
+      ],
+      "entity": "Awesome Motive",
+      "type": "application"
+    },
+    {
+      "name": "SEOBoost Marketing Site",
+      "description": "Complete marketing website development from concept to launch",
+      "highlights": [
+        "Built using modern WordPress block theme architecture",
+        "Custom themes and plugins development",
+        "Drip integration for customer lifecycle management",
+        "Responsive design implementation",
+        "Performance-optimized for high-traffic usage"
+      ],
+      "keywords": [
+        "WordPress",
+        "Block Theme",
+        "React",
+        "API Integration"
+      ],
+      "startDate": "2023-10-01",
+      "endDate": "2024-06-30",
+      "url": "https://seoboost.com",
+      "roles": [
+        "Lead Developer"
+      ],
+      "entity": "Awesome Motive",
+      "type": "application"
+    },
+    {
+      "name": "WordPress Gutenberg Editor Blocks",
+      "description": "React-based WordPress editor blocks improving content creation workflows",
+      "highlights": [
+        "Engineered Table of Contents and FAQ blocks using React",
+        "Significantly improved content creation workflows",
+        "Enhanced user engagement for millions of websites",
+        "Modern development practices implementation"
+      ],
+      "keywords": [
+        "React",
+        "WordPress",
+        "Gutenberg",
+        "JavaScript"
+      ],
+      "startDate": "2020-06-01",
+      "endDate": "2025-04-30",
+      "roles": [
+        "React Developer"
+      ],
+      "entity": "Awesome Motive",
+      "type": "application"
+    }
+  ],
+  "meta": {
+    "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+    "version": "v1.0.0",
+    "lastModified": "2025-06-18T21:18:42.190973"
+  }
+}
