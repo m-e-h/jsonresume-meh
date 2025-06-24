@@ -14,6 +14,8 @@ import {
   Publications,
   Awards,
   Certificates,
+  Projects,
+  References,
   Interests
 } from './components.js';
 
@@ -40,6 +42,7 @@ export function ClassicTemplate(data) {
           <div class="left-column">
             ${Summary(data)}
             ${WorkExperience(data)}
+            ${Projects(data)}
             ${Education(data)}
           </div>
 
@@ -50,6 +53,7 @@ export function ClassicTemplate(data) {
             ${Awards(data)}
             ${Publications(data)}
             ${VolunteerExperience(data)}
+            ${References(data)}
             ${Interests(data)}
           </div>
         </main>
@@ -87,10 +91,12 @@ export function ModernTemplate(data) {
         <div class="main-content">
           ${Summary(data)}
           ${WorkExperience(data)}
+          ${Projects(data)}
           ${VolunteerExperience(data)}
           ${Education(data)}
           ${Publications(data)}
           ${Awards(data)}
+          ${References(data)}
         </div>
       </div>
     </body>
@@ -118,6 +124,7 @@ export function MinimalTemplate(data) {
         ${Header(data)}
         ${Summary(data)}
         ${WorkExperience(data)}
+        ${Projects(data)}
         ${Education(data)}
 
         <div class="skills-languages-row">
@@ -129,6 +136,7 @@ export function MinimalTemplate(data) {
         ${Publications(data)}
         ${Awards(data)}
         ${Certificates(data)}
+        ${References(data)}
         ${Interests(data)}
       </div>
     </body>

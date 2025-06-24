@@ -373,6 +373,100 @@ export function Certificates({ certificates = [] }) {
 }
 
 /**
+ * Projects component
+ */
+export function Projects({ projects = [] }) {
+  if (!projects.length) return '';
+
+  return `
+    <section class="section projects-section">
+      <h3 class="section-title">Projects</h3>
+      <div class="section-content">
+        ${projects.map(project => ProjectItem(project)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Individual project item component
+ */
+function ProjectItem(project) {
+  const { name, description, highlights = [], url, startDate, endDate, roles = [], entity, type, formattedDates } = project;
+
+  return `
+    <div class="project-item page-break-inside-avoid">
+      <div class="project-header">
+        <h4 class="project-name">
+          ${url ? `<a href="${url}" target="_blank">${name}</a>` : name}
+        </h4>
+        <div class="project-details">
+          ${entity ? `<span class="project-entity">${entity}</span>` : ''}
+          ${type ? `<span class="project-type">${type}</span>` : ''}
+          ${startDate ? `
+            <span class="project-dates">
+              ${formattedDates || formatDateRange(startDate, endDate)}
+            </span>
+          ` : ''}
+        </div>
+      </div>
+
+      ${roles.length > 0 ? `
+        <div class="project-roles">
+          <strong>Roles:</strong> ${roles.join(', ')}
+        </div>
+      ` : ''}
+
+      ${description ? `
+        <div class="project-description">
+          <p>${description}</p>
+        </div>
+      ` : ''}
+
+      ${highlights.length > 0 ? `
+        <ul class="project-highlights">
+          ${highlights.map(highlight => `<li>${highlight}</li>`).join('')}
+        </ul>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
+ * References component
+ */
+export function References({ references = [] }) {
+  if (!references.length) return '';
+
+  return `
+    <section class="section references-section">
+      <h3 class="section-title">References</h3>
+      <div class="section-content">
+        ${references.map(reference => ReferenceItem(reference)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Individual reference item component
+ */
+function ReferenceItem(reference) {
+  const { name, reference: referenceText } = reference;
+
+  return `
+    <div class="reference-item page-break-inside-avoid">
+      <h4 class="reference-name">${name || ''}</h4>
+      ${referenceText ? `
+        <blockquote class="reference-text">
+          "${referenceText}"
+        </blockquote>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
  * Interests component
  */
 export function Interests({ interests = [] }) {

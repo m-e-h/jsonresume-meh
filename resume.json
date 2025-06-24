@@ -132,7 +132,6 @@
   "skills": [
     {
       "name": "Programming Languages",
-      "level": "Expert",
       "keywords": [
         "PHP",
         "JavaScript ES6",
@@ -143,7 +142,6 @@
     },
     {
       "name": "Frameworks & Libraries",
-      "level": "Expert",
       "keywords": [
         "React",
         "React Native",
@@ -154,7 +152,6 @@
     },
     {
       "name": "Tools & Platforms",
-      "level": "Expert",
       "keywords": [
         "Git",
         "Node.js",
@@ -170,7 +167,6 @@
     },
     {
       "name": "WordPress Development",
-      "level": "Expert",
       "keywords": [
         "Custom themes",
         "Custom plugins",
@@ -183,7 +179,6 @@
     },
     {
       "name": "Cloud & DevOps",
-      "level": "Advanced",
       "keywords": [
         "AWS",
         "Cloudflare",
@@ -193,7 +188,6 @@
     },
     {
       "name": "E-commerce & Integrations",
-      "level": "Expert",
       "keywords": [
         "WooCommerce",
         "API integrations",
@@ -205,7 +199,6 @@
     },
     {
       "name": "Design & UX",
-      "level": "Advanced",
       "keywords": [
         "Responsive design",
         "Mobile-first design",
@@ -214,14 +207,17 @@
       ]
     }
   ],
-  "languages": [
+  "interests": [],
+  "references": [
     {
-      "language": "English",
-      "fluency": "Native speaker"
+      "name": "Jane Smith",
+      "reference": "Marty is an exceptional WordPress developer who consistently delivers high-quality solutions. His expertise in React and Gutenberg development significantly improved our content creation workflows."
+    },
+    {
+      "name": "John Doe",
+      "reference": "I had the pleasure of working with Marty on several complex projects. His technical skills, attention to detail, and ability to mentor team members make him an invaluable asset to any development team."
     }
   ],
-  "interests": [],
-  "references": [],
   "projects": [
     {
       "name": "AIOSEO Marketing Site",
