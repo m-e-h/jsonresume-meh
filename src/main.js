@@ -4,12 +4,13 @@
  */
 
 import { getSelectedTemplate, templateConfig } from '../template.config.js';
-import './styles/shared/_variables.scss';
+
+// Import simplified CSS styles
+import './styles/resume.css';
 
 // Module imports
 import { DataProcessor } from './scripts/data-processor.js';
 import { TemplateRenderer } from './scripts/template-renderer.js';
-import { pdfExporter } from './scripts/pdf-export.js';
 import { errorHandler } from './scripts/error-handler.js';
 
 /**
@@ -51,9 +52,6 @@ class ResumeBuilder {
 
       // Render the initial template
       await this.renderTemplate();
-
-      // Initialize PDF export functionality
-      this.initializePDFExport();
 
       // Hide loading state
       this.hideLoadingState();
@@ -114,8 +112,15 @@ class ResumeBuilder {
       console.log('📄 Loading resume data...');
 
       // Use DataProcessor to load and validate resume data
-      this.resumeData = await this.dataProcessor.loadResumeData('/resume.json');
+      const result = await this.dataProcessor.loadResumeData('/resume.json');
+
+      // Extract the actual resume data from the result
+      this.resumeData = result.data;
+      this.validationResult = result.validation;
+      this.metadata = result.metadata;
+
       console.log('✅ Resume data loaded and validated successfully');
+      console.log('📊 Data structure:', this.resumeData);
 
     } catch (error) {
       throw new Error(`Resume data loading failed: ${error.message}`);
@@ -154,8 +159,8 @@ class ResumeBuilder {
       this.setupTemplateSelector();
     }
 
-    // PDF export button (will be created when PDF module is ready)
-    this.setupPDFExportButton();
+    // Print button
+    this.setupPrintButton();
 
     // File watcher for resume.json changes (development mode)
     if (import.meta.env.DEV) {
@@ -236,9 +241,9 @@ class ResumeBuilder {
   }
 
   /**
-   * Setup PDF export and print buttons
+   * Setup print button
    */
-  setupPDFExportButton() {
+  setupPrintButton() {
     // Create button container
     const buttonContainer = document.createElement('div');
     buttonContainer.id = 'action-buttons';
@@ -268,37 +273,25 @@ class ResumeBuilder {
       display: flex;
       align-items: center;
       gap: 5px;
+      transition: all 0.2s ease;
     `;
+
+    printButton.addEventListener('mouseover', () => {
+      printButton.style.background = '#218838';
+      printButton.style.transform = 'translateY(-1px)';
+    });
+
+    printButton.addEventListener('mouseout', () => {
+      printButton.style.background = '#28a745';
+      printButton.style.transform = 'translateY(0)';
+    });
 
     printButton.addEventListener('click', () => {
       this.printResume();
     });
 
-    // Create PDF export button
-    const exportButton = document.createElement('button');
-    exportButton.id = 'pdf-export-btn';
-    exportButton.className = 'pdf-export-button';
-    exportButton.textContent = '📄 Export PDF';
-    exportButton.style.cssText = `
-      padding: 10px 20px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    `;
-
-    exportButton.addEventListener('click', () => {
-      this.exportToPDF();
-    });
-
-    // Add buttons to container and append to body
+    // Add button to container and append to body
     buttonContainer.appendChild(printButton);
-    buttonContainer.appendChild(exportButton);
     document.body.appendChild(buttonContainer);
   }
 
@@ -352,69 +345,7 @@ class ResumeBuilder {
     }
   }
 
-  /**
-   * Initialize PDF export functionality
-   */
-  initializePDFExport() {
-    console.log('📄 PDF export system ready');
 
-    // Update export button with loading state capability
-    const exportButton = document.getElementById('pdf-export-btn');
-    if (exportButton) {
-      exportButton.setAttribute('data-original-text', exportButton.textContent);
-    }
-  }
-
-  /**
-   * Export resume to PDF
-   */
-  async exportToPDF() {
-    const exportButton = document.getElementById('pdf-export-btn');
-    const originalText = exportButton?.getAttribute('data-original-text') || '📄 Export PDF';
-
-    try {
-      console.log('📄 Exporting to PDF...');
-
-      // Update button to show loading state
-      if (exportButton) {
-        exportButton.textContent = '⏳ Generating PDF...';
-        exportButton.disabled = true;
-        exportButton.style.opacity = '0.7';
-      }
-
-      // Get the resume container element
-      const resumeContainer = document.getElementById('resume-container');
-      if (!resumeContainer) {
-        throw new Error('Resume container not found');
-      }
-
-      // Get current template ID
-      const templateId = this.currentTemplate?.id || 'classic';
-
-      // Export using the PDF exporter
-      await pdfExporter.exportResumeTemplate(
-        templateId,
-        resumeContainer,
-        this.resumeData
-      );
-
-      console.log('✅ PDF exported successfully');
-
-      // Show success feedback
-      this.showSuccessMessage('PDF downloaded successfully!');
-
-    } catch (error) {
-      console.error('❌ PDF export failed:', error);
-      this.handleError(error, { operation: 'PDF export', templateId });
-    } finally {
-      // Reset button state
-      if (exportButton) {
-        exportButton.textContent = originalText;
-        exportButton.disabled = false;
-        exportButton.style.opacity = '1';
-      }
-    }
-  }
 
   /**
    * Show success message to user

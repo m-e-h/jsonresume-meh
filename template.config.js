@@ -59,18 +59,18 @@ export const templateConfig = {
 
   // Template selection can be overridden via environment variable
   // VITE_RESUME_TEMPLATE=modern npm run build
-  selectedTemplate: process.env.VITE_RESUME_TEMPLATE || 'classic',
+  selectedTemplate: import.meta.env.VITE_RESUME_TEMPLATE || 'classic',
 
   // Build configuration
   buildOptions: {
     // Whether to build all templates or just the selected one
-    buildAllTemplates: process.env.VITE_BUILD_ALL_TEMPLATES === 'true',
+    buildAllTemplates: import.meta.env.VITE_BUILD_ALL_TEMPLATES === 'true',
 
     // Output naming convention for multiple templates
     multiTemplateNaming: '[template]-resume',
 
     // Whether to include template selector in the build
-    includeTemplateSelector: process.env.NODE_ENV === 'development'
+    includeTemplateSelector: import.meta.env.DEV
   },
 
   // Shared template settings
@@ -88,8 +88,8 @@ export const templateConfig = {
       desktop: '1200px'
     },
 
-    // PDF export settings
-    pdfSettings: {
+      // Print settings
+  printSettings: {
       format: 'A4',
       orientation: 'portrait',
       margin: '0.5in',

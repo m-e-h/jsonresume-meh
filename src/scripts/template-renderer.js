@@ -3,7 +3,8 @@
  * Handles dynamic template selection, data injection, and HTML rendering
  */
 
-import { getSelectedTemplate, templateConfig, getTemplateById } from '../../template.config.js';
+import { getSelectedTemplate, getAllTemplates, templates } from '../../template.config.js';
+import { getTemplateFunction } from '../templates/layouts.js';
 
 /**
  * Custom error class for template rendering errors
@@ -45,7 +46,8 @@ export class TemplateRenderer {
       await this.loadTemplates();
 
       // Set current template
-      this.currentTemplate = getSelectedTemplate();
+      const selectedTemplate = getSelectedTemplate();
+      this.currentTemplate = this.templates.get(selectedTemplate.id);
 
       this.isInitialized = true;
       console.log(`✅ Template Renderer initialized with ${this.templates.size} templates`);
@@ -60,37 +62,25 @@ export class TemplateRenderer {
    */
   async loadTemplates() {
     try {
-      const templatePromises = templateConfig.templates.map(async (template) => {
-        const templateContent = await this.loadTemplateFile(template.path);
+      const availableTemplates = getAllTemplates();
+
+      // No need to load HTML files anymore - we use JavaScript components
+      availableTemplates.forEach(template => {
         this.templates.set(template.id, {
           ...template,
-          content: templateContent,
-          compiled: null // Will be compiled when needed
+          templateFunction: getTemplateFunction(template.id),
+          loaded: true
         });
       });
 
-      await Promise.all(templatePromises);
-      console.log(`📄 Loaded ${this.templates.size} templates`);
+      console.log(`📄 Loaded ${this.templates.size} component-based templates`);
 
     } catch (error) {
       throw new TemplateRenderError(`Failed to load templates: ${error.message}`);
     }
   }
 
-  /**
-   * Load template file content
-   */
-  async loadTemplateFile(templatePath) {
-    try {
-      const response = await fetch(templatePath);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      return await response.text();
-    } catch (error) {
-      throw new TemplateRenderError(`Failed to load template file ${templatePath}: ${error.message}`);
-    }
-  }
+
 
   /**
    * Initialize built-in template helpers
@@ -251,11 +241,16 @@ export class TemplateRenderer {
         throw new TemplateRenderError(`Template not available: ${templateId || 'current'}`);
       }
 
+      // Check if template function is available
+      if (!template.templateFunction) {
+        throw new TemplateRenderError(`Template function not available: ${template.name || templateId || 'current'}`);
+      }
+
       // Process the resume data
       const processedData = this.processResumeData(data);
 
-      // Render the template
-      const html = this.renderTemplate(template.content, processedData);
+      // Render using the component function
+      const html = template.templateFunction(processedData);
 
       console.log(`✅ Template rendered successfully: ${template.name}`);
       return html;
@@ -511,34 +506,7 @@ export class TemplateRenderer {
     return categories;
   }
 
-  /**
-   * Simple template rendering engine (Handlebars-like)
-   */
-  renderTemplate(template, data) {
-    try {
-      let html = template;
 
-      // Replace simple variables {{variable}}
-      html = html.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
-        const value = this.getNestedValue(data, path.trim());
-        return value !== undefined && value !== null ? String(value) : '';
-      });
-
-      // Process conditional blocks {{#if condition}}...{{/if}}
-      html = this.processConditionals(html, data);
-
-      // Process loops {{#each array}}...{{/each}}
-      html = this.processLoops(html, data);
-
-      // Process unless blocks {{#unless condition}}...{{/unless}}
-      html = this.processUnless(html, data);
-
-      return html;
-
-    } catch (error) {
-      throw new TemplateRenderError(`Template parsing failed: ${error.message}`);
-    }
-  }
 
   /**
    * Get nested object value by path
@@ -549,67 +517,7 @@ export class TemplateRenderer {
     }, obj);
   }
 
-  /**
-   * Process conditional blocks in template
-   */
-  processConditionals(html, data) {
-    const ifRegex = /\{\{#if\s+([^}]+)\}\}([\s\S]*?)\{\{\/if\}\}/g;
 
-    return html.replace(ifRegex, (match, condition, content) => {
-      const value = this.getNestedValue(data, condition.trim());
-      const isTrue = value && (Array.isArray(value) ? value.length > 0 : true);
-      return isTrue ? content : '';
-    });
-  }
-
-  /**
-   * Process unless blocks in template
-   */
-  processUnless(html, data) {
-    const unlessRegex = /\{\{#unless\s+([^}]+)\}\}([\s\S]*?)\{\{\/unless\}\}/g;
-
-    return html.replace(unlessRegex, (match, condition, content) => {
-      const value = this.getNestedValue(data, condition.trim());
-      const isFalse = !value || (Array.isArray(value) && value.length === 0);
-      return isFalse ? content : '';
-    });
-  }
-
-  /**
-   * Process loop blocks in template
-   */
-  processLoops(html, data) {
-    const eachRegex = /\{\{#each\s+([^}]+)\}\}([\s\S]*?)\{\{\/each\}\}/g;
-
-    return html.replace(eachRegex, (match, arrayPath, content) => {
-      const array = this.getNestedValue(data, arrayPath.trim());
-
-      if (!Array.isArray(array) || array.length === 0) {
-        return '';
-      }
-
-      return array.map((item, index) => {
-        let itemContent = content;
-
-        // Replace {{this}} with current item
-        itemContent = itemContent.replace(/\{\{this\}\}/g, String(item));
-
-        // Replace item properties {{property}}
-        if (typeof item === 'object' && item !== null) {
-          itemContent = itemContent.replace(/\{\{([^}]+)\}\}/g, (propMatch, propPath) => {
-            if (propPath.trim() === '@index') return String(index);
-            if (propPath.trim() === '@first') return index === 0 ? 'true' : '';
-            if (propPath.trim() === '@last') return index === array.length - 1 ? 'true' : '';
-
-            const value = this.getNestedValue(item, propPath.trim());
-            return value !== undefined && value !== null ? String(value) : '';
-          });
-        }
-
-        return itemContent;
-      }).join('');
-    });
-  }
 
   /**
    * Clear template cache

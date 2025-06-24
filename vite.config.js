@@ -3,11 +3,6 @@ import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "./src/styles/shared/_variables.scss";`
-      }
-    },
     postcss: {
       plugins: [
         autoprefixer({

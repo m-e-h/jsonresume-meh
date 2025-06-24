@@ -21,7 +21,6 @@ export const ErrorCategory = {
   VALIDATION: 'validation',
   NETWORK: 'network',
   RENDERING: 'rendering',
-  PDF_EXPORT: 'pdf_export',
   FILE_SYSTEM: 'file_system',
   TEMPLATE: 'template',
   CONFIGURATION: 'configuration',
@@ -399,9 +398,7 @@ export class ErrorHandler {
     if (message.includes('render') || message.includes('template')) {
       return ErrorCategory.RENDERING;
     }
-    if (message.includes('pdf') || name.includes('pdf')) {
-      return ErrorCategory.PDF_EXPORT;
-    }
+
     if (message.includes('file') || message.includes('read') || message.includes('write')) {
       return ErrorCategory.FILE_SYSTEM;
     }
@@ -531,7 +528,7 @@ export class ErrorHandler {
       [ErrorCategory.VALIDATION]: 'Validation Error',
       [ErrorCategory.NETWORK]: 'Network Error',
       [ErrorCategory.RENDERING]: 'Display Error',
-      [ErrorCategory.PDF_EXPORT]: 'PDF Export Error',
+
       [ErrorCategory.FILE_SYSTEM]: 'File Error',
       [ErrorCategory.TEMPLATE]: 'Template Error',
       [ErrorCategory.CONFIGURATION]: 'Configuration Error',
@@ -557,9 +554,7 @@ export class ErrorHandler {
     if (message.includes('network') || message.includes('fetch')) {
       return 'Unable to load resume data. Please check your internet connection.';
     }
-    if (message.includes('pdf')) {
-      return 'Failed to generate PDF. Please try again or use the print function.';
-    }
+
     if (message.includes('template')) {
       return 'There was an issue displaying your resume. The template may be corrupted.';
     }

@@ -217,11 +217,7 @@ describe('ErrorHandler', () => {
       expect(category).toBe(ErrorCategory.RENDERING);
     });
 
-    test('should categorize PDF export errors', () => {
-      const error = new Error('PDF generation failed');
-      const category = handler.categorizeError(error);
-      expect(category).toBe(ErrorCategory.PDF_EXPORT);
-    });
+
 
     test('should categorize file system errors', () => {
       const error = new Error('File read error');
@@ -539,7 +535,7 @@ describe('Integration Tests', () => {
     const errors = [
       new Error('Validation error in form'),
       new Error('Network connection failed'),
-      new Error('PDF generation error'),
+              new Error('File system error'),
       new Error('Template rendering failed')
     ];
 
@@ -549,7 +545,7 @@ describe('Integration Tests', () => {
     expect(stats.total).toBe(4);
     expect(stats.categories[ErrorCategory.VALIDATION]).toBe(1);
     expect(stats.categories[ErrorCategory.NETWORK]).toBe(1);
-    expect(stats.categories[ErrorCategory.PDF_EXPORT]).toBe(1);
+          expect(stats.categories[ErrorCategory.FILE_SYSTEM]).toBe(1);
     expect(stats.categories[ErrorCategory.RENDERING]).toBe(1);
   });
 });

@@ -11,7 +11,6 @@ import addFormats from 'ajv-formats';
  * Based on: https://jsonresume.org/schema/
  */
 const JSON_RESUME_SCHEMA = {
-  "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "additionalProperties": true,
   "properties": {
@@ -24,7 +23,13 @@ const JSON_RESUME_SCHEMA = {
         "image": { "type": "string" },
         "email": { "type": "string", "format": "email" },
         "phone": { "type": "string" },
-        "url": { "type": "string", "format": "uri" },
+        "url": {
+          "type": "string",
+          "anyOf": [
+            { "format": "uri" },
+            { "const": "" }
+          ]
+        },
         "summary": { "type": "string" },
         "location": {
           "type": "object",
@@ -45,7 +50,13 @@ const JSON_RESUME_SCHEMA = {
             "properties": {
               "network": { "type": "string" },
               "username": { "type": "string" },
-              "url": { "type": "string", "format": "uri" }
+              "url": {
+                "type": "string",
+                "anyOf": [
+                  { "format": "uri" },
+                  { "const": "" }
+                ]
+              }
             }
           }
         }
@@ -59,7 +70,13 @@ const JSON_RESUME_SCHEMA = {
         "properties": {
           "name": { "type": "string" },
           "position": { "type": "string" },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "anyOf": [
+              { "format": "uri" },
+              { "const": "" }
+            ]
+          },
           "startDate": { "type": "string", "format": "date" },
           "endDate": { "type": "string", "format": "date" },
           "summary": { "type": "string" },
@@ -78,7 +95,13 @@ const JSON_RESUME_SCHEMA = {
         "properties": {
           "organization": { "type": "string" },
           "position": { "type": "string" },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "anyOf": [
+              { "format": "uri" },
+              { "const": "" }
+            ]
+          },
           "startDate": { "type": "string", "format": "date" },
           "endDate": { "type": "string", "format": "date" },
           "summary": { "type": "string" },
@@ -96,7 +119,13 @@ const JSON_RESUME_SCHEMA = {
         "additionalProperties": true,
         "properties": {
           "institution": { "type": "string" },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "anyOf": [
+              { "format": "uri" },
+              { "const": "" }
+            ]
+          },
           "area": { "type": "string" },
           "studyType": { "type": "string" },
           "startDate": { "type": "string", "format": "date" },
@@ -130,7 +159,13 @@ const JSON_RESUME_SCHEMA = {
         "properties": {
           "name": { "type": "string" },
           "date": { "type": "string", "format": "date" },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "anyOf": [
+              { "format": "uri" },
+              { "const": "" }
+            ]
+          },
           "issuer": { "type": "string" }
         }
       }
@@ -144,7 +179,13 @@ const JSON_RESUME_SCHEMA = {
           "name": { "type": "string" },
           "publisher": { "type": "string" },
           "releaseDate": { "type": "string", "format": "date" },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "anyOf": [
+              { "format": "uri" },
+              { "const": "" }
+            ]
+          },
           "summary": { "type": "string" }
         }
       }
