@@ -1,0 +1,737 @@
+// Responsive Design Utilities for Resume Templates
+// Mobile-first responsive design with flexible layouts and optimal viewing
+
+@import 'variables';
+
+// ============================================================================
+// RESPONSIVE MIXINS
+// ============================================================================
+
+// Container mixins for different layouts
+@mixin container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-4;
+  padding-right: $space-4;
+
+  @include screen-sm {
+    padding-left: $space-6;
+    padding-right: $space-6;
+  }
+
+  @include screen-md {
+    padding-left: $space-8;
+    padding-right: $space-8;
+  }
+
+  @include screen-lg {
+    max-width: $container-lg;
+    padding-left: $space-12;
+    padding-right: $space-12;
+  }
+
+  @include screen-xl {
+    max-width: $container-xl;
+  }
+}
+
+// Resume container with print optimization
+@mixin resume-container-responsive {
+  width: 100%;
+  margin: 0 auto;
+  background: $template-background;
+
+  // Mobile-first: full width with padding
+  padding: $space-4;
+
+  @include screen-xs {
+    padding: $space-6;
+  }
+
+  @include screen-sm {
+    padding: $space-8;
+    max-width: $container-sm;
+  }
+
+  @include screen-md {
+    padding: $space-12;
+    max-width: $container-md;
+  }
+
+  @include screen-lg {
+    padding: $space-16;
+    max-width: $resume-width-letter;
+  }
+
+  @include print {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0.5in;
+    background: $print-background;
+  }
+}
+
+// Flexible grid system
+@mixin grid-responsive($columns: 1, $gap: $space-4) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+
+  @include screen-sm {
+    gap: $space-6;
+  }
+
+  @include screen-md {
+    gap: $space-8;
+  }
+}
+
+// Sidebar layout mixin
+@mixin sidebar-layout-responsive($sidebar-width: $sidebar-width-lg) {
+  display: block;
+
+  @include screen-md {
+    display: grid;
+    grid-template-columns: $sidebar-width-md 1fr;
+    gap: $space-8;
+  }
+
+  @include screen-lg {
+    grid-template-columns: $sidebar-width 1fr;
+    gap: $space-12;
+  }
+
+  @include print {
+    display: block;
+  }
+}
+
+// Typography responsive scaling
+@mixin text-responsive($mobile, $tablet: null, $desktop: null) {
+  font-size: $mobile;
+
+  @if $tablet {
+    @include screen-md {
+      font-size: $tablet;
+    }
+  }
+
+  @if $desktop {
+    @include screen-lg {
+      font-size: $desktop;
+    }
+  }
+
+  @include print {
+    font-size: calc(#{$mobile} * 0.9);
+  }
+}
+
+// Spacing responsive scaling
+@mixin spacing-responsive($property, $mobile, $tablet: null, $desktop: null) {
+  #{$property}: $mobile;
+
+  @if $tablet {
+    @include screen-md {
+      #{$property}: $tablet;
+    }
+  }
+
+  @if $desktop {
+    @include screen-lg {
+      #{$property}: $desktop;
+    }
+  }
+
+  @include print {
+    #{$property}: calc(#{$mobile} * 0.8);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE UTILITIES
+// ============================================================================
+
+// Hide/show utilities
+.hide-mobile {
+  @media (max-width: #{$screen-md - 1px}) {
+    display: none !important;
+  }
+}
+
+.hide-tablet {
+  @media (min-width: $screen-md) and (max-width: #{$screen-lg - 1px}) {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @include screen-lg {
+    display: none !important;
+  }
+}
+
+.show-mobile-only {
+  @include screen-md {
+    display: none !important;
+  }
+}
+
+.show-tablet-up {
+  @media (max-width: #{$screen-md - 1px}) {
+    display: none !important;
+  }
+}
+
+.show-desktop-only {
+  @media (max-width: #{$screen-lg - 1px}) {
+    display: none !important;
+  }
+}
+
+.hide-print {
+  @include print {
+    display: none !important;
+  }
+}
+
+.show-print-only {
+  display: none !important;
+
+  @include print {
+    display: block !important;
+  }
+}
+
+// Responsive text alignment
+.text-center-mobile {
+  text-align: center;
+
+  @include screen-md {
+    text-align: left;
+  }
+}
+
+.text-left-mobile {
+  text-align: left;
+
+  @include screen-md {
+    text-align: center;
+  }
+}
+
+// Responsive spacing utilities
+.space-y-responsive {
+  > * + * {
+    margin-top: $space-4;
+
+    @include screen-md {
+      margin-top: $space-6;
+    }
+
+    @include screen-lg {
+      margin-top: $space-8;
+    }
+
+    @include print {
+      margin-top: $space-3;
+    }
+  }
+}
+
+.space-x-responsive {
+  > * + * {
+    margin-left: $space-4;
+
+    @include screen-md {
+      margin-left: $space-6;
+    }
+
+    @include screen-lg {
+      margin-left: $space-8;
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE ENHANCEMENTS FOR EXISTING TEMPLATES
+// ============================================================================
+
+// Classic template responsive enhancements
+.classic-template {
+  .resume-container {
+    @include resume-container-responsive;
+  }
+
+  .resume-main {
+    @include sidebar-layout-responsive($sidebar-width-md);
+
+    @media (max-width: #{$screen-md - 1px}) {
+      .right-column {
+        order: -1;
+        margin-bottom: $space-8;
+      }
+    }
+  }
+
+  .contact-info {
+    @media (max-width: #{$screen-sm - 1px}) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: $space-2;
+    }
+  }
+
+  .social-profiles {
+    @media (max-width: #{$screen-sm - 1px}) {
+      flex-direction: column;
+      align-items: center;
+      gap: $space-2;
+    }
+  }
+
+  .name {
+    @include text-responsive($text-2xl, $text-3xl, $text-4xl);
+  }
+
+  .title {
+    @include text-responsive($text-lg, $text-xl, $text-2xl);
+  }
+
+  .section-title {
+    @include text-responsive($text-lg, $text-xl, $text-2xl);
+  }
+
+  .section {
+    @include spacing-responsive(margin-bottom, $space-8, $space-12, $space-16);
+  }
+}
+
+// Modern template responsive enhancements
+.modern-template {
+  .resume-container {
+    @include grid-responsive(1, 0);
+
+    @include screen-md {
+      grid-template-columns: $sidebar-width-md 1fr;
+    }
+
+    @include screen-lg {
+      grid-template-columns: $sidebar-width-lg 1fr;
+    }
+
+    @media (max-width: #{$screen-md - 1px}) {
+      margin: $space-2;
+      border-radius: $radius-lg;
+    }
+  }
+
+  .sidebar {
+    @media (max-width: #{$screen-md - 1px}) {
+      background: $modern-surface;
+      color: $modern-text;
+      order: 2;
+      border-top: 1px solid $modern-border;
+      padding: $space-6 $space-4;
+
+      &::before {
+        display: none;
+      }
+
+      .sidebar-title::before {
+        background: $modern-primary;
+      }
+
+      .profile-section {
+        border-bottom: 1px solid $modern-border;
+
+        .name {
+          background: none;
+          -webkit-text-fill-color: $modern-text;
+          color: $modern-text;
+        }
+
+        .title,
+        .summary-title,
+        .summary-text {
+          color: $modern-text;
+          opacity: 1;
+        }
+      }
+
+      .contact-item,
+      .profile-item {
+        color: $modern-text;
+
+        .contact-link {
+          color: $modern-primary;
+        }
+      }
+
+      .skill-level {
+        background: $modern-border;
+
+        .skill-bar {
+          background: $modern-primary;
+        }
+      }
+
+      .skill-tag,
+      .interest-tag {
+        background: $modern-surface;
+        color: $modern-text;
+        border: 1px solid $modern-border;
+      }
+
+      .language-item {
+        border-bottom-color: $modern-border;
+        color: $modern-text;
+      }
+    }
+  }
+
+  .main-content {
+    @media (max-width: #{$screen-md - 1px}) {
+      order: 1;
+      padding: $space-6 $space-4;
+    }
+  }
+
+  .timeline {
+    @media (max-width: #{$screen-sm - 1px}) {
+      padding-left: $space-6;
+
+      &::before {
+        left: $space-2;
+      }
+
+      .timeline-marker {
+        left: calc(-#{$space-6} + #{$space-2});
+      }
+    }
+  }
+
+  .projects-grid,
+  .education-grid {
+    @include screen-md {
+      grid-template-columns: 1fr;
+    }
+
+    @include screen-lg {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+}
+
+// Minimal template responsive enhancements
+.minimal-template {
+  .resume-container {
+    @include resume-container-responsive;
+  }
+
+  .header-contact {
+    @media (max-width: #{$screen-sm - 1px}) {
+      flex-direction: column;
+      gap: $space-2;
+      text-align: center;
+    }
+  }
+
+  .header-profiles {
+    @media (max-width: #{$screen-sm - 1px}) {
+      flex-direction: column;
+      gap: $space-2;
+      text-align: center;
+    }
+  }
+
+  .name {
+    @include text-responsive($text-2xl, $text-3xl, $text-4xl);
+  }
+
+  .title {
+    @include text-responsive($text-lg, $text-xl, $text-2xl);
+  }
+
+  .section-title {
+    @include text-responsive($text-base, $text-lg, $text-xl);
+  }
+
+  .section {
+    @include spacing-responsive(margin-bottom, $space-8, $space-12, $space-16);
+  }
+
+  .skills-grid {
+    @include screen-md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include screen-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .languages-list {
+    @include screen-md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include screen-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .interests-list {
+    @include screen-md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include screen-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  // Enhanced mobile layout for minimal template
+  @media (max-width: #{$screen-sm - 1px}) {
+    .experience-header,
+    .project-header,
+    .award-header,
+    .volunteer-header,
+    .publication-header {
+      flex-direction: column;
+      gap: $space-2;
+
+      .experience-dates,
+      .project-dates,
+      .award-date,
+      .volunteer-dates,
+      .publication-date {
+        text-align: left;
+        white-space: normal;
+      }
+    }
+
+    .certificate-item {
+      flex-direction: column;
+      gap: $space-2;
+
+      .certificate-date {
+        text-align: left;
+        white-space: normal;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE COMPONENT UTILITIES
+// ============================================================================
+
+// Responsive flex utilities
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include screen-md {
+    flex-direction: row;
+    gap: $space-6;
+  }
+}
+
+.flex-responsive-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: $space-4;
+
+  @include screen-md {
+    flex-direction: row;
+    gap: $space-6;
+  }
+}
+
+// Responsive grid utilities
+.grid-responsive-1 {
+  @include grid-responsive(1, $space-4);
+}
+
+.grid-responsive-2 {
+  @include grid-responsive(1, $space-4);
+
+  @include screen-md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid-responsive-3 {
+  @include grid-responsive(1, $space-4);
+
+  @include screen-sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include screen-lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.grid-responsive-auto {
+  @include grid-responsive(1, $space-4);
+
+  @include screen-md {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+// ============================================================================
+// RESPONSIVE TYPOGRAPHY UTILITIES
+// ============================================================================
+
+.heading-responsive-xl {
+  @include text-responsive($text-2xl, $text-3xl, $text-4xl);
+  font-weight: $font-weight-bold;
+  line-height: $leading-tight;
+}
+
+.heading-responsive-lg {
+  @include text-responsive($text-xl, $text-2xl, $text-3xl);
+  font-weight: $font-weight-semibold;
+  line-height: $leading-tight;
+}
+
+.heading-responsive-md {
+  @include text-responsive($text-lg, $text-xl, $text-2xl);
+  font-weight: $font-weight-medium;
+  line-height: $leading-snug;
+}
+
+.heading-responsive-sm {
+  @include text-responsive($text-base, $text-lg, $text-xl);
+  font-weight: $font-weight-medium;
+  line-height: $leading-normal;
+}
+
+.text-responsive-lg {
+  @include text-responsive($text-base, $text-lg, $text-xl);
+  line-height: $leading-relaxed;
+}
+
+.text-responsive-base {
+  @include text-responsive($text-sm, $text-base, $text-lg);
+  line-height: $leading-normal;
+}
+
+.text-responsive-sm {
+  @include text-responsive($text-xs, $text-sm, $text-base);
+  line-height: $leading-normal;
+}
+
+// ============================================================================
+// RESPONSIVE SPACING UTILITIES
+// ============================================================================
+
+.padding-responsive {
+  @include spacing-responsive(padding, $space-4, $space-6, $space-8);
+}
+
+.padding-x-responsive {
+  @include spacing-responsive(padding-left, $space-4, $space-6, $space-8);
+  @include spacing-responsive(padding-right, $space-4, $space-6, $space-8);
+}
+
+.padding-y-responsive {
+  @include spacing-responsive(padding-top, $space-4, $space-6, $space-8);
+  @include spacing-responsive(padding-bottom, $space-4, $space-6, $space-8);
+}
+
+.margin-responsive {
+  @include spacing-responsive(margin, $space-4, $space-6, $space-8);
+}
+
+.margin-x-responsive {
+  @include spacing-responsive(margin-left, $space-4, $space-6, $space-8);
+  @include spacing-responsive(margin-right, $space-4, $space-6, $space-8);
+}
+
+.margin-y-responsive {
+  @include spacing-responsive(margin-top, $space-4, $space-6, $space-8);
+  @include spacing-responsive(margin-bottom, $space-4, $space-6, $space-8);
+}
+
+// ============================================================================
+// PRINT-SPECIFIC RESPONSIVE UTILITIES
+// ============================================================================
+
+@include print {
+  // Ensure proper page breaks
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  // Print-specific text sizes
+  .print-text-sm {
+    font-size: $text-xs !important;
+  }
+
+  .print-text-base {
+    font-size: $text-sm !important;
+  }
+
+  .print-text-lg {
+    font-size: $text-base !important;
+  }
+
+  // Print-specific spacing
+  .print-space-sm {
+    margin: $space-2 !important;
+  }
+
+  .print-space-md {
+    margin: $space-4 !important;
+  }
+
+  .print-space-lg {
+    margin: $space-6 !important;
+  }
+
+  // Ensure links are readable
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: $print-text-light;
+  }
+
+  a[href^="mailto:"]:after,
+  a[href^="tel:"]:after {
+    content: "";
+  }
+
+  // Print-optimized colors
+  * {
+    color: $print-text !important;
+    background: $print-background !important;
+  }
+
+  .text-primary {
+    color: $print-primary !important;
+  }
+
+  .text-secondary {
+    color: $print-secondary !important;
+  }
+
+  .text-accent {
+    color: $print-accent !important;
+  }
+}

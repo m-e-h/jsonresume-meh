@@ -1,0 +1,1355 @@
+// Modern Resume Template Styles
+// Contemporary design with bold colors, creative typography, and dynamic layouts
+
+@import '../shared/variables';
+@import '../shared/responsive';
+@import '../shared/print';
+
+// Base styles
+.modern-template {
+  font-family: $font-family-sans;
+  color: $modern-text;
+  line-height: $leading-relaxed;
+  font-size: $text-base;
+  margin: 0;
+  padding: 0;
+  background: $modern-gradient;
+  min-height: 100vh;
+
+  @include print {
+    background: $modern-background;
+    font-size: $text-sm;
+    line-height: $leading-normal;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  // Container with responsive grid
+  .resume-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: $container-xl;
+    margin: $space-8 auto;
+    background: $modern-background;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-2xl;
+    overflow: hidden;
+    min-height: calc(100vh - #{$space-16});
+
+    @include screen-md {
+      grid-template-columns: $sidebar-width-md 1fr;
+      margin: $space-4;
+    }
+
+    @include screen-lg {
+      grid-template-columns: $sidebar-width-lg 1fr;
+    }
+
+    @include print {
+      display: block;
+      max-width: none;
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+      min-height: auto;
+    }
+
+    @media (max-width: #{$screen-md - 1px}) {
+      margin: $space-2;
+      border-radius: $radius-lg;
+    }
+  }
+}
+
+// Sidebar
+.sidebar {
+  background: linear-gradient(180deg, $primary-color 0%, $secondary-color 100%);
+  color: white;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow-y: auto;
+
+  @media print {
+    background: $surface;
+    color: $text-primary;
+    padding: 1rem;
+    border-right: 2px solid $border;
+    width: 250px;
+    float: left;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
+
+  // Decorative gradient overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  // Section spacing
+  > div {
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media print {
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+// Profile section
+.profile-section {
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  @media print {
+    border-bottom: 1px solid $border;
+    padding-bottom: 1rem;
+  }
+
+  .profile-image {
+    margin-bottom: 1.5rem;
+
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+        @media print {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      @media print {
+        width: 120px;
+        height: 120px;
+        border: 2px solid $border-color;
+        box-shadow: none;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  }
+
+  .name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    @media print {
+      background: none;
+      -webkit-text-fill-color: $text-primary;
+      color: $text-primary;
+      font-size: 1.8rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+  }
+
+  .title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 1.5rem 0;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    @media print {
+      color: $text-secondary;
+      font-size: 1rem;
+    }
+  }
+
+  .summary {
+    text-align: left;
+
+    .summary-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+
+    .summary-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0;
+      opacity: 0.85;
+
+      @media print {
+        color: $text-primary;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Sidebar titles
+.sidebar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  padding-left: 1rem;
+
+  @media print {
+    color: $text-primary;
+    padding-left: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 100%;
+    background: $accent-color;
+    border-radius: 2px;
+
+    @media print {
+      display: none;
+    }
+  }
+}
+
+// Contact section
+.contact-section {
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+
+    .contact-icon {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      opacity: 0.8;
+
+      @media print {
+        display: none;
+      }
+    }
+
+    .contact-link {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+        text-decoration: underline;
+
+        @media print {
+          text-decoration: none;
+        }
+      }
+
+      @media print {
+        color: $text-primary;
+      }
+    }
+
+    .contact-text {
+      opacity: 0.9;
+
+      @media print {
+        color: $text-primary;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Profiles section
+.profiles-section {
+  .profiles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .profile-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: $border-radius-sm;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+
+      @media print {
+        background: transparent;
+      }
+    }
+
+    @media print {
+      background: transparent;
+      color: $text-primary;
+      padding: 0.25rem 0;
+    }
+
+    .profile-network {
+      font-weight: 600;
+    }
+
+    .profile-username {
+      opacity: 0.8;
+      font-family: $font-mono;
+      font-size: 0.85rem;
+
+      @media print {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Skills section
+.skills-section {
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .skill-category {
+    .skill-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .skill-level-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+
+      .skill-level {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+
+        @media print {
+          background: $border;
+        }
+
+        .skill-bar {
+          height: 100%;
+          background: linear-gradient(90deg, $accent-color 0%, rgba(255, 255, 255, 0.9) 100%);
+          border-radius: 3px;
+          transition: width 0.8s ease;
+
+          @media print {
+            background: $text-secondary;
+          }
+        }
+
+        &[data-level="Beginner"] .skill-bar { width: 25%; }
+        &[data-level="Novice"] .skill-bar { width: 35%; }
+        &[data-level="Intermediate"] .skill-bar { width: 50%; }
+        &[data-level="Advanced"] .skill-bar { width: 75%; }
+        &[data-level="Expert"] .skill-bar { width: 90%; }
+        &[data-level="Master"] .skill-bar { width: 100%; }
+      }
+
+      .skill-level-text {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        font-weight: 500;
+        min-width: 60px;
+        text-align: right;
+
+        @media print {
+          color: $text-secondary;
+          opacity: 1;
+        }
+      }
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+
+      .skill-tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: $border-radius-sm;
+        font-weight: 500;
+
+        @media print {
+          background: $surface;
+          color: $text-secondary;
+          border: 1px solid $border;
+        }
+      }
+    }
+  }
+}
+
+// Languages section
+.languages-section {
+  .languages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .language-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media print {
+      border-bottom: 1px solid $border-light;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .language-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+
+      @media print {
+        color: $text-primary;
+      }
+    }
+
+    .language-fluency {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      font-weight: 500;
+
+      @media print {
+        color: $text-secondary;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Interests section
+.interests-section {
+  .interests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .interest-item {
+    .interest-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+
+      @media print {
+        color: $text-primary;
+      }
+    }
+
+    .interest-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+
+      .interest-tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: $border-radius-sm;
+        opacity: 0.9;
+
+        @media print {
+          background: $surface;
+          color: $text-secondary;
+          border: 1px solid $border;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// Main content
+.main-content {
+  padding: 2.5rem;
+  background: $background;
+  overflow-y: auto;
+
+  @media print {
+    padding: 1rem;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
+}
+
+// Section styles
+.section {
+  margin-bottom: $section-spacing;
+
+  @media print {
+    page-break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+
+    @media print {
+      margin-bottom: 1.5rem;
+    }
+
+    .title-text {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: $text-primary;
+      letter-spacing: -0.025em;
+      position: relative;
+      z-index: 1;
+
+      @media print {
+        font-size: 1.5rem;
+      }
+    }
+
+    .title-accent {
+      flex: 1;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color 0%, $accent-color 100%);
+      border-radius: 2px;
+
+      @media print {
+        background: $border;
+        height: 2px;
+      }
+    }
+  }
+}
+
+// Timeline styles (for experience)
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+
+  @media print {
+    padding-left: 1rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, $primary-color 0%, $accent-color 100%);
+    border-radius: 1px;
+
+    @media print {
+      background: $border;
+      left: 0.5rem;
+    }
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+
+    @media print {
+      page-break-inside: avoid;
+      margin-bottom: 2rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -1.75rem;
+      top: 0.5rem;
+      width: 12px;
+      height: 12px;
+      background: $primary-color;
+      border: 3px solid $background;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px $primary-color;
+
+      @media print {
+        left: -1.25rem;
+        width: 8px;
+        height: 8px;
+        background: $text-secondary;
+        box-shadow: 0 0 0 2px $text-secondary;
+      }
+    }
+
+    .timeline-content {
+      background: $surface;
+      padding: 1.5rem;
+      border-radius: $border-radius;
+      border-left: 4px solid $primary-color;
+      box-shadow: $shadow-sm;
+
+      @media print {
+        background: transparent;
+        padding: 1rem;
+        box-shadow: none;
+        border-left: 3px solid $border;
+      }
+    }
+  }
+}
+
+// Work experience
+.work-header {
+  margin-bottom: 1rem;
+
+  .work-position {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .work-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .work-company {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $primary-color;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+
+          @media print {
+            text-decoration: none;
+          }
+        }
+      }
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+
+    .work-duration {
+      font-size: 0.9rem;
+      color: $text-muted;
+      font-weight: 500;
+      font-family: $font-mono;
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+.work-summary {
+  margin-bottom: 1rem;
+
+  p {
+    margin: 0;
+    color: $text-secondary;
+    line-height: 1.6;
+  }
+}
+
+.work-highlights {
+  margin: 0;
+  padding-left: 1.25rem;
+
+  li {
+    margin-bottom: 0.5rem;
+    color: $text-secondary;
+    line-height: 1.6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::marker {
+      color: $primary-color;
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+// Education grid
+.education-grid {
+  display: grid;
+  gap: 1.5rem;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.education-card {
+  background: $surface;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  border-top: 4px solid $secondary-color;
+  box-shadow: $shadow-sm;
+
+  @media print {
+    background: transparent;
+    padding: 1rem;
+    box-shadow: none;
+    border-top: 3px solid $border;
+    page-break-inside: avoid;
+  }
+
+  .education-header {
+    margin-bottom: 1rem;
+
+    .education-degree {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .education-institution {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $secondary-color;
+      margin-bottom: 0.25rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+
+          @media print {
+            text-decoration: none;
+          }
+        }
+      }
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+
+    .education-dates {
+      font-size: 0.9rem;
+      color: $text-muted;
+      font-family: $font-mono;
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .education-score {
+    font-size: 0.9rem;
+    color: $text-secondary;
+    margin-bottom: 0.5rem;
+  }
+
+  .education-courses {
+    font-size: 0.9rem;
+    color: $text-secondary;
+
+    .courses-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+
+      .course-tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        background: $primary-color;
+        color: white;
+        border-radius: $border-radius-sm;
+        font-weight: 500;
+
+        @media print {
+          background: $surface;
+          color: $text-secondary;
+          border: 1px solid $border;
+        }
+      }
+    }
+  }
+}
+
+// Projects grid
+.projects-grid {
+  display: grid;
+  gap: 1.5rem;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}
+
+.project-card {
+  background: $surface;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  border-left: 4px solid $accent-color;
+  box-shadow: $shadow-sm;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+
+    @media print {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  @media print {
+    background: transparent;
+    padding: 1rem;
+    box-shadow: none;
+    border-left: 3px solid $border;
+    page-break-inside: avoid;
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+
+    .project-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0;
+      flex: 1;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: $accent-color;
+
+          @media print {
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    .project-date {
+      font-size: 0.8rem;
+      color: $text-muted;
+      font-family: $font-mono;
+      white-space: nowrap;
+
+      @media print {
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .project-description {
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .project-highlights {
+    margin: 0 0 1rem 0;
+    padding-left: 1.25rem;
+
+    li {
+      margin-bottom: 0.25rem;
+      color: $text-secondary;
+      font-size: 0.9rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+
+    .tech-tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      background: $accent-color;
+      color: white;
+      border-radius: $border-radius-sm;
+      font-weight: 500;
+
+      @media print {
+        background: $surface;
+        color: $text-secondary;
+        border: 1px solid $border;
+      }
+    }
+  }
+}
+
+// Certificates grid
+.certificates-grid {
+  display: grid;
+  gap: 1rem;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+.certificate-card {
+  background: $surface;
+  padding: 1.25rem;
+  border-radius: $border-radius;
+  border-top: 3px solid $success-color;
+  box-shadow: $shadow-sm;
+
+  @media print {
+    background: transparent;
+    padding: 1rem;
+    box-shadow: none;
+    border-top: 2px solid $border;
+    page-break-inside: avoid;
+  }
+
+  .certificate-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0 0 0.5rem 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: $success-color;
+
+        @media print {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .certificate-issuer,
+  .certificate-date {
+    font-size: 0.85rem;
+    color: $text-muted;
+    margin-bottom: 0.25rem;
+
+    @media print {
+      color: $text-secondary;
+    }
+  }
+}
+
+// Awards, volunteer, publications
+.awards-list,
+.volunteer-list,
+.publications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.award-item,
+.volunteer-item,
+.publication-item {
+  background: $surface;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  border-left: 4px solid $warning-color;
+  box-shadow: $shadow-sm;
+
+  @media print {
+    background: transparent;
+    padding: 1rem;
+    box-shadow: none;
+    border-left: 3px solid $border;
+    page-break-inside: avoid;
+  }
+
+  .award-header,
+  .volunteer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
+  }
+
+  .award-title,
+  .volunteer-position,
+  .publication-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: $warning-color;
+
+        @media print {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .award-meta,
+  .volunteer-meta,
+  .publication-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    text-align: right;
+    font-size: 0.85rem;
+    color: $text-muted;
+
+    @media print {
+      color: $text-secondary;
+    }
+
+    @media screen and (max-width: 768px) {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .award-summary,
+  .volunteer-summary,
+  .publication-summary {
+    color: $text-secondary;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// References section
+.references-section {
+  .references-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .reference-item {
+    background: $surface;
+    padding: 1.5rem;
+    border-radius: $border-radius;
+    border-left: 4px solid $info-color;
+    box-shadow: $shadow-sm;
+
+    @media print {
+      background: transparent;
+      padding: 1rem;
+      box-shadow: none;
+      border-left: 3px solid $border;
+      page-break-inside: avoid;
+    }
+
+    .reference-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .reference-quote {
+      position: relative;
+      margin: 0;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, rgba($info-color, 0.1), rgba($info-color, 0.05));
+      border-radius: $border-radius-sm;
+      font-style: italic;
+      color: $text-secondary;
+      line-height: 1.6;
+
+      @media print {
+        background: transparent;
+        border: 1px solid $border;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      &::before {
+        content: '"';
+        position: absolute;
+        top: -0.5rem;
+        left: 0.5rem;
+        font-size: 3rem;
+        color: $info-color;
+        font-family: Georgia, serif;
+        font-weight: bold;
+        opacity: 0.3;
+      }
+
+      &::after {
+        content: '"';
+        position: absolute;
+        bottom: -1rem;
+        right: 0.5rem;
+        font-size: 3rem;
+        color: $info-color;
+        font-family: Georgia, serif;
+        font-weight: bold;
+        opacity: 0.3;
+      }
+    }
+  }
+}
+
+// Footer
+.resume-footer {
+  grid-column: 1 / -1;
+  padding: 1.5rem 2.5rem;
+  background: $surface;
+  border-top: 1px solid $border;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: $text-muted;
+    font-style: italic;
+  }
+}
+
+// Print-specific adjustments
+@media print {
+  .resume-container {
+    display: block;
+  }
+
+  .sidebar {
+    float: left;
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+  }
+
+  // Prevent orphaned headers
+  .section-title {
+    page-break-after: avoid;
+  }
+
+  // Ensure links are readable in print
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  a[href^="mailto:"]:after,
+  a[href^="tel:"]:after {
+    content: "";
+  }
+}
+
+// Mobile responsive adjustments
+@media screen and (max-width: 768px) {
+  .resume-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: 2;
+    background: $surface;
+    color: $text-primary;
+    border-top: 1px solid $border;
+
+    &::before {
+      display: none;
+    }
+
+    .sidebar-title::before {
+      background: $primary-color;
+    }
+
+    .profile-section {
+      border-bottom: 1px solid $border;
+
+      .name {
+        background: none;
+        -webkit-text-fill-color: $text-primary;
+        color: $text-primary;
+      }
+
+      .title,
+      .summary-title,
+      .summary-text {
+        color: $text-primary;
+        opacity: 1;
+      }
+    }
+
+    .contact-item,
+    .profile-item {
+      color: $text-primary;
+
+      .contact-link {
+        color: $primary-color;
+      }
+    }
+
+    .skill-level {
+      background: $border;
+
+      .skill-bar {
+        background: $primary-color;
+      }
+    }
+
+    .skill-tag,
+    .interest-tag {
+      background: $surface;
+      color: $text-secondary;
+      border: 1px solid $border;
+    }
+
+    .language-item {
+      border-bottom-color: $border-light;
+      color: $text-primary;
+    }
+  }
+
+  .main-content {
+    order: 1;
+  }
+
+  .timeline {
+    padding-left: 1.5rem;
+
+    &::before {
+      left: 0.5rem;
+    }
+
+    .timeline-marker {
+      left: -1rem;
+    }
+  }
+}

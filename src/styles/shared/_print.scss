@@ -1,0 +1,598 @@
+// Print-Specific Styles for Resume Templates
+// Optimized for professional printing with proper page breaks and margins
+
+@import 'variables';
+
+// ============================================================================
+// PRINT MEDIA QUERY AND BASE STYLES
+// ============================================================================
+
+@include print {
+  // Reset and base print styles
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  // Page setup
+  @page {
+    size: letter;
+    margin: 0.5in 0.75in;
+
+    // Headers and footers
+    @top-center {
+      content: "";
+    }
+
+    @bottom-center {
+      content: "";
+    }
+  }
+
+  // Page setup for A4 (alternative)
+  @page :first {
+    margin-top: 0.75in;
+  }
+
+  // Body and html print setup
+  html,
+  body {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: $print-background !important;
+    color: $print-text !important;
+    font-size: $print-font-size !important;
+    line-height: $print-line-height !important;
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC TYPOGRAPHY
+  // ============================================================================
+
+  // Font optimization for print
+  body,
+  .classic-template,
+  .modern-template,
+  .minimal-template {
+    font-family: $print-font-family !important;
+    font-size: $print-font-size !important;
+    line-height: $print-line-height !important;
+    color: $print-text !important;
+  }
+
+  // Heading styles for print
+  h1, .name {
+    font-size: $print-heading-xl !important;
+    font-weight: $font-weight-bold !important;
+    color: $print-primary !important;
+    margin: 0 0 $print-space-md 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  h2, .title, .section-title {
+    font-size: $print-heading-lg !important;
+    font-weight: $font-weight-semibold !important;
+    color: $print-secondary !important;
+    margin: $print-space-lg 0 $print-space-sm 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  h3, .subsection-title {
+    font-size: $print-heading-md !important;
+    font-weight: $font-weight-medium !important;
+    color: $print-text !important;
+    margin: $print-space-md 0 $print-space-xs 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  h4, h5, h6 {
+    font-size: $print-font-size !important;
+    font-weight: $font-weight-medium !important;
+    color: $print-text !important;
+    margin: $print-space-sm 0 $print-space-xs 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  // Body text optimization
+  p, li, .text-content {
+    font-size: $print-font-size !important;
+    line-height: $print-line-height !important;
+    color: $print-text !important;
+    margin: 0 0 $print-space-sm 0 !important;
+    orphans: 2;
+    widows: 2;
+  }
+
+  // Small text for dates, labels, etc.
+  .text-sm, .date, .label, .meta {
+    font-size: $print-font-size-sm !important;
+    color: $print-text-light !important;
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC LAYOUT AND SPACING
+  // ============================================================================
+
+  // Container adjustments
+  .resume-container {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: $print-background !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  // Section spacing
+  .section {
+    margin-bottom: $print-space-lg !important;
+    page-break-inside: avoid;
+  }
+
+  .section:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  // Subsection spacing
+  .subsection {
+    margin-bottom: $print-space-md !important;
+    page-break-inside: avoid;
+  }
+
+  // ============================================================================
+  // PAGE BREAK CONTROLS
+  // ============================================================================
+
+  // Force page breaks
+  .page-break-before {
+    page-break-before: always !important;
+  }
+
+  .page-break-after {
+    page-break-after: always !important;
+  }
+
+  // Avoid page breaks
+  .page-break-inside-avoid,
+  .resume-header,
+  .profile-section,
+  .experience-item,
+  .education-item,
+  .project-item,
+  .skill-category,
+  .award-item,
+  .volunteer-item,
+  .publication-item,
+  .certificate-item {
+    page-break-inside: avoid !important;
+  }
+
+  // Keep with next element
+  .keep-with-next {
+    page-break-after: avoid !important;
+  }
+
+  // Specific element page break controls
+  .resume-header {
+    page-break-after: avoid !important;
+    margin-bottom: $print-space-lg !important;
+  }
+
+  .section-title {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .experience-item,
+  .education-item,
+  .project-item {
+    page-break-inside: avoid !important;
+    margin-bottom: $print-space-md !important;
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC VISIBILITY
+  // ============================================================================
+
+  // Hide elements that shouldn't print
+  .no-print,
+  .hide-print,
+  button,
+  .btn,
+  .button,
+  nav,
+  .navigation,
+  .sidebar-toggle,
+  .print-button,
+  .download-button {
+    display: none !important;
+  }
+
+  // Show print-only elements
+  .print-only,
+  .show-print {
+    display: block !important;
+  }
+
+  .print-inline {
+    display: inline !important;
+  }
+
+  .print-inline-block {
+    display: inline-block !important;
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC COLORS AND BACKGROUNDS
+  // ============================================================================
+
+  // Ensure proper contrast
+  * {
+    background: $print-background !important;
+    color: $print-text !important;
+  }
+
+  // Preserve important colors
+  .text-primary,
+  .primary-color {
+    color: $print-primary !important;
+  }
+
+  .text-secondary,
+  .secondary-color {
+    color: $print-secondary !important;
+  }
+
+  .text-accent,
+  .accent-color {
+    color: $print-accent !important;
+  }
+
+  .text-muted,
+  .muted-color {
+    color: $print-text-light !important;
+  }
+
+  // Remove backgrounds and shadows
+  .bg-primary,
+  .bg-secondary,
+  .bg-accent,
+  .background,
+  .card,
+  .sidebar {
+    background: $print-background !important;
+    box-shadow: none !important;
+  }
+
+  // Borders for structure
+  .border,
+  .section-divider {
+    border-color: $print-border !important;
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC LINK HANDLING
+  // ============================================================================
+
+  // Link styling for print
+  a {
+    color: $print-text !important;
+    text-decoration: none !important;
+  }
+
+  // Show URLs for important links
+  a[href]:after {
+    content: " (" attr(href) ")" !important;
+    font-size: 0.8em !important;
+    color: $print-text-light !important;
+    font-weight: normal !important;
+  }
+
+  // Don't show URLs for email and phone
+  a[href^="mailto:"]:after,
+  a[href^="tel:"]:after {
+    content: "" !important;
+  }
+
+  // Don't show URLs for relative links
+  a[href^="#"]:after,
+  a[href^="/"]:after {
+    content: "" !important;
+  }
+
+  // Don't show URLs for short links
+  a[href^="http"]:after {
+    content: " (" attr(href) ")" !important;
+  }
+
+  // ============================================================================
+  // TEMPLATE-SPECIFIC PRINT OPTIMIZATIONS
+  // ============================================================================
+
+  // Classic template print optimizations
+  .classic-template {
+    .resume-main {
+      display: block !important;
+    }
+
+    .left-column {
+      width: 100% !important;
+      float: none !important;
+    }
+
+    .right-column {
+      width: 100% !important;
+      float: none !important;
+      margin-top: $print-space-lg !important;
+    }
+
+    .contact-info {
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: $print-space-md !important;
+    }
+
+    .social-profiles {
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: $print-space-sm !important;
+    }
+  }
+
+  // Modern template print optimizations
+  .modern-template {
+    background: $print-background !important;
+
+    .resume-container {
+      display: block !important;
+      grid-template-columns: none !important;
+    }
+
+    .sidebar {
+      width: 100% !important;
+      background: $print-background !important;
+      color: $print-text !important;
+      padding: 0 0 $print-space-lg 0 !important;
+      border-bottom: 2px solid $print-border !important;
+
+      &::before {
+        display: none !important;
+      }
+
+      .name {
+        background: none !important;
+        -webkit-text-fill-color: $print-primary !important;
+        color: $print-primary !important;
+      }
+
+      .title,
+      .summary-text,
+      .contact-item,
+      .skill-item,
+      .language-item {
+        color: $print-text !important;
+      }
+
+      .contact-link {
+        color: $print-primary !important;
+      }
+
+      .skill-level,
+      .skill-bar {
+        background: $print-border !important;
+        border: 1px solid $print-border !important;
+      }
+
+      .skill-tag,
+      .interest-tag {
+        background: $print-background !important;
+        color: $print-text !important;
+        border: 1px solid $print-border !important;
+      }
+    }
+
+    .main-content {
+      padding: $print-space-lg 0 0 0 !important;
+    }
+
+    .timeline {
+      &::before {
+        background: $print-border !important;
+      }
+
+      .timeline-marker {
+        background: $print-primary !important;
+        border-color: $print-border !important;
+      }
+    }
+
+    .project-card,
+    .education-card {
+      background: $print-background !important;
+      border: 1px solid $print-border !important;
+      box-shadow: none !important;
+    }
+  }
+
+  // Minimal template print optimizations
+  .minimal-template {
+    .header-contact,
+    .header-profiles {
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      justify-content: flex-start !important;
+      gap: $print-space-md !important;
+    }
+
+    .skills-grid,
+    .languages-list,
+    .interests-list {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: $print-space-sm !important;
+    }
+
+    .experience-header,
+    .project-header,
+    .award-header {
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: baseline !important;
+    }
+
+    .experience-dates,
+    .project-dates,
+    .award-date {
+      text-align: right !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  // ============================================================================
+  // PRINT-SPECIFIC UTILITIES
+  // ============================================================================
+
+  // Spacing utilities for print
+  .print-space-none {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-space-sm {
+    margin: $print-space-sm !important;
+  }
+
+  .print-space-md {
+    margin: $print-space-md !important;
+  }
+
+  .print-space-lg {
+    margin: $print-space-lg !important;
+  }
+
+  .print-margin-top {
+    margin-top: $print-space-md !important;
+  }
+
+  .print-margin-bottom {
+    margin-bottom: $print-space-md !important;
+  }
+
+  // Text utilities for print
+  .print-text-center {
+    text-align: center !important;
+  }
+
+  .print-text-left {
+    text-align: left !important;
+  }
+
+  .print-text-right {
+    text-align: right !important;
+  }
+
+  .print-font-bold {
+    font-weight: $font-weight-bold !important;
+  }
+
+  .print-font-normal {
+    font-weight: $font-weight-normal !important;
+  }
+
+  // Layout utilities for print
+  .print-block {
+    display: block !important;
+  }
+
+  .print-inline {
+    display: inline !important;
+  }
+
+  .print-inline-block {
+    display: inline-block !important;
+  }
+
+  .print-full-width {
+    width: 100% !important;
+  }
+
+  // ============================================================================
+  // PRINT QUALITY OPTIMIZATIONS
+  // ============================================================================
+
+  // Optimize images for print
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+  }
+
+  // Optimize tables for print
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    page-break-inside: avoid !important;
+  }
+
+  th,
+  td {
+    border: 1px solid $print-border !important;
+    padding: $print-space-xs !important;
+    text-align: left !important;
+  }
+
+  th {
+    background: $print-background !important;
+    font-weight: $font-weight-semibold !important;
+  }
+
+  // Optimize lists for print
+  ul,
+  ol {
+    margin: 0 0 $print-space-sm 0 !important;
+    padding-left: $print-space-md !important;
+  }
+
+  li {
+    margin-bottom: $print-space-xs !important;
+    page-break-inside: avoid !important;
+  }
+
+  // ============================================================================
+  // ACCESSIBILITY FOR PRINT
+  // ============================================================================
+
+  // Ensure sufficient contrast
+  .high-contrast {
+    color: $print-text !important;
+    background: $print-background !important;
+  }
+
+  // Ensure readable font sizes
+  .readable-text {
+    font-size: $print-font-size !important;
+    line-height: $print-line-height !important;
+  }
+
+  // ============================================================================
+  // PRINT DEBUG UTILITIES (DEVELOPMENT ONLY)
+  // ============================================================================
+
+  // Uncomment for print debugging
+  // .print-debug {
+  //   border: 1px solid red !important;
+  // }
+  //
+  // .print-debug-section {
+  //   border: 1px solid blue !important;
+  // }
+  //
+  // .print-debug-page-break {
+  //   border-top: 3px solid green !important;
+  // }
+}

@@ -6,9 +6,9 @@
 import { getSelectedTemplate, templateConfig } from '../template.config.js';
 import './styles/shared/_variables.scss';
 
-// Module imports (will be created in subsequent tasks)
-// import { DataProcessor } from './scripts/data-processor.js';
-// import { TemplateRenderer } from './scripts/template-renderer.js';
+// Module imports
+import { DataProcessor } from './scripts/data-processor.js';
+import { TemplateRenderer } from './scripts/template-renderer.js';
 // import { PDFExporter } from './scripts/pdf-export.js';
 // import { ErrorHandler } from './scripts/error-handler.js';
 
@@ -21,6 +21,10 @@ class ResumeBuilder {
     this.currentTemplate = null;
     this.resumeData = null;
     this.modules = {};
+
+    // Initialize modules
+    this.dataProcessor = new DataProcessor();
+    this.templateRenderer = new TemplateRenderer();
   }
 
   /**
@@ -40,7 +44,7 @@ class ResumeBuilder {
       await this.loadResumeData();
 
       // Initialize template system
-      this.initializeTemplateSystem();
+      await this.initializeTemplateSystem();
 
       // Set up UI event listeners
       this.setupEventListeners();
@@ -113,15 +117,9 @@ class ResumeBuilder {
     try {
       console.log('📄 Loading resume data...');
 
-      // For now, we'll fetch the resume.json from the project root
-      // Later this will use the DataProcessor module
-      const response = await fetch('/resume.json');
-      if (!response.ok) {
-        throw new Error(`Failed to load resume.json: ${response.statusText}`);
-      }
-
-      this.resumeData = await response.json();
-      console.log('✅ Resume data loaded successfully');
+      // Use DataProcessor to load and validate resume data
+      this.resumeData = await this.dataProcessor.loadResumeData('/resume.json');
+      console.log('✅ Resume data loaded and validated successfully');
 
     } catch (error) {
       throw new Error(`Resume data loading failed: ${error.message}`);
@@ -131,8 +129,11 @@ class ResumeBuilder {
   /**
    * Initialize template system
    */
-  initializeTemplateSystem() {
+  async initializeTemplateSystem() {
     console.log('🎨 Initializing template system...');
+
+    // Initialize template renderer
+    await this.templateRenderer.initialize();
 
     this.currentTemplate = getSelectedTemplate();
     console.log(`📝 Selected template: ${this.currentTemplate.name}`);
@@ -170,24 +171,119 @@ class ResumeBuilder {
    * Setup template selector for development
    */
   setupTemplateSelector() {
-    // This will be implemented when we have multiple templates
-    console.log('🔄 Template selector ready for development mode');
+    if (!this.templateRenderer.isInitialized) return;
+
+    const availableTemplates = this.templateRenderer.getAvailableTemplates();
+    if (availableTemplates.length <= 1) return;
+
+    // Create template selector UI
+    const selectorContainer = document.createElement('div');
+    selectorContainer.id = 'template-selector';
+    selectorContainer.className = 'template-selector no-print';
+    selectorContainer.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    `;
+
+    const label = document.createElement('label');
+    label.textContent = 'Template: ';
+    label.style.marginRight = '10px';
+
+    const select = document.createElement('select');
+    select.style.padding = '5px';
+
+    availableTemplates.forEach(template => {
+      const option = document.createElement('option');
+      option.value = template.id;
+      option.textContent = template.name;
+      option.selected = template.id === this.currentTemplate.id;
+      select.appendChild(option);
+    });
+
+    select.addEventListener('change', async (e) => {
+      await this.switchTemplate(e.target.value);
+    });
+
+    selectorContainer.appendChild(label);
+    selectorContainer.appendChild(select);
+    document.body.appendChild(selectorContainer);
+
+    console.log('🔄 Template selector initialized with', availableTemplates.length, 'templates');
   }
 
   /**
-   * Setup PDF export button
+   * Switch to a different template
+   */
+  async switchTemplate(templateId) {
+    try {
+      console.log(`🔄 Switching to template: ${templateId}`);
+
+      this.templateRenderer.setTemplate(templateId);
+      this.currentTemplate = this.templateRenderer.currentTemplate;
+
+      // Re-render with new template
+      await this.renderTemplate();
+
+      console.log(`✅ Template switched to: ${this.currentTemplate.name}`);
+
+    } catch (error) {
+      console.error('Template switch failed:', error);
+      this.handleError(error);
+    }
+  }
+
+  /**
+   * Setup PDF export and print buttons
    */
   setupPDFExportButton() {
-    // Create PDF export button
-    const exportButton = document.createElement('button');
-    exportButton.id = 'pdf-export-btn';
-    exportButton.className = 'pdf-export-button';
-    exportButton.textContent = 'Export to PDF';
-    exportButton.style.cssText = `
+    // Create button container
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'action-buttons';
+    buttonContainer.className = 'action-buttons no-print';
+    buttonContainer.style.cssText = `
       position: fixed;
       top: 20px;
       right: 20px;
       z-index: 1000;
+      display: flex;
+      gap: 10px;
+    `;
+
+    // Create print button
+    const printButton = document.createElement('button');
+    printButton.id = 'print-btn';
+    printButton.className = 'print-button';
+    printButton.textContent = '🖨️ Print';
+    printButton.style.cssText = `
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    `;
+
+    printButton.addEventListener('click', () => {
+      this.printResume();
+    });
+
+    // Create PDF export button
+    const exportButton = document.createElement('button');
+    exportButton.id = 'pdf-export-btn';
+    exportButton.className = 'pdf-export-button';
+    exportButton.textContent = '📄 Export PDF';
+    exportButton.style.cssText = `
       padding: 10px 20px;
       background: #007bff;
       color: white;
@@ -195,13 +291,35 @@ class ResumeBuilder {
       border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     `;
 
     exportButton.addEventListener('click', () => {
       this.exportToPDF();
     });
 
-    document.body.appendChild(exportButton);
+    // Add buttons to container and append to body
+    buttonContainer.appendChild(printButton);
+    buttonContainer.appendChild(exportButton);
+    document.body.appendChild(buttonContainer);
+  }
+
+  /**
+   * Print the resume using browser's print functionality
+   */
+  printResume() {
+    try {
+      console.log('🖨️ Printing resume...');
+
+      // Trigger the browser's print dialog
+      window.print();
+
+    } catch (error) {
+      console.error('Print failed:', error);
+      this.handleError(error);
+    }
   }
 
   /**
@@ -224,19 +342,12 @@ class ResumeBuilder {
         throw new Error('Resume container not found');
       }
 
-      // For now, create a basic template structure
-      // This will be replaced by the TemplateRenderer module
-      container.innerHTML = `
-        <div class="resume-content ${this.currentTemplate.id}">
-          <h1>Resume Preview</h1>
-          <p>Template: ${this.currentTemplate.name}</p>
-          <p>Data loaded: ${this.resumeData ? 'Yes' : 'No'}</p>
-          <div id="template-content">
-            <!-- Template content will be rendered here -->
-            <p>Template rendering system will be implemented in Task 3.0</p>
-          </div>
-        </div>
-      `;
+      // Use TemplateRenderer to render the template with data
+      const renderedHTML = await this.templateRenderer.render(this.resumeData);
+
+      // Apply template-specific styling
+      container.innerHTML = renderedHTML;
+      container.className = `resume-container ${this.currentTemplate.id}-template`;
 
       console.log('✅ Template rendered successfully');
 
