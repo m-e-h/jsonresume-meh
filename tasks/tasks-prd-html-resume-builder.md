@@ -1,5 +1,7 @@
 ## Relevant Files
 
+- `src/scripts/json-schema-validator.js` - AJV-based JSON Resume Schema v1.0.0 validation
+- `src/scripts/json-schema-validator.test.js` - Unit tests for JSON schema validation
 - `src/scripts/data-processor.js` - JSON Resume data parsing and validation logic
 - `src/scripts/data-processor.test.js` - Unit tests for data processing functionality
 - `src/scripts/pdf-export.js` - Client-side PDF generation functionality
@@ -29,7 +31,7 @@
 
 ## Tasks
 
-- [ ] 1.0 Set Up Project Infrastructure and Build System
+- [x] 1.0 Set Up Project Infrastructure and Build System
   - [x] 1.1 Initialize package.json with Vite, SCSS, and testing dependencies (jest, @types/jest)
   - [x] 1.2 Configure Vite build system with SCSS support and PostCSS autoprefixing
   - [x] 1.3 Create project directory structure (src/, dist/, templates/, styles/, scripts/)
@@ -38,12 +40,12 @@
   - [x] 1.6 Create main.js entry point for application initialization
 
 - [ ] 2.0 Implement JSON Data Processing and Validation
-  - [ ] 2.1 Install and configure JSON Schema validation library (ajv or similar)
-  - [ ] 2.2 Create data-processor.js to read and parse resume.json from project root
-  - [ ] 2.3 Implement JSON Resume Schema v1.0.0 validation with clear error reporting
-  - [ ] 2.4 Add graceful handling for missing optional fields with default values
-  - [ ] 2.5 Create comprehensive unit tests for data processing and validation logic
-  - [ ] 2.6 Add file watching capability to auto-reload when resume.json changes
+  - [x] 2.1 Install and configure JSON Schema validation library (ajv or similar)
+  - [x] 2.2 Create data-processor.js to read and parse resume.json from project root
+  - [x] 2.3 Implement JSON Resume Schema v1.0.0 validation with clear error reporting
+  - [x] 2.4 Add graceful handling for missing optional fields with default values
+  - [x] 2.5 Create comprehensive unit tests for data processing and validation logic
+  - [x] 2.6 Add file watching capability to auto-reload when resume.json changes
 
 - [ ] 3.0 Create Resume Template System
   - [ ] 3.1 Design and implement Classic professional resume template (HTML + SCSS)
