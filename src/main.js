@@ -9,7 +9,7 @@ import './styles/shared/_variables.scss';
 // Module imports
 import { DataProcessor } from './scripts/data-processor.js';
 import { TemplateRenderer } from './scripts/template-renderer.js';
-// import { PDFExporter } from './scripts/pdf-export.js';
+import { pdfExporter } from './scripts/pdf-export.js';
 // import { ErrorHandler } from './scripts/error-handler.js';
 
 /**
@@ -361,20 +361,112 @@ class ResumeBuilder {
    */
   initializePDFExport() {
     console.log('📄 PDF export system ready');
-    // PDF export will be implemented in Task 4.0
+
+    // Update export button with loading state capability
+    const exportButton = document.getElementById('pdf-export-btn');
+    if (exportButton) {
+      exportButton.setAttribute('data-original-text', exportButton.textContent);
+    }
   }
 
   /**
    * Export resume to PDF
    */
   async exportToPDF() {
+    const exportButton = document.getElementById('pdf-export-btn');
+    const originalText = exportButton?.getAttribute('data-original-text') || '📄 Export PDF';
+
     try {
       console.log('📄 Exporting to PDF...');
-      alert('PDF export will be implemented in Task 4.0');
+
+      // Update button to show loading state
+      if (exportButton) {
+        exportButton.textContent = '⏳ Generating PDF...';
+        exportButton.disabled = true;
+        exportButton.style.opacity = '0.7';
+      }
+
+      // Get the resume container element
+      const resumeContainer = document.getElementById('resume-container');
+      if (!resumeContainer) {
+        throw new Error('Resume container not found');
+      }
+
+      // Get current template ID
+      const templateId = this.currentTemplate?.id || 'classic';
+
+      // Export using the PDF exporter
+      await pdfExporter.exportResumeTemplate(
+        templateId,
+        resumeContainer,
+        this.resumeData
+      );
+
+      console.log('✅ PDF exported successfully');
+
+      // Show success feedback
+      this.showSuccessMessage('PDF downloaded successfully!');
+
     } catch (error) {
-      console.error('PDF export failed:', error);
+      console.error('❌ PDF export failed:', error);
       this.handleError(error);
+    } finally {
+      // Reset button state
+      if (exportButton) {
+        exportButton.textContent = originalText;
+        exportButton.disabled = false;
+        exportButton.style.opacity = '1';
+      }
     }
+  }
+
+  /**
+   * Show success message to user
+   */
+  showSuccessMessage(message) {
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success-message';
+    successMessage.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #28a745;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      z-index: 1001;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: slideDown 0.3s ease-out;
+    `;
+
+    successMessage.innerHTML = `
+      <span>✅ ${message}</span>
+      <button onclick="this.parentElement.remove()" style="float: right; background: none; border: none; color: white; cursor: pointer; margin-left: 10px;">×</button>
+    `;
+
+    // Add animation styles
+    if (!document.getElementById('notification-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'notification-styles';
+      styles.textContent = `
+        @keyframes slideDown {
+          from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+          to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(successMessage);
+
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+      if (successMessage.parentElement) {
+        successMessage.style.animation = 'slideDown 0.3s ease-out reverse';
+        setTimeout(() => successMessage.remove(), 300);
+      }
+    }, 4000);
   }
 
   /**
