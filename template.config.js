@@ -59,18 +59,22 @@ export const templateConfig = {
 
   // Template selection can be overridden via environment variable
   // VITE_RESUME_TEMPLATE=modern npm run build
-  selectedTemplate: import.meta.env.VITE_RESUME_TEMPLATE || 'minimal',
+  selectedTemplate: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_RESUME_TEMPLATE)
+    || (typeof global !== 'undefined' && global.importMeta?.env?.VITE_RESUME_TEMPLATE)
+    || 'minimal',
 
   // Build configuration
   buildOptions: {
     // Whether to build all templates or just the selected one
-    buildAllTemplates: import.meta.env.VITE_BUILD_ALL_TEMPLATES === 'true',
+    buildAllTemplates: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_BUILD_ALL_TEMPLATES === 'true')
+      || (typeof global !== 'undefined' && global.importMeta?.env?.VITE_BUILD_ALL_TEMPLATES === 'true'),
 
     // Output naming convention for multiple templates
     multiTemplateNaming: '[template]-resume',
 
     // Whether to include template selector in the build
-    includeTemplateSelector: import.meta.env.DEV
+    includeTemplateSelector: (typeof import.meta !== 'undefined' && import.meta.env?.DEV)
+      || (typeof global !== 'undefined' && global.importMeta?.env?.DEV)
   },
 
   // Shared template settings
