@@ -12,6 +12,7 @@ import './styles/resume.css';
 import { DataProcessor } from './scripts/data-processor.js';
 import { TemplateRenderer } from './scripts/template-renderer.js';
 import { errorHandler } from './scripts/error-handler.js';
+import { UIManager } from './scripts/ui-manager.js';
 
 /**
  * Main Application Class
@@ -26,6 +27,7 @@ class ResumeBuilder {
     // Initialize modules
     this.dataProcessor = new DataProcessor();
     this.templateRenderer = new TemplateRenderer();
+    this.uiManager = new UIManager();
   }
 
   /**
@@ -34,9 +36,6 @@ class ResumeBuilder {
   async init() {
     try {
       console.log('🚀 Initializing JSON Resume Builder...');
-
-      // Show loading state
-      this.showLoadingState();
 
       // Initialize error handling first
       this.initializeErrorHandling();
@@ -53,38 +52,12 @@ class ResumeBuilder {
       // Render the initial template
       await this.renderTemplate();
 
-      // Hide loading state
-      this.hideLoadingState();
-
       this.isInitialized = true;
       console.log('✅ Resume Builder initialized successfully');
 
     } catch (error) {
       console.error('❌ Failed to initialize Resume Builder:', error);
-      this.handleInitializationError(error);
-    }
-  }
-
-  /**
-   * Show loading state in the UI
-   */
-  showLoadingState() {
-    const loadingHTML = `
-      <div id="loading-state" class="loading-container">
-        <div class="loading-spinner"></div>
-        <p>Loading your resume...</p>
-      </div>
-    `;
-    document.body.innerHTML = loadingHTML;
-  }
-
-  /**
-   * Hide loading state
-   */
-  hideLoadingState() {
-    const loadingElement = document.getElementById('loading-state');
-    if (loadingElement) {
-      loadingElement.remove();
+      this.uiManager.showInitializationError(error);
     }
   }
 
@@ -139,13 +112,7 @@ class ResumeBuilder {
     this.currentTemplate = getSelectedTemplate();
     console.log(`📝 Selected template: ${this.currentTemplate.name}`);
 
-    // Create template container if it doesn't exist
-    if (!document.getElementById('resume-container')) {
-      const container = document.createElement('div');
-      container.id = 'resume-container';
-      container.className = 'resume-container';
-      document.body.appendChild(container);
-    }
+    // The UIManager now handles the creation of the container during render
   }
 
   /**
@@ -156,67 +123,23 @@ class ResumeBuilder {
 
     // Template selector (if in development mode)
     if (templateConfig.buildOptions.includeTemplateSelector) {
-      this.setupTemplateSelector();
+      if (!this.templateRenderer.isInitialized) return;
+
+      const availableTemplates = this.templateRenderer.getAvailableTemplates();
+      this.uiManager.setupTemplateSelector(
+        availableTemplates,
+        this.currentTemplate.id,
+        this.switchTemplate.bind(this)
+      );
     }
 
     // Print button
-    this.setupPrintButton();
+    this.uiManager.setupPrintButton(this.printResume.bind(this));
 
     // File watcher for resume.json changes (development mode)
     if (import.meta.env.DEV) {
       this.setupFileWatcher();
     }
-  }
-
-  /**
-   * Setup template selector for development
-   */
-  setupTemplateSelector() {
-    if (!this.templateRenderer.isInitialized) return;
-
-    const availableTemplates = this.templateRenderer.getAvailableTemplates();
-    if (availableTemplates.length <= 1) return;
-
-    // Create template selector UI
-    const selectorContainer = document.createElement('div');
-    selectorContainer.id = 'template-selector';
-    selectorContainer.className = 'template-selector no-print';
-    selectorContainer.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    `;
-
-    const label = document.createElement('label');
-    label.textContent = 'Template: ';
-    label.style.marginRight = '10px';
-
-    const select = document.createElement('select');
-    select.style.padding = '5px';
-
-    availableTemplates.forEach(template => {
-      const option = document.createElement('option');
-      option.value = template.id;
-      option.textContent = template.name;
-      option.selected = template.id === this.currentTemplate.id;
-      select.appendChild(option);
-    });
-
-    select.addEventListener('change', async (e) => {
-      await this.switchTemplate(e.target.value);
-    });
-
-    selectorContainer.appendChild(label);
-    selectorContainer.appendChild(select);
-    document.body.appendChild(selectorContainer);
-
-    console.log('🔄 Template selector initialized with', availableTemplates.length, 'templates');
   }
 
   /**
@@ -238,61 +161,6 @@ class ResumeBuilder {
       console.error('Template switch failed:', error);
       this.handleError(error);
     }
-  }
-
-  /**
-   * Setup print button
-   */
-  setupPrintButton() {
-    // Create button container
-    const buttonContainer = document.createElement('div');
-    buttonContainer.id = 'action-buttons';
-    buttonContainer.className = 'action-buttons no-print';
-    buttonContainer.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: flex;
-      gap: 10px;
-    `;
-
-    // Create print button
-    const printButton = document.createElement('button');
-    printButton.id = 'print-btn';
-    printButton.className = 'print-button';
-    printButton.textContent = '🖨️ Print';
-    printButton.style.cssText = `
-      padding: 10px 20px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s ease;
-    `;
-
-    printButton.addEventListener('mouseover', () => {
-      printButton.style.background = '#218838';
-      printButton.style.transform = 'translateY(-1px)';
-    });
-
-    printButton.addEventListener('mouseout', () => {
-      printButton.style.background = '#28a745';
-      printButton.style.transform = 'translateY(0)';
-    });
-
-    printButton.addEventListener('click', () => {
-      this.printResume();
-    });
-
-    // Add button to container and append to body
-    buttonContainer.appendChild(printButton);
-    document.body.appendChild(buttonContainer);
   }
 
   /**
@@ -326,74 +194,17 @@ class ResumeBuilder {
     try {
       console.log('🎨 Rendering template...');
 
-      const container = document.getElementById('resume-container');
-      if (!container) {
-        throw new Error('Resume container not found');
-      }
-
       // Use TemplateRenderer to render the template with data
       const renderedHTML = await this.templateRenderer.render(this.resumeData);
 
-      // Apply template-specific styling
-      container.innerHTML = renderedHTML;
-      container.className = `resume-container ${this.currentTemplate.id}-template`;
+      // UIManager renders the complete template into the app container
+      this.uiManager.renderTemplate(renderedHTML, this.currentTemplate.id);
 
       console.log('✅ Template rendered successfully');
 
     } catch (error) {
       throw new Error(`Template rendering failed: ${error.message}`);
     }
-  }
-
-
-
-  /**
-   * Show success message to user
-   */
-  showSuccessMessage(message) {
-    const successMessage = document.createElement('div');
-    successMessage.className = 'success-message';
-    successMessage.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #28a745;
-      color: white;
-      padding: 15px 20px;
-      border-radius: 5px;
-      z-index: 1001;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      animation: slideDown 0.3s ease-out;
-    `;
-
-    successMessage.innerHTML = `
-      <span>✅ ${message}</span>
-      <button onclick="this.parentElement.remove()" style="float: right; background: none; border: none; color: white; cursor: pointer; margin-left: 10px;">×</button>
-    `;
-
-    // Add animation styles
-    if (!document.getElementById('notification-styles')) {
-      const styles = document.createElement('style');
-      styles.id = 'notification-styles';
-      styles.textContent = `
-        @keyframes slideDown {
-          from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-          to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-      `;
-      document.head.appendChild(styles);
-    }
-
-    document.body.appendChild(successMessage);
-
-    // Auto-remove after 4 seconds
-    setTimeout(() => {
-      if (successMessage.parentElement) {
-        successMessage.style.animation = 'slideDown 0.3s ease-out reverse';
-        setTimeout(() => successMessage.remove(), 300);
-      }
-    }, 4000);
   }
 
   /**
@@ -405,20 +216,6 @@ class ResumeBuilder {
       component: 'ResumeBuilder',
       ...context
     });
-  }
-
-  /**
-   * Handle initialization errors
-   */
-  handleInitializationError(error) {
-    document.body.innerHTML = `
-      <div class="initialization-error">
-        <h1>Failed to Initialize Resume Builder</h1>
-        <p><strong>Error:</strong> ${error.message}</p>
-        <p>Please check the console for more details and ensure resume.json is properly formatted.</p>
-        <button onclick="location.reload()">Retry</button>
-      </div>
-    `;
   }
 }
 
