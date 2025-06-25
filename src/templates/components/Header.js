@@ -1,0 +1,66 @@
+/**
+ * Header component with contact information
+ */
+import { Icon } from '../utils/helpers.js';
+
+export function Header({ basics = {} }) {
+  const { name, label, email, phone, url, location = {}, profiles = [] } = basics;
+
+  return `
+    <header class="resume-header page-break-inside-avoid">
+      ${basics.image ? `
+        <div class="profile-image">
+          <img src="${basics.image}" alt="${name}" class="profile-photo">
+        </div>
+      ` : ''}
+
+      <div class="header-content">
+        <h1 class="name">${name || ''}</h1>
+        ${label ? `<h2 class="title">${label}</h2>` : ''}
+
+        <div class="contact-info">
+          ${email ? `
+            <div class="contact-item">
+              <span class="contact-label icon">${Icon('mail')}</span>
+              <a href="mailto:${email}" class="contact-value">${email}</a>
+            </div>
+          ` : ''}
+
+          ${phone ? `
+            <div class="contact-item">
+              <span class="contact-label icon">${Icon('phone')}</span>
+              <span class="contact-value">${phone}</span>
+            </div>
+          ` : ''}
+
+          ${url ? `
+            <div class="contact-item">
+              <span class="contact-label icon">${Icon('globe')}</span>
+              <a href="${url}" class="contact-value" target="_blank">${url}</a>
+            </div>
+          ` : ''}
+
+          ${location.city || location.region ? `
+            <div class="contact-item">
+              <span class="contact-label icon">${Icon('map-pin')}</span>
+              <span class="contact-value">
+                ${[location.city, location.region, location.countryCode].filter(Boolean).join(', ')}
+              </span>
+            </div>
+          ` : ''}
+        </div>
+
+        ${profiles.length > 0 ? `
+          <div class="social-profiles">
+            ${profiles.map(profile => `
+              <a href="${profile.url}" class="profile-link" target="_blank">
+                <span class="icon icon-${profile.network} profile-network">${Icon(profile.network)}</span>
+                ${profile.username ? ` ${profile.username}` : ''}
+              </a>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    </header>
+  `;
+}

@@ -17,7 +17,43 @@ import {
   Projects,
   References,
   Interests
-} from './components.js';
+} from './components/index.js';
+
+/**
+ * Minimal Clean Template Layout
+ */
+export function MinimalTemplate(data) {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${data.basics?.name || 'Resume'} - ${data.basics?.label || 'Professional'}</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+    <body class="minimal-template">
+      <div class="resume-wrap">
+        ${Header(data)}
+        ${Summary(data)}
+        ${WorkExperience(data)}
+        ${Skills(data)}
+        ${Projects(data)}
+        ${Education(data)}
+        ${VolunteerExperience(data)}
+        ${Publications(data)}
+        ${Languages(data)}
+        ${Awards(data)}
+        ${Certificates(data)}
+        ${References(data)}
+        ${Interests(data)}
+      </div>
+    </body>
+    </html>
+  `;
+}
 
 /**
  * Classic Professional Template Layout
@@ -100,49 +136,13 @@ export function ModernTemplate(data) {
 }
 
 /**
- * Minimal Clean Template Layout
- */
-export function MinimalTemplate(data) {
-  return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${data.basics?.name || 'Resume'} - ${data.basics?.label || 'Professional'}</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    </head>
-    <body class="minimal-template">
-      <div class="resume-wrap">
-        ${Header(data)}
-        ${Summary(data)}
-        ${WorkExperience(data)}
-        ${Skills(data)}
-        ${Projects(data)}
-        ${Education(data)}
-        ${VolunteerExperience(data)}
-        ${Publications(data)}
-        ${Languages(data)}
-        ${Awards(data)}
-        ${Certificates(data)}
-        ${References(data)}
-        ${Interests(data)}
-      </div>
-    </body>
-    </html>
-  `;
-}
-
-/**
  * Get template function by ID
  */
 export function getTemplateFunction(templateId) {
   const templates = {
+    'minimal': MinimalTemplate,
     'classic': ClassicTemplate,
-    'modern': ModernTemplate,
-    'minimal': MinimalTemplate
+    'modern': ModernTemplate
   };
 
   return templates[templateId] || templates['classic'];

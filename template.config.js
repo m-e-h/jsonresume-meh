@@ -4,9 +4,25 @@
  */
 
 export const templates = {
+  minimal: {
+    id: 'minimal',
+    name: 'Minimal',
+    description: 'Ultra-clean, minimalist design focusing on content clarity',
+    htmlFile: 'src/templates/template-minimal.html',
+    styleFile: 'src/styles/templates/minimal.scss',
+    preview: 'assets/previews/minimal-preview.png',
+    features: [
+      'Ultra-clean typography',
+      'Maximum white space',
+      'Focus on content',
+      'Minimal visual elements'
+    ],
+    recommended: ['academia', 'research', 'creative', 'freelance']
+  },
+
   classic: {
     id: 'classic',
-    name: 'Classic Professional',
+    name: 'Classic',
     description: 'Traditional, professional resume layout with clean typography',
     htmlFile: 'src/templates/template-classic.html',
     styleFile: 'src/styles/templates/classic.scss',
@@ -22,7 +38,7 @@ export const templates = {
 
   modern: {
     id: 'modern',
-    name: 'Modern Professional',
+    name: 'Modern',
     description: 'Contemporary design with subtle colors and modern typography',
     htmlFile: 'src/templates/template-modern.html',
     styleFile: 'src/styles/templates/modern.scss',
@@ -34,22 +50,6 @@ export const templates = {
       'Balanced white space'
     ],
     recommended: ['tech', 'design', 'marketing', 'startup']
-  },
-
-  minimal: {
-    id: 'minimal',
-    name: 'Minimal Clean',
-    description: 'Ultra-clean, minimalist design focusing on content clarity',
-    htmlFile: 'src/templates/template-minimal.html',
-    styleFile: 'src/styles/templates/minimal.scss',
-    preview: 'assets/previews/minimal-preview.png',
-    features: [
-      'Ultra-clean typography',
-      'Maximum white space',
-      'Focus on content',
-      'Minimal visual elements'
-    ],
-    recommended: ['academia', 'research', 'creative', 'freelance']
   }
 };
 
