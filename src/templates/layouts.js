@@ -80,24 +80,19 @@ export function ModernTemplate(data) {
     </head>
     <body class="modern-template">
       <div class="resume-wrap">
-        <div class="sidebar">
-          ${Header(data)}
-          ${Skills(data)}
-          ${Languages(data)}
-          ${Certificates(data)}
-          ${Interests(data)}
-        </div>
-
-        <div class="main-content">
-          ${Summary(data)}
-          ${WorkExperience(data)}
-          ${Projects(data)}
-          ${VolunteerExperience(data)}
-          ${Education(data)}
-          ${Publications(data)}
-          ${Awards(data)}
-          ${References(data)}
-        </div>
+        ${Header(data)}
+        ${Skills(data)}
+        ${Languages(data)}
+        ${Certificates(data)}
+        ${Interests(data)}
+        ${Summary(data)}
+        ${WorkExperience(data)}
+        ${Projects(data)}
+        ${VolunteerExperience(data)}
+        ${Education(data)}
+        ${Publications(data)}
+        ${Awards(data)}
+        ${References(data)}
       </div>
     </body>
     </html>
@@ -126,12 +121,8 @@ export function MinimalTemplate(data) {
         ${WorkExperience(data)}
         ${Projects(data)}
         ${Education(data)}
-
-        <div class="skills-languages-row">
-          ${Skills(data)}
-          ${Languages(data)}
-        </div>
-
+        ${Skills(data)}
+        ${Languages(data)}
         ${VolunteerExperience(data)}
         ${Publications(data)}
         ${Awards(data)}

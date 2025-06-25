@@ -69,14 +69,14 @@ export function Header({ basics = {} }) {
 }
 
 /**
- * Professional Summary component
+ * Summary component
  */
 export function Summary({ basics = {} }) {
   if (!basics.summary) return '';
 
   return `
     <section class="section summary-section page-break-inside-avoid">
-      <h3 class="section-title keep-with-next">Professional Summary</h3>
+      <h3 class="section-title keep-with-next">Summary</h3>
       <div class="section-content">
         <p class="summary-text">${basics.summary}</p>
       </div>
@@ -92,7 +92,7 @@ export function WorkExperience({ work = [] }) {
 
   return `
     <section class="section work-section">
-      <h3 class="section-title keep-with-next">Professional Experience</h3>
+      <h3 class="section-title keep-with-next">Experience</h3>
       <div class="section-content">
         ${work.map(job => WorkItem(job)).join('')}
       </div>
@@ -165,7 +165,7 @@ function EducationItem(edu) {
   const { institution, url, area, studyType, startDate, endDate, score, courses = [], formattedDates } = edu;
 
   return `
-    <div class="education-item section-item page-break-inside-avoid">
+    <div class="education-item page-break-inside-avoid">
       <div class="education-header item-header">
         <div class="item-header-left">
           <h4 class="education-degree item-title">
@@ -324,15 +324,14 @@ export function Publications({ publications = [] }) {
         ${publications.map(pub => `
           <div class="publication-item section-item page-break-inside-avoid">
             <div class="publication-header item-header">
-                <div class="item-header-left">
-                  <h4 class="publication-name item-title">
-                    ${pub.url ? `<a href="${pub.url}" target="_blank">${pub.name}</a>` : pub.name}
-                  </h4>
-                  ${pub.publisher ? `<div class="publication-publisher item-subtitle">${pub.publisher}</div>` : ''}
-                </div>
-                <div class="item-header-right">
-                  ${pub.releaseDate ? `<div class="publication-date item-dates">${formatDate(pub.releaseDate)}</div>` : ''}
-                </div>
+              <div class="item-header-left">
+                <h4 class="publication-name item-title">
+                  ${pub.url ? `<a href="${pub.url}" target="_blank">${pub.name}</a>` : pub.name}
+                </h4>
+                ${pub.publisher ? `<div class="publication-publisher item-subtitle">${pub.publisher}</div>` : ''}
+              </div>
+              <div class="item-header-right">
+                ${pub.releaseDate ? `<div class="publication-date item-dates">${formatDate(pub.releaseDate)}</div>` : ''}
               </div>
             </div>
             ${pub.summary ? `<p class="publication-summary">${pub.summary}</p>` : ''}
