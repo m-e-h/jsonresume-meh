@@ -119,12 +119,12 @@ export function MinimalTemplate(data) {
         ${Header(data)}
         ${Summary(data)}
         ${WorkExperience(data)}
+        ${Skills(data)}
         ${Projects(data)}
         ${Education(data)}
-        ${Skills(data)}
-        ${Languages(data)}
         ${VolunteerExperience(data)}
         ${Publications(data)}
+        ${Languages(data)}
         ${Awards(data)}
         ${Certificates(data)}
         ${References(data)}

@@ -89,14 +89,21 @@ p {
 }
 
 a {
-  color: var(--accent-color);
-  text-decoration: none;
-  transition: color 0.2s ease;
+  color: inherit;
+  text-decoration: underline;
 }
 
 a:hover {
   color: var(--primary-color);
   text-decoration: underline;
+}
+
+blockquote {
+  color: var(--text-secondary);
+  border-left: 3px solid var(--accent-color);
+  padding-left: var(--space-4);
+  margin: 0;
+  line-height: 1.6;
 }
 
 /* Header Section */
@@ -254,14 +261,10 @@ a:hover {
   margin-bottom: var(--space-1);
 }
 
-.item-title a {
+/* .item-title a {
   color: var(--accent-color);
-  text-decoration: none;
-}
-
-.item-title a:hover {
   text-decoration: underline;
-}
+} */
 
 .item-subtitle {
   font-size: var(--text-base);
@@ -271,11 +274,21 @@ a:hover {
 }
 
 .item-dates {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
-.work-summary {
+.item-other-label {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.item-summary {
+  border-left: 3px solid var(--text-muted);
+  padding-left: var(--space-4);
+  margin: 0;
+  line-height: 1.6;
   margin-bottom: var(--space-4);
 }
 
@@ -325,27 +338,21 @@ a:hover {
 .skills-section .section-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-.skill-item {
-	border: 1px solid #ddd;
-	padding: 5px;
-	border-radius: 6px;
+  gap: var(--space-6);
 }
 
 .skill-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .skill-name {
   font-size: var(--text-base);
   font-weight: 600;
   color: var(--text-primary);
+  margin: 0;
 }
 
 .skill-level {
@@ -375,123 +382,9 @@ a:hover {
   align-items: center;
   margin-bottom: var(--space-3);
   padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.language-name {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.language-fluency {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-}
-
-/* Certificates */
-.certificate-item {
-  margin-bottom: var(--space-4);
-}
-
-.certificate-name {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--space-1);
-}
-
-.certificate-issuer {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-1);
-}
-
-.certificate-date {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-}
-
-/* Awards */
-.award-item {
-  margin-bottom: var(--space-4);
-}
-
-.award-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--space-1);
-}
-
-.award-awarder {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-1);
-}
-
-.award-date {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--space-2);
-}
-
-.award-summary {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* Projects */
-.project-description {
-  color: var(--text-secondary);
-  margin-bottom: var(--space-3);
-  line-height: 1.6;
-}
-
-.project-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-/* Volunteer Experience */
-.volunteer-summary {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* Publications */
-.publication-publisher {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  font-style: italic;
-  margin-bottom: var(--space-1);
-}
-
-.publication-date {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--space-2);
-}
-
-.publication-summary {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  line-height: 1.6;
 }
 
 /* Interests */
-.interest-item {
-  margin-bottom: var(--space-3);
-}
-
-.interest-name {
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--space-2);
-}
-
 .interest-keywords {
   display: flex;
   flex-wrap: wrap;
@@ -514,44 +407,16 @@ a:hover {
   color: var(--text-secondary);
 }
 
-.project-type {
-  font-style: italic;
-  color: var(--text-muted);
-}
-
 .project-roles {
   font-size: var(--text-sm);
   color: var(--text-secondary);
   margin-bottom: var(--space-2);
 }
 
-.project-description {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--space-3);
-}
-
-/* References */
-.reference-item {
-  margin-bottom: var(--space-6);
-}
-
-.reference-name {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--space-2);
-}
-
-.reference-text {
-  font-style: italic;
-  color: var(--text-secondary);
-  border-left: 3px solid var(--accent-color);
-  padding-left: var(--space-4);
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: 1.6;
+.project-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 /* Responsive Design */

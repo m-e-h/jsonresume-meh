@@ -121,14 +121,14 @@ function WorkItem(job) {
           <div class="work-dates item-dates">
             ${formattedDates || formatDateRange(startDate, endDate)}
           </div>
-          <div class="work-location">
+          <div class="work-location item-other-label">
             ${location || ''}
           </div>
         </div>
       </div>
 
       ${summary ? `
-        <div class="work-summary">
+        <div class="work-summary item-summary">
           <p>${summary}</p>
         </div>
       ` : ''}
@@ -248,9 +248,9 @@ export function Languages({ languages = [] }) {
       <h3 class="section-title">Languages</h3>
       <div class="section-content">
         ${languages.map(lang => `
-          <div class="language-item">
-            <span class="language-name">${lang.language || ''}</span>
-            ${lang.fluency ? `<span class="language-fluency">${lang.fluency}</span>` : ''}
+          <div class="language-item section-item">
+            <h4 class="language-name item-title">${lang.language || ''}</h4>
+            ${lang.fluency ? `<div class="language-fluency item-other-label">${lang.fluency}</div>` : ''}
           </div>
         `).join('')}
       </div>
@@ -297,7 +297,7 @@ function VolunteerItem(vol) {
       </div>
 
       ${summary ? `
-        <div class="volunteer-summary">
+        <div class="volunteer-summary item-summary">
           <p>${summary}</p>
         </div>
       ` : ''}
@@ -334,7 +334,7 @@ export function Publications({ publications = [] }) {
                 ${pub.releaseDate ? `<div class="publication-date item-dates">${formatDate(pub.releaseDate)}</div>` : ''}
               </div>
             </div>
-            ${pub.summary ? `<p class="publication-summary">${pub.summary}</p>` : ''}
+            ${pub.summary ? `<p class="publication-summary item-summary">${pub.summary}</p>` : ''}
           </div>
         `).join('')}
       </div>
@@ -353,13 +353,17 @@ export function Awards({ awards = [] }) {
       <h3 class="section-title">Awards & Recognition</h3>
       <div class="section-content">
         ${awards.map(award => `
-          <div class="award-item page-break-inside-avoid">
-            <h4 class="award-title">${award.title || ''}</h4>
-            <div class="award-details">
-              ${award.awarder ? `<span class="award-awarder">${award.awarder}</span>` : ''}
-              ${award.date ? `<span class="award-date">${formatDate(award.date)}</span>` : ''}
+          <div class="award-item section-item page-break-inside-avoid">
+            <div class="award-details item-header">
+              <div class="item-header-left">
+                <h4 class="award-title item-title">${award.title || ''}</h4>
+                ${award.awarder ? `<span class="award-awarder item-subtitle">${award.awarder}</span>` : ''}
+              </div>
+              <div class="item-header-right">
+                ${award.date ? `<span class="award-date item-dates">${formatDate(award.date)}</span>` : ''}
+              </div>
             </div>
-            ${award.summary ? `<p class="award-summary">${award.summary}</p>` : ''}
+            ${award.summary ? `<p class="award-summary item-summary">${award.summary}</p>` : ''}
           </div>
         `).join('')}
       </div>
@@ -378,13 +382,17 @@ export function Certificates({ certificates = [] }) {
       <h3 class="section-title">Certifications</h3>
       <div class="section-content">
         ${certificates.map(cert => `
-          <div class="certificate-item page-break-inside-avoid">
-            <h4 class="certificate-name">
-              ${cert.url ? `<a href="${cert.url}" target="_blank">${cert.name}</a>` : cert.name}
-            </h4>
-            <div class="certificate-details">
-              ${cert.issuer ? `<span class="certificate-issuer">${cert.issuer}</span>` : ''}
-              ${cert.date ? `<span class="certificate-date">${formatDate(cert.date)}</span>` : ''}
+          <div class="certificate-item section-item page-break-inside-avoid">
+            <div class="certificate-details item-header">
+              <div class="item-header-left">
+                <h4 class="certificate-name item-title">
+                  ${cert.url ? `<a href="${cert.url}" target="_blank">${cert.name}</a>` : cert.name}
+                </h4>
+                ${cert.issuer ? `<span class="certificate-issuer item-subtitle">${cert.issuer}</span>` : ''}
+              </div>
+              <div class="item-header-right">
+                ${cert.date ? `<span class="certificate-date item-dates">${formatDate(cert.date)}</span>` : ''}
+              </div>
             </div>
           </div>
         `).join('')}
@@ -430,7 +438,7 @@ function ProjectItem(project) {
               ${formattedDates || formatDateRange(startDate, endDate)}
             </div>
           ` : ''}
-          ${type ? `<div class="project-type">${type}</div>` : ''}
+          ${type ? `<div class="project-type item-other-label">${type}</div>` : ''}
         </div>
       </div>
 
@@ -441,7 +449,7 @@ function ProjectItem(project) {
       ` : ''}
 
       ${description ? `
-        <div class="project-description">
+        <div class="project-description item-summary">
           <p>${description}</p>
         </div>
       ` : ''}
@@ -478,8 +486,8 @@ function ReferenceItem(reference) {
   const { name, reference: referenceText } = reference;
 
   return `
-    <div class="reference-item page-break-inside-avoid">
-      <h4 class="reference-name">${name || ''}</h4>
+    <div class="reference-item section-item page-break-inside-avoid">
+      <h4 class="reference-name item-title">${name || ''}</h4>
       ${referenceText ? `
         <blockquote class="reference-text">
           "${referenceText}"
@@ -500,8 +508,8 @@ export function Interests({ interests = [] }) {
       <h3 class="section-title">Interests</h3>
       <div class="section-content">
         ${interests.map(interest => `
-          <div class="interest-item">
-            <h4 class="interest-name">${interest.name || ''}</h4>
+          <div class="interest-item section-item">
+            <h4 class="interest-name item-title">${interest.name || ''}</h4>
             ${interest.keywords && interest.keywords.length > 0 ? `
               <div class="interest-keywords">
                 ${interest.keywords.map(keyword => `<span class="keyword">${keyword}</span>`).join('')}
