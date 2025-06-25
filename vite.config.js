@@ -39,7 +39,8 @@ export default defineConfig({
       '@': '/src',
       '@styles': '/src/styles',
       '@scripts': '/src/scripts',
-      '@templates': '/src/templates'
+      '@templates': '/src/templates',
+      '@config': '/template.config.js'
     }
   }
 });

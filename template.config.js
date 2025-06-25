@@ -55,11 +55,11 @@ export const templates = {
 
 export const templateConfig = {
   // Default template to use if none specified
-  defaultTemplate: 'classic',
+  defaultTemplate: 'minimal',
 
   // Template selection can be overridden via environment variable
   // VITE_RESUME_TEMPLATE=modern npm run build
-  selectedTemplate: import.meta.env.VITE_RESUME_TEMPLATE || 'classic',
+  selectedTemplate: import.meta.env.VITE_RESUME_TEMPLATE || 'minimal',
 
   // Build configuration
   buildOptions: {

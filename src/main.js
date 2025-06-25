@@ -3,7 +3,7 @@
  * Initializes the application and coordinates all modules
  */
 
-import { getSelectedTemplate, templateConfig } from '../template.config.js';
+import { getSelectedTemplate, templateConfig } from '@config';
 
 // Import simplified CSS styles
 import './styles/resume.css';

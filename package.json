@@ -58,6 +58,9 @@
       "src/**/*.js",
       "!src/**/*.test.js",
       "!src/**/*.spec.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^@config$": "<rootDir>/template.config.js"
+    }
   }
 }

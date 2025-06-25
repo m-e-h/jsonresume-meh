@@ -3,8 +3,8 @@
  * Handles dynamic template selection, data injection, and HTML rendering
  */
 
-import { getSelectedTemplate, getAllTemplates, templates } from '../../template.config.js';
-import { getTemplateFunction } from '../templates/layouts.js';
+import { getSelectedTemplate, getAllTemplates, templates } from '@config';
+import { getTemplateFunction } from '@templates/layouts.js';
 
 /**
  * Custom error class for template rendering errors
