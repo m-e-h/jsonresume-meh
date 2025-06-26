@@ -1,12 +1,14 @@
-import { formatDate } from '../utils/helpers.js';
+import {formatDate} from '../utils/helpers.js'
 
 /**
  * Awards component
  */
-export function Awards({ awards = [] }) {
-  if (!awards.length) return '';
+export function Awards({awards = []}) {
+	if (awards.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section awards-section">
       <h3 class="section-title">Awards & Recognition</h3>
       <div class="section-content">
@@ -26,5 +28,5 @@ export function Awards({ awards = [] }) {
         `).join('')}
       </div>
     </section>
-  `;
+  `
 }

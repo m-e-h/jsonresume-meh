@@ -1,28 +1,30 @@
-import { formatDateRange } from '../utils/helpers.js';
+import {formatDateRange} from '../utils/helpers.js'
 
 /**
  * Volunteer Experience component
  */
-export function VolunteerExperience({ volunteer = [] }) {
-  if (!volunteer.length) return '';
+export function VolunteerExperience({volunteer = []}) {
+	if (volunteer.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section volunteer-section">
       <h3 class="section-title">Volunteer Experience</h3>
       <div class="section-content">
         ${volunteer.map(vol => VolunteerItem(vol)).join('')}
       </div>
     </section>
-  `;
+  `
 }
 
 /**
  * Individual volunteer item component
  */
 function VolunteerItem(vol) {
-  const { organization, position, url, startDate, endDate, summary, highlights = [], formattedDates } = vol;
+	const {organization, position, url, startDate, endDate, summary, highlights = [], formattedDates} = vol
 
-  return `
+	return `
     <div class="volunteer-item section-item page-break-inside-avoid">
       <div class="volunteer-header item-header">
         <div class="item-header-left">
@@ -38,17 +40,21 @@ function VolunteerItem(vol) {
         </div>
       </div>
 
-      ${summary ? `
+      ${summary
+			? `
         <div class="volunteer-summary item-summary">
           <p>${summary}</p>
         </div>
-      ` : ''}
+      `
+			: ''}
 
-      ${highlights.length > 0 ? `
+      ${highlights.length > 0
+			? `
         <ul class="volunteer-highlights item-list">
           ${highlights.map(highlight => `<li>${highlight}</li>`).join('')}
         </ul>
-      ` : ''}
+      `
+			: ''}
     </div>
-  `;
+  `
 }

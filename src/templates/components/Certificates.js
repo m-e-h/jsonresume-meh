@@ -1,12 +1,14 @@
-import { formatDate } from '../utils/helpers.js';
+import {formatDate} from '../utils/helpers.js'
 
 /**
  * Certificates component
  */
-export function Certificates({ certificates = [] }) {
-  if (!certificates.length) return '';
+export function Certificates({certificates = []}) {
+	if (certificates.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section certificates-section">
       <h3 class="section-title">Certifications</h3>
       <div class="section-content">
@@ -27,5 +29,5 @@ export function Certificates({ certificates = [] }) {
         `).join('')}
       </div>
     </section>
-  `;
+  `
 }

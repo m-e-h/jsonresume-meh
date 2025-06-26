@@ -1,28 +1,30 @@
-import { formatDateRange } from '../utils/helpers.js';
+import {formatDateRange} from '../utils/helpers.js'
 
 /**
  * Work Experience component
  */
-export function WorkExperience({ work = [] }) {
-  if (!work.length) return '';
+export function WorkExperience({work = []}) {
+	if (work.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section work-section">
       <h3 class="section-title keep-with-next">Experience</h3>
       <div class="section-content">
         ${work.map(job => WorkItem(job)).join('')}
       </div>
     </section>
-  `;
+  `
 }
 
 /**
  * Individual work item component
  */
 function WorkItem(job) {
-  const { position, name, url, startDate, endDate, summary, location, highlights = [], formattedDates } = job;
+	const {position, name, url, startDate, endDate, summary, location, highlights = [], formattedDates} = job
 
-  return `
+	return `
     <div class="work-item section-item experience-item page-break-inside-avoid">
       <div class="work-header item-header">
         <div class="item-header-left">
@@ -43,17 +45,21 @@ function WorkItem(job) {
         </div>
       </div>
 
-      ${summary ? `
+      ${summary
+			? `
         <div class="work-summary item-summary">
           <p>${summary}</p>
         </div>
-      ` : ''}
+      `
+			: ''}
 
-      ${highlights.length > 0 ? `
+      ${highlights.length > 0
+			? `
         <ul class="work-highlights item-list">
           ${highlights.map(highlight => `<li>${highlight}</li>`).join('')}
         </ul>
-      ` : ''}
+      `
+			: ''}
     </div>
-  `;
+  `
 }

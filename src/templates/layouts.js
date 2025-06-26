@@ -4,26 +4,26 @@
  */
 
 import {
-  Header,
-  Summary,
-  WorkExperience,
-  Education,
-  Skills,
-  Languages,
-  VolunteerExperience,
-  Publications,
-  Awards,
-  Certificates,
-  Projects,
-  References,
-  Interests
-} from './components/index.js';
+	Header,
+	Summary,
+	WorkExperience,
+	Education,
+	Skills,
+	Languages,
+	VolunteerExperience,
+	Publications,
+	Awards,
+	Certificates,
+	Projects,
+	References,
+	Interests,
+} from './components/index.js'
 
 /**
  * Minimal Clean Template Layout
  */
 export function MinimalTemplate(data) {
-  return `
+	return `
     <div class="resume-wrap">
       ${Header(data)}
       ${Summary(data)}
@@ -39,14 +39,14 @@ export function MinimalTemplate(data) {
       ${References(data)}
       ${Interests(data)}
     </div>
-  `;
+  `
 }
 
 /**
  * Classic Professional Template Layout
  */
 export function ClassicTemplate(data) {
-  return `
+	return `
     <div class="resume-wrap">
       ${Header(data)}
 
@@ -70,14 +70,14 @@ export function ClassicTemplate(data) {
         </div>
       </main>
     </div>
-  `;
+  `
 }
 
 /**
  * Modern Professional Template Layout
  */
 export function ModernTemplate(data) {
-  return `
+	return `
     <div class="resume-wrap">
       ${Header(data)}
       ${Skills(data)}
@@ -93,18 +93,18 @@ export function ModernTemplate(data) {
       ${Awards(data)}
       ${References(data)}
     </div>
-  `;
+  `
 }
 
 /**
  * Get template function by ID
  */
 export function getTemplateFunction(templateId) {
-  const templates = {
-    'minimal': MinimalTemplate,
-    'classic': ClassicTemplate,
-    'modern': ModernTemplate
-  };
+	const templates = {
+		minimal: MinimalTemplate,
+		classic: ClassicTemplate,
+		modern: ModernTemplate,
+	}
 
-  return templates[templateId] || templates['classic'];
+	return templates[templateId] || templates.classic
 }

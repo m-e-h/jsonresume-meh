@@ -1,12 +1,14 @@
-import { formatDate } from '../utils/helpers.js';
+import {formatDate} from '../utils/helpers.js'
 
 /**
  * Publications component
  */
-export function Publications({ publications = [] }) {
-  if (!publications.length) return '';
+export function Publications({publications = []}) {
+	if (publications.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section publications-section">
       <h3 class="section-title">Publications</h3>
       <div class="section-content">
@@ -28,5 +30,5 @@ export function Publications({ publications = [] }) {
         `).join('')}
       </div>
     </section>
-  `;
+  `
 }

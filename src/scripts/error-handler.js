@@ -8,190 +8,194 @@
  * Error severity levels
  */
 export const ErrorSeverity = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
-  CRITICAL: 'critical'
-};
+	LOW: 'low',
+	MEDIUM: 'medium',
+	HIGH: 'high',
+	CRITICAL: 'critical',
+}
 
 /**
  * Error categories for better classification
  */
 export const ErrorCategory = {
-  VALIDATION: 'validation',
-  NETWORK: 'network',
-  RENDERING: 'rendering',
-  FILE_SYSTEM: 'file_system',
-  TEMPLATE: 'template',
-  CONFIGURATION: 'configuration',
-  UNKNOWN: 'unknown'
-};
+	VALIDATION: 'validation',
+	NETWORK: 'network',
+	RENDERING: 'rendering',
+	FILE_SYSTEM: 'file_system',
+	TEMPLATE: 'template',
+	CONFIGURATION: 'configuration',
+	UNKNOWN: 'unknown',
+}
 
 /**
  * Custom error class for Resume Builder errors
  */
 export class ResumeBuilderError extends Error {
-  constructor(message, category = ErrorCategory.UNKNOWN, severity = ErrorSeverity.MEDIUM, details = {}) {
-    super(message);
-    this.name = 'ResumeBuilderError';
-    this.category = category;
-    this.severity = severity;
-    this.details = details;
-    this.timestamp = new Date().toISOString();
-    this.userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown';
-    this.url = typeof window !== 'undefined' ? window.location.href : 'Unknown';
-  }
+	constructor(message, category = ErrorCategory.UNKNOWN, severity = ErrorSeverity.MEDIUM, details = {}) {
+		super(message)
+		this.name = 'ResumeBuilderError'
+		this.category = category
+		this.severity = severity
+		this.details = details
+		this.timestamp = new Date().toISOString()
+		this.userAgent = typeof navigator === 'undefined' ? 'Unknown' : navigator.userAgent
+		this.url = globalThis.window === undefined ? 'Unknown' : globalThis.location.href
+	}
 
-  /**
+	/**
    * Convert error to JSON for logging
    */
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      category: this.category,
-      severity: this.severity,
-      details: this.details,
-      timestamp: this.timestamp,
-      userAgent: this.userAgent,
-      url: this.url,
-      stack: this.stack
-    };
-  }
+	toJSON() {
+		return {
+			name: this.name,
+			message: this.message,
+			category: this.category,
+			severity: this.severity,
+			details: this.details,
+			timestamp: this.timestamp,
+			userAgent: this.userAgent,
+			url: this.url,
+			stack: this.stack,
+		}
+	}
 }
 
 /**
  * Error Handler Class
  */
 export class ErrorHandler {
-  constructor(options = {}) {
-    this.options = {
-      enableConsoleLogging: true,
-      enableUserNotifications: true,
-      enableErrorReporting: false,
-      maxErrorsToStore: 50,
-      autoHideDelay: 5000,
-      ...options
-    };
+	constructor(options = {}) {
+		this.options = {
+			enableConsoleLogging: true,
+			enableUserNotifications: true,
+			enableErrorReporting: false,
+			maxErrorsToStore: 50,
+			autoHideDelay: 5000,
+			...options,
+		}
 
-    this.errorHistory = [];
-    this.errorContainer = null;
-    this.isInitialized = false;
-    this.errorCount = {
-      [ErrorSeverity.LOW]: 0,
-      [ErrorSeverity.MEDIUM]: 0,
-      [ErrorSeverity.HIGH]: 0,
-      [ErrorSeverity.CRITICAL]: 0
-    };
+		this.errorHistory = []
+		this.errorContainer = null
+		this.isInitialized = false
+		this.errorCount = {
+			[ErrorSeverity.LOW]: 0,
+			[ErrorSeverity.MEDIUM]: 0,
+			[ErrorSeverity.HIGH]: 0,
+			[ErrorSeverity.CRITICAL]: 0,
+		}
 
-    this.init();
-  }
+		this.init()
+	}
 
-  /**
+	/**
    * Initialize error handler
    */
-  init() {
-    if (this.isInitialized) return;
+	init() {
+		if (this.isInitialized) {
+			return
+		}
 
-    // Create error display container
-    this.createErrorContainer();
+		// Create error display container
+		this.createErrorContainer()
 
-    // Set up global error handlers
-    this.setupGlobalErrorHandlers();
+		// Set up global error handlers
+		this.setupGlobalErrorHandlers()
 
-    // Initialize styles
-    this.initializeStyles();
+		// Initialize styles
+		this.initializeStyles()
 
-    this.isInitialized = true;
-    console.log('✅ Error Handler initialized');
-  }
+		this.isInitialized = true
+		console.log('✅ Error Handler initialized')
+	}
 
-  /**
+	/**
    * Create error display container
    */
-  createErrorContainer() {
-    if (typeof document === 'undefined') return;
+	createErrorContainer() {
+		if (typeof document === 'undefined') {
+			return
+		}
 
-    this.errorContainer = document.createElement('div');
-    this.errorContainer.id = 'error-container';
-    this.errorContainer.className = 'error-container';
-    this.errorContainer.setAttribute('role', 'alert');
-    this.errorContainer.setAttribute('aria-live', 'polite');
+		this.errorContainer = document.createElement('div')
+		this.errorContainer.id = 'error-container'
+		this.errorContainer.className = 'error-container'
+		this.errorContainer.setAttribute('role', 'alert')
+		this.errorContainer.setAttribute('aria-live', 'polite')
 
-    document.body.appendChild(this.errorContainer);
-  }
+		document.body.append(this.errorContainer)
+	}
 
-  /**
+	/**
    * Set up global error handlers
    */
-  setupGlobalErrorHandlers() {
-    if (typeof window === 'undefined') return;
+	setupGlobalErrorHandlers() {
+		if (globalThis.window === undefined) {
+			return
+		}
 
-    // Handle unhandled promise rejections
-    window.addEventListener('unhandledrejection', (event) => {
-      this.handleError(
-        new ResumeBuilderError(
-          `Unhandled Promise Rejection: ${event.reason?.message || event.reason}`,
-          ErrorCategory.UNKNOWN,
-          ErrorSeverity.HIGH,
-          {
-            reason: event.reason,
-            promise: event.promise,
-            type: 'unhandledrejection'
-          }
-        )
-      );
-    });
+		// Handle unhandled promise rejections
+		globalThis.addEventListener('unhandledrejection', event => {
+			this.handleError(new ResumeBuilderError(
+				`Unhandled Promise Rejection: ${event.reason?.message || event.reason}`,
+				ErrorCategory.UNKNOWN,
+				ErrorSeverity.HIGH,
+				{
+					reason: event.reason,
+					promise: event.promise,
+					type: 'unhandledrejection',
+				},
+			))
+		})
 
-    // Handle JavaScript errors
-    window.addEventListener('error', (event) => {
-      this.handleError(
-        new ResumeBuilderError(
-          `JavaScript Error: ${event.message}`,
-          ErrorCategory.UNKNOWN,
-          ErrorSeverity.HIGH,
-          {
-            filename: event.filename,
-            lineno: event.lineno,
-            colno: event.colno,
-            error: event.error,
-            type: 'javascript'
-          }
-        )
-      );
-    });
+		// Handle JavaScript errors
+		globalThis.addEventListener('error', event => {
+			this.handleError(new ResumeBuilderError(
+				`JavaScript Error: ${event.message}`,
+				ErrorCategory.UNKNOWN,
+				ErrorSeverity.HIGH,
+				{
+					filename: event.filename,
+					lineno: event.lineno,
+					colno: event.colno,
+					error: event.error,
+					type: 'javascript',
+				},
+			))
+		})
 
-    // Handle resource loading errors
-    window.addEventListener('error', (event) => {
-      if (event.target !== window) {
-        this.handleError(
-          new ResumeBuilderError(
-            `Resource Loading Error: Failed to load ${event.target.tagName}`,
-            ErrorCategory.NETWORK,
-            ErrorSeverity.MEDIUM,
-            {
-              tagName: event.target.tagName,
-              src: event.target.src || event.target.href,
-              type: 'resource'
-            }
-          )
-        );
-      }
-    }, true);
-  }
+		// Handle resource loading errors
+		globalThis.addEventListener('error', event => {
+			if (event.target !== globalThis) {
+				this.handleError(new ResumeBuilderError(
+					`Resource Loading Error: Failed to load ${event.target.tagName}`,
+					ErrorCategory.NETWORK,
+					ErrorSeverity.MEDIUM,
+					{
+						tagName: event.target.tagName,
+						src: event.target.src || event.target.href,
+						type: 'resource',
+					},
+				))
+			}
+		}, true)
+	}
 
-  /**
+	/**
    * Initialize error display styles
    */
-  initializeStyles() {
-    if (typeof document === 'undefined') return;
+	initializeStyles() {
+		if (typeof document === 'undefined') {
+			return
+		}
 
-    const styleId = 'error-handler-styles';
-    if (document.getElementById(styleId)) return;
+		const styleId = 'error-handler-styles'
+		if (document.getElementById(styleId)) {
+			return
+		}
 
-    const styles = document.createElement('style');
-    styles.id = styleId;
-    styles.textContent = `
+		const styles = document.createElement('style')
+		styles.id = styleId
+		styles.textContent = `
       .error-container {
         position: fixed;
         top: 20px;
@@ -337,171 +341,185 @@ export class ErrorHandler {
           padding: 12px;
         }
       }
-    `;
+    `
 
-    document.head.appendChild(styles);
-  }
+		document.head.append(styles)
+	}
 
-  /**
+	/**
    * Handle an error
    * @param {Error|ResumeBuilderError} error - The error to handle
    * @param {Object} context - Additional context
    */
-  handleError(error, context = {}) {
-    // Convert to ResumeBuilderError if needed
-    const resumeError = error instanceof ResumeBuilderError ?
-      error :
-      new ResumeBuilderError(
-        error.message || 'Unknown error occurred',
-        this.categorizeError(error),
-        this.determineSeverity(error),
-        { originalError: error, ...context }
-      );
+	handleError(error, context = {}) {
+		// Convert to ResumeBuilderError if needed
+		const resumeError = error instanceof ResumeBuilderError
+			? error
+			: new ResumeBuilderError(
+				error.message || 'Unknown error occurred',
+				this.categorizeError(error),
+				this.determineSeverity(error),
+				{originalError: error, ...context},
+			)
 
-    // Add to error history
-    this.addToHistory(resumeError);
+		// Add to error history
+		this.addToHistory(resumeError)
 
-    // Update error counts
-    this.errorCount[resumeError.severity]++;
+		// Update error counts
+		this.errorCount[resumeError.severity]++
 
-    // Console logging
-    if (this.options.enableConsoleLogging) {
-      this.logError(resumeError);
-    }
+		// Console logging
+		if (this.options.enableConsoleLogging) {
+			this.logError(resumeError)
+		}
 
-    // User notifications
-    if (this.options.enableUserNotifications) {
-      this.showErrorNotification(resumeError);
-    }
+		// User notifications
+		if (this.options.enableUserNotifications) {
+			this.showErrorNotification(resumeError)
+		}
 
-    // Error reporting (if enabled)
-    if (this.options.enableErrorReporting) {
-      this.reportError(resumeError);
-    }
+		// Error reporting (if enabled)
+		if (this.options.enableErrorReporting) {
+			this.reportError(resumeError)
+		}
 
-    return resumeError;
-  }
+		return resumeError
+	}
 
-  /**
+	/**
    * Categorize error based on error type and message
    */
-  categorizeError(error) {
-    const message = error.message?.toLowerCase() || '';
-    const name = error.name?.toLowerCase() || '';
+	categorizeError(error) {
+		const message = error.message?.toLowerCase() || ''
+		const name = error.name?.toLowerCase() || ''
 
-    if (name.includes('validation') || message.includes('validation') || message.includes('schema')) {
-      return ErrorCategory.VALIDATION;
-    }
-    if (message.includes('network') || message.includes('fetch') || message.includes('load')) {
-      return ErrorCategory.NETWORK;
-    }
-    if (message.includes('render') || message.includes('template')) {
-      return ErrorCategory.RENDERING;
-    }
+		if (name.includes('validation') || message.includes('validation') || message.includes('schema')) {
+			return ErrorCategory.VALIDATION
+		}
 
-    if (message.includes('file') || message.includes('read') || message.includes('write')) {
-      return ErrorCategory.FILE_SYSTEM;
-    }
-    if (message.includes('config') || message.includes('setting')) {
-      return ErrorCategory.CONFIGURATION;
-    }
+		if (message.includes('network') || message.includes('fetch') || message.includes('load')) {
+			return ErrorCategory.NETWORK
+		}
 
-    return ErrorCategory.UNKNOWN;
-  }
+		if (message.includes('render') || message.includes('template')) {
+			return ErrorCategory.RENDERING
+		}
 
-  /**
+		if (message.includes('file') || message.includes('read') || message.includes('write')) {
+			return ErrorCategory.FILE_SYSTEM
+		}
+
+		if (message.includes('config') || message.includes('setting')) {
+			return ErrorCategory.CONFIGURATION
+		}
+
+		return ErrorCategory.UNKNOWN
+	}
+
+	/**
    * Determine error severity
    */
-  determineSeverity(error) {
-    const message = error.message?.toLowerCase() || '';
+	determineSeverity(error) {
+		const message = error.message?.toLowerCase() || ''
 
-    if (message.includes('critical') || message.includes('fatal')) {
-      return ErrorSeverity.CRITICAL;
-    }
-    if (message.includes('validation') || message.includes('required')) {
-      return ErrorSeverity.HIGH;
-    }
-    if (message.includes('warning') || message.includes('deprecated')) {
-      return ErrorSeverity.LOW;
-    }
+		if (message.includes('critical') || message.includes('fatal')) {
+			return ErrorSeverity.CRITICAL
+		}
 
-    return ErrorSeverity.MEDIUM;
-  }
+		if (message.includes('validation') || message.includes('required')) {
+			return ErrorSeverity.HIGH
+		}
 
-  /**
+		if (message.includes('warning') || message.includes('deprecated')) {
+			return ErrorSeverity.LOW
+		}
+
+		return ErrorSeverity.MEDIUM
+	}
+
+	/**
    * Add error to history
    */
-  addToHistory(error) {
-    this.errorHistory.unshift(error);
+	addToHistory(error) {
+		this.errorHistory.unshift(error)
 
-    // Keep only the most recent errors
-    if (this.errorHistory.length > this.options.maxErrorsToStore) {
-      this.errorHistory = this.errorHistory.slice(0, this.options.maxErrorsToStore);
-    }
-  }
+		// Keep only the most recent errors
+		if (this.errorHistory.length > this.options.maxErrorsToStore) {
+			this.errorHistory = this.errorHistory.slice(0, this.options.maxErrorsToStore)
+		}
+	}
 
-  /**
+	/**
    * Log error to console
    */
-  logError(error) {
-    const logMethod = this.getConsoleMethod(error.severity);
-    const prefix = `[${error.category.toUpperCase()}] [${error.severity.toUpperCase()}]`;
+	logError(error) {
+		const logMethod = this.getConsoleMethod(error.severity)
+		const prefix = `[${error.category.toUpperCase()}] [${error.severity.toUpperCase()}]`
 
-    logMethod(`${prefix} ${error.message}`, error);
-  }
+		logMethod(`${prefix} ${error.message}`, error)
+	}
 
-  /**
+	/**
    * Get appropriate console method for severity
    */
-  getConsoleMethod(severity) {
-    switch (severity) {
-      case ErrorSeverity.LOW:
-        return console.info;
-      case ErrorSeverity.MEDIUM:
-        return console.warn;
-      case ErrorSeverity.HIGH:
-      case ErrorSeverity.CRITICAL:
-        return console.error;
-      default:
-        return console.log;
-    }
-  }
+	getConsoleMethod(severity) {
+		switch (severity) {
+			case ErrorSeverity.LOW: {
+				return console.info
+			}
 
-  /**
+			case ErrorSeverity.MEDIUM: {
+				return console.warn
+			}
+
+			case ErrorSeverity.HIGH:
+			case ErrorSeverity.CRITICAL: {
+				return console.error
+			}
+
+			default: {
+				return console.log
+			}
+		}
+	}
+
+	/**
    * Show error notification to user
    */
-  showErrorNotification(error) {
-    if (!this.errorContainer) return;
+	showErrorNotification(error) {
+		if (!this.errorContainer) {
+			return
+		}
 
-    const notification = this.createErrorNotification(error);
-    this.errorContainer.appendChild(notification);
+		const notification = this.createErrorNotification(error)
+		this.errorContainer.append(notification)
 
-    // Trigger animation
-    setTimeout(() => {
-      notification.classList.add('show');
-    }, 10);
+		// Trigger animation
+		setTimeout(() => {
+			notification.classList.add('show')
+		}, 10)
 
-    // Auto-hide after delay (except for critical errors)
-    if (error.severity !== ErrorSeverity.CRITICAL && this.options.autoHideDelay > 0) {
-      setTimeout(() => {
-        this.hideErrorNotification(notification);
-      }, this.options.autoHideDelay);
-    }
-  }
+		// Auto-hide after delay (except for critical errors)
+		if (error.severity !== ErrorSeverity.CRITICAL && this.options.autoHideDelay > 0) {
+			setTimeout(() => {
+				this.hideErrorNotification(notification)
+			}, this.options.autoHideDelay)
+		}
+	}
 
-  /**
+	/**
    * Create error notification element
    */
-  createErrorNotification(error) {
-    const notification = document.createElement('div');
-    notification.className = `error-notification error-notification--${error.severity}`;
-    notification.setAttribute('data-error-id', error.timestamp);
+	createErrorNotification(error) {
+		const notification = document.createElement('div')
+		notification.className = `error-notification error-notification--${error.severity}`
+		notification.dataset.errorId = error.timestamp
 
-    const title = this.getErrorTitle(error);
-    const message = this.getUserFriendlyMessage(error);
-    const details = this.getErrorDetails(error);
+		const title = this.getErrorTitle(error)
+		const message = this.getUserFriendlyMessage(error)
+		const details = this.getErrorDetails(error)
 
-    notification.innerHTML = `
+		notification.innerHTML = `
       <div class="error-notification__header">
         <h4 class="error-notification__title">${title}</h4>
         <button class="error-notification__close" aria-label="Close error notification">&times;</button>
@@ -509,234 +527,242 @@ export class ErrorHandler {
       <p class="error-notification__message">${message}</p>
       ${details ? `<div class="error-notification__details">${details}</div>` : ''}
       <div class="error-notification__timestamp">${new Date(error.timestamp).toLocaleString()}</div>
-    `;
+    `
 
-    // Add close button functionality
-    const closeButton = notification.querySelector('.error-notification__close');
-    closeButton.addEventListener('click', () => {
-      this.hideErrorNotification(notification);
-    });
+		// Add close button functionality
+		const closeButton = notification.querySelector('.error-notification__close')
+		closeButton.addEventListener('click', () => {
+			this.hideErrorNotification(notification)
+		})
 
-    return notification;
-  }
+		return notification
+	}
 
-  /**
+	/**
    * Get user-friendly error title
    */
-  getErrorTitle(error) {
-    const titles = {
-      [ErrorCategory.VALIDATION]: 'Validation Error',
-      [ErrorCategory.NETWORK]: 'Network Error',
-      [ErrorCategory.RENDERING]: 'Display Error',
+	getErrorTitle(error) {
+		const titles = {
+			[ErrorCategory.VALIDATION]: 'Validation Error',
+			[ErrorCategory.NETWORK]: 'Network Error',
+			[ErrorCategory.RENDERING]: 'Display Error',
 
-      [ErrorCategory.FILE_SYSTEM]: 'File Error',
-      [ErrorCategory.TEMPLATE]: 'Template Error',
-      [ErrorCategory.CONFIGURATION]: 'Configuration Error',
-      [ErrorCategory.UNKNOWN]: 'Application Error'
-    };
+			[ErrorCategory.FILE_SYSTEM]: 'File Error',
+			[ErrorCategory.TEMPLATE]: 'Template Error',
+			[ErrorCategory.CONFIGURATION]: 'Configuration Error',
+			[ErrorCategory.UNKNOWN]: 'Application Error',
+		}
 
-    return titles[error.category] || 'Error';
-  }
+		return titles[error.category] || 'Error'
+	}
 
-  /**
+	/**
    * Get user-friendly error message
    */
-  getUserFriendlyMessage(error) {
-    // Map technical errors to user-friendly messages
-    const message = error.message.toLowerCase();
+	getUserFriendlyMessage(error) {
+		// Map technical errors to user-friendly messages
+		const message = error.message.toLowerCase()
 
-    if (message.includes('json') && message.includes('parse')) {
-      return 'Your resume data contains formatting errors. Please check your JSON syntax.';
-    }
-    if (message.includes('validation')) {
-      return 'Some required information is missing or invalid in your resume.';
-    }
-    if (message.includes('network') || message.includes('fetch')) {
-      return 'Unable to load resume data. Please check your internet connection.';
-    }
+		if (message.includes('json') && message.includes('parse')) {
+			return 'Your resume data contains formatting errors. Please check your JSON syntax.'
+		}
 
-    if (message.includes('template')) {
-      return 'There was an issue displaying your resume. The template may be corrupted.';
-    }
+		if (message.includes('validation')) {
+			return 'Some required information is missing or invalid in your resume.'
+		}
 
-    return error.message;
-  }
+		if (message.includes('network') || message.includes('fetch')) {
+			return 'Unable to load resume data. Please check your internet connection.'
+		}
 
-  /**
+		if (message.includes('template')) {
+			return 'There was an issue displaying your resume. The template may be corrupted.'
+		}
+
+		return error.message
+	}
+
+	/**
    * Get error details for display
    */
-  getErrorDetails(error) {
-    if (!error.details || Object.keys(error.details).length === 0) {
-      return null;
-    }
+	getErrorDetails(error) {
+		if (!error.details || Object.keys(error.details).length === 0) {
+			return null
+		}
 
-    const details = [];
+		const details = []
 
-    if (error.details.filename) {
-      details.push(`File: ${error.details.filename}`);
-    }
-    if (error.details.lineno) {
-      details.push(`Line: ${error.details.lineno}`);
-    }
-    if (error.details.validationErrors) {
-      details.push(`Validation issues: ${error.details.validationErrors.length}`);
-    }
+		if (error.details.filename) {
+			details.push(`File: ${error.details.filename}`)
+		}
 
-    return details.length > 0 ? details.join(' • ') : null;
-  }
+		if (error.details.lineno) {
+			details.push(`Line: ${error.details.lineno}`)
+		}
 
-  /**
+		if (error.details.validationErrors) {
+			details.push(`Validation issues: ${error.details.validationErrors.length}`)
+		}
+
+		return details.length > 0 ? details.join(' • ') : null
+	}
+
+	/**
    * Hide error notification
    */
-  hideErrorNotification(notification) {
-    notification.classList.remove('show');
-    notification.classList.add('hide');
+	hideErrorNotification(notification) {
+		notification.classList.remove('show')
+		notification.classList.add('hide')
 
-    setTimeout(() => {
-      if (notification.parentElement) {
-        notification.parentElement.removeChild(notification);
-      }
-    }, 300);
-  }
+		setTimeout(() => {
+			if (notification.parentElement) {
+				notification.remove()
+			}
+		}, 300)
+	}
 
-  /**
+	/**
    * Report error to external service (if configured)
    */
-  reportError(error) {
-    // This would integrate with error reporting services like Sentry, LogRocket, etc.
-    console.log('Error reported:', error.toJSON());
-  }
+	reportError(error) {
+		// This would integrate with error reporting services like Sentry, LogRocket, etc.
+		console.log('Error reported:', error.toJSON())
+	}
 
-  /**
+	/**
    * Clear all error notifications
    */
-  clearAllNotifications() {
-    if (!this.errorContainer) return;
+	clearAllNotifications() {
+		if (!this.errorContainer) {
+			return
+		}
 
-    const notifications = this.errorContainer.querySelectorAll('.error-notification');
-    notifications.forEach(notification => {
-      this.hideErrorNotification(notification);
-    });
-  }
+		const notifications = this.errorContainer.querySelectorAll('.error-notification')
+		for (const notification of notifications) {
+			this.hideErrorNotification(notification)
+		}
+	}
 
-  /**
+	/**
    * Get error statistics
    */
-  getErrorStats() {
-    return {
-      total: this.errorHistory.length,
-      counts: { ...this.errorCount },
-      recent: this.errorHistory.slice(0, 10),
-      categories: this.getErrorsByCategory(),
-      severities: this.getErrorsBySeverity()
-    };
-  }
+	getErrorStats() {
+		return {
+			total: this.errorHistory.length,
+			counts: {...this.errorCount},
+			recent: this.errorHistory.slice(0, 10),
+			categories: this.getErrorsByCategory(),
+			severities: this.getErrorsBySeverity(),
+		}
+	}
 
-  /**
+	/**
    * Get errors grouped by category
    */
-  getErrorsByCategory() {
-    const categories = {};
-    this.errorHistory.forEach(error => {
-      categories[error.category] = (categories[error.category] || 0) + 1;
-    });
-    return categories;
-  }
+	getErrorsByCategory() {
+		const categories = {}
+		for (const error of this.errorHistory) {
+			categories[error.category] = (categories[error.category] || 0) + 1
+		}
 
-  /**
+		return categories
+	}
+
+	/**
    * Get errors grouped by severity
    */
-  getErrorsBySeverity() {
-    const severities = {};
-    this.errorHistory.forEach(error => {
-      severities[error.severity] = (severities[error.severity] || 0) + 1;
-    });
-    return severities;
-  }
+	getErrorsBySeverity() {
+		const severities = {}
+		for (const error of this.errorHistory) {
+			severities[error.severity] = (severities[error.severity] || 0) + 1
+		}
 
-  /**
+		return severities
+	}
+
+	/**
    * Reset error handler state
    */
-  reset() {
-    this.errorHistory = [];
-    this.errorCount = {
-      [ErrorSeverity.LOW]: 0,
-      [ErrorSeverity.MEDIUM]: 0,
-      [ErrorSeverity.HIGH]: 0,
-      [ErrorSeverity.CRITICAL]: 0
-    };
-    this.clearAllNotifications();
-  }
+	reset() {
+		this.errorHistory = []
+		this.errorCount = {
+			[ErrorSeverity.LOW]: 0,
+			[ErrorSeverity.MEDIUM]: 0,
+			[ErrorSeverity.HIGH]: 0,
+			[ErrorSeverity.CRITICAL]: 0,
+		}
+		this.clearAllNotifications()
+	}
 }
 
 // Export singleton instance
-export const errorHandler = new ErrorHandler();
+export const errorHandler = new ErrorHandler()
 
 // Export utility functions
 export const ErrorUtils = {
-  /**
+	/**
    * Create a validation error
    */
-  createValidationError(message, field, value) {
-    return new ResumeBuilderError(
-      message,
-      ErrorCategory.VALIDATION,
-      ErrorSeverity.HIGH,
-      { field, value, type: 'validation' }
-    );
-  },
+	createValidationError(message, field, value) {
+		return new ResumeBuilderError(
+			message,
+			ErrorCategory.VALIDATION,
+			ErrorSeverity.HIGH,
+			{field, value, type: 'validation'},
+		)
+	},
 
-  /**
+	/**
    * Create a network error
    */
-  createNetworkError(message, url, status) {
-    return new ResumeBuilderError(
-      message,
-      ErrorCategory.NETWORK,
-      ErrorSeverity.MEDIUM,
-      { url, status, type: 'network' }
-    );
-  },
+	createNetworkError(message, url, status) {
+		return new ResumeBuilderError(
+			message,
+			ErrorCategory.NETWORK,
+			ErrorSeverity.MEDIUM,
+			{url, status, type: 'network'},
+		)
+	},
 
-  /**
+	/**
    * Create a rendering error
    */
-  createRenderingError(message, template, data) {
-    return new ResumeBuilderError(
-      message,
-      ErrorCategory.RENDERING,
-      ErrorSeverity.MEDIUM,
-      { template, data, type: 'rendering' }
-    );
-  },
+	createRenderingError(message, template, data) {
+		return new ResumeBuilderError(
+			message,
+			ErrorCategory.RENDERING,
+			ErrorSeverity.MEDIUM,
+			{template, data, type: 'rendering'},
+		)
+	},
 
-  /**
+	/**
    * Wrap async function with error handling
    */
-  wrapAsync(fn, context = 'Unknown operation') {
-    return async (...args) => {
-      try {
-        return await fn(...args);
-      } catch (error) {
-        errorHandler.handleError(error, { context, args });
-        throw error;
-      }
-    };
-  },
+	wrapAsync(fn, context = 'Unknown operation') {
+		return async (...args) => {
+			try {
+				return await fn(...args)
+			} catch (error) {
+				errorHandler.handleError(error, {context, args})
+				throw error
+			}
+		}
+	},
 
-  /**
+	/**
    * Wrap function with error handling
    */
-  wrap(fn, context = 'Unknown operation') {
-    return (...args) => {
-      try {
-        return fn(...args);
-      } catch (error) {
-        errorHandler.handleError(error, { context, args });
-        throw error;
-      }
-    };
-  }
-};
+	wrap(fn, context = 'Unknown operation') {
+		return (...args) => {
+			try {
+				return fn(...args)
+			} catch (error) {
+				errorHandler.handleError(error, {context, args})
+				throw error
+			}
+		}
+	},
+}
 
-export default errorHandler;
+export default errorHandler

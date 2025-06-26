@@ -1,10 +1,12 @@
 /**
  * Languages component
  */
-export function Languages({ languages = [] }) {
-  if (!languages.length) return '';
+export function Languages({languages = []}) {
+	if (languages.length === 0) {
+		return ''
+	}
 
-  return `
+	return `
     <section class="section languages-section">
       <h3 class="section-title">Languages</h3>
       <div class="section-content">
@@ -16,5 +18,5 @@ export function Languages({ languages = [] }) {
         `).join('')}
       </div>
     </section>
-  `;
+  `
 }
