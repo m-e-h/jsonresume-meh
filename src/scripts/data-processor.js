@@ -55,16 +55,28 @@ class DataProcessor {
    * Load resume data from file
    * @param {string} filePath - Path to resume.json file (defaults to /resume.json)
    * @returns {Promise<Object>} Processed resume data
+   * @description If resume.json is not found (404) or if dev server returns HTML instead of JSON,
+   *              automatically falls back to sample.resume.json
    */
   async loadResumeData(filePath = '/resume.json') {
     try {
       console.log(`📄 Loading resume data from ${filePath}...`);
       const startTime = performance.now();
 
-      // Fetch the resume.json file
+            // Fetch the resume.json file
       const response = await fetch(filePath);
 
-      if (!response.ok) {
+      // Check if the response is actually JSON or if Vite is serving HTML fallback
+      const contentType = response.headers.get('content-type') || '';
+      const isHtmlResponse = contentType.includes('text/html');
+
+      if (!response.ok || (response.ok && isHtmlResponse && filePath.endsWith('.json'))) {
+        // If resume.json is not found or Vite returns HTML instead of JSON, try fallback to sample.resume.json
+        if ((response.status === 404 || isHtmlResponse) && filePath === '/resume.json') {
+          console.warn(`⚠️  resume.json not found, falling back to sample.resume.json`);
+          return await this.loadResumeData('/sample.resume.json');
+        }
+
         throw new DataProcessorError(
           `Failed to load resume file: ${response.status} ${response.statusText}`,
           'FILE_LOAD_ERROR',

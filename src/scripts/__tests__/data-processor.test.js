@@ -27,8 +27,15 @@ const createMockResponse = (data, options = {}) => ({
   ok: options.ok ?? true,
   status: options.status ?? 200,
   statusText: options.statusText ?? 'OK',
-  headers: { get: () => options.lastModified ?? null },
-  json: () => Promise.resolve(data)
+  headers: {
+    get: (header) => {
+      if (header === 'last-modified') return options.lastModified ?? null;
+      if (header === 'content-type' && options.headers) return options.headers['content-type'];
+      return null;
+    }
+  },
+  json: () => Promise.resolve(data),
+  text: () => Promise.resolve(typeof data === 'string' ? data : JSON.stringify(data))
 });
 
 const createMockError = (message, type = 'NetworkError') => {
@@ -69,12 +76,66 @@ describe('DataProcessor', () => {
       expect(dataProcessor.isLoaded).toBe(true);
     });
 
-    it('should handle HTTP errors', async () => {
+        it('should fallback to sample.resume.json when resume.json returns 404', async () => {
+      const sampleData = { basics: { name: "Sample User" } };
+
+      global.fetch
+        .mockResolvedValueOnce(createMockResponse(null, {
+          ok: false,
+          status: 404,
+          statusText: 'Not Found'
+        }))
+        .mockResolvedValueOnce(createMockResponse(sampleData));
+
+      const result = await dataProcessor.loadResumeData();
+
+      expect(fetch).toHaveBeenCalledWith('/resume.json');
+      expect(fetch).toHaveBeenCalledWith('/sample.resume.json');
+      expect(result.data.basics.name).toBe("Sample User");
+    });
+
+    it('should fallback to sample.resume.json when resume.json returns HTML (Vite dev server)', async () => {
+      const sampleData = { basics: { name: "Sample User" } };
+
+      global.fetch
+        .mockResolvedValueOnce(createMockResponse('<html><body>Not Found</body></html>', {
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          headers: { 'content-type': 'text/html' }
+        }))
+        .mockResolvedValueOnce(createMockResponse(sampleData));
+
+      const result = await dataProcessor.loadResumeData();
+
+      expect(fetch).toHaveBeenCalledWith('/resume.json');
+      expect(fetch).toHaveBeenCalledWith('/sample.resume.json');
+      expect(result.data.basics.name).toBe("Sample User");
+    });
+
+    it('should handle HTTP errors for non-404 errors', async () => {
       global.fetch.mockResolvedValue(createMockResponse(null, {
         ok: false,
-        status: 404,
-        statusText: 'Not Found'
+        status: 500,
+        statusText: 'Internal Server Error'
       }));
+
+      await expect(dataProcessor.loadResumeData())
+        .rejects.toThrow('Failed to load resume file: 500 Internal Server Error');
+    });
+
+    it('should handle errors when both resume.json and sample.resume.json are missing', async () => {
+      global.fetch
+        .mockResolvedValueOnce(createMockResponse(null, {
+          ok: false,
+          status: 404,
+          statusText: 'Not Found'
+        }))
+        .mockResolvedValueOnce(createMockResponse(null, {
+          ok: false,
+          status: 404,
+          statusText: 'Not Found'
+        }));
 
       await expect(dataProcessor.loadResumeData())
         .rejects.toThrow('Failed to load resume file: 404 Not Found');
