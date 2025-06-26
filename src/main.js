@@ -93,7 +93,6 @@ class ResumeBuilder {
       this.metadata = result.metadata;
 
       console.log('✅ Resume data loaded and validated successfully');
-      console.log('📊 Data structure:', this.resumeData);
 
     } catch (error) {
       throw new Error(`Resume data loading failed: ${error.message}`);
@@ -152,7 +151,7 @@ class ResumeBuilder {
       this.templateRenderer.setTemplate(templateId);
       this.currentTemplate = this.templateRenderer.currentTemplate;
 
-      // Re-render with new template
+      // Re-render with new template (this will also update the title)
       await this.renderTemplate();
 
       console.log(`✅ Template switched to: ${this.currentTemplate.name}`);
@@ -194,6 +193,9 @@ class ResumeBuilder {
     try {
       console.log('🎨 Rendering template...');
 
+      // Update document title first
+      this.updateDocumentTitle();
+
       // Use TemplateRenderer to render the template with data
       const renderedHTML = await this.templateRenderer.render(this.resumeData);
 
@@ -204,6 +206,25 @@ class ResumeBuilder {
 
     } catch (error) {
       throw new Error(`Template rendering failed: ${error.message}`);
+    }
+  }
+
+  /**
+   * Update the document title based on resume data
+   */
+  updateDocumentTitle() {
+    try {
+      // Generate title with underscores - same logic as templates
+      const nameWithUnderscores = this.resumeData.basics?.name ? this.resumeData.basics.name.replace(/\s+/g, '') : 'Resume';
+      const prospect = this.resumeData.meta?.prospect ? this.resumeData.meta.prospect.replace(/\s+/g, '') : '';
+      const title = prospect ? `${nameWithUnderscores}_Resume_${prospect}` : `${nameWithUnderscores}_Resume`;
+
+      document.title = title;
+      console.log(`📝 Document title updated to: ${title}`);
+    } catch (error) {
+      console.error('Failed to update document title:', error);
+      // Fallback to a basic title
+      document.title = 'Resume';
     }
   }
 

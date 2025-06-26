@@ -119,6 +119,9 @@ export class UIManager {
     `;
     this.appContainer.innerHTML = resumeContainerHTML;
     this.resumeContainer = this.appContainer.querySelector('#resume-container');
+
+    // Add template class to body for global styling
+    document.body.className = `${templateId}-template`;
   }
 
   /**
