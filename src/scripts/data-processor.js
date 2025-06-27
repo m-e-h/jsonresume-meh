@@ -3,7 +3,7 @@
  * Handles reading, parsing, validation, and processing of resume.json
  */
 
-import {jsonSchemaValidator} from './json-schema-validator.js'
+import {validate as validateResume} from '@jsonresume/schema'
 
 /**
  * Data Processor Class
@@ -25,7 +25,6 @@ class DataProcessor {
 				label: '',
 				email: '',
 				phone: '',
-				url: '',
 				summary: '',
 				location: {},
 				profiles: [],
@@ -146,7 +145,7 @@ class DataProcessor {
 			const processedData = this.applyDefaults(rawData)
 
 			// Validate the data against JSON Resume schema
-			this.validationResult = jsonSchemaValidator.validateResume(processedData)
+			this.validationResult = await this.validateResumeData(processedData)
 
 			// Handle validation results
 			if (!this.validationResult.isValid) {
@@ -157,7 +156,7 @@ class DataProcessor {
 			}
 
 			// Process data sections
-			const enhancedData = this.enhanceData(processedData)
+			const enhancedData = processedData
 
 			// Cache the processed data
 			this.resumeData = enhancedData
@@ -190,10 +189,121 @@ class DataProcessor {
 	}
 
 	/**
-   * Apply default values for missing optional fields
-   * @param {Object} data - Raw resume data
-   * @returns {Object} Data with defaults applied
-   */
+	 * Validate resume data using official @jsonresume/schema package
+	 * @param {Object} resumeData - The resume data to validate
+	 * @returns {Promise<Object>} Validation result with isValid flag and errors
+	 */
+	validateResumeData(resumeData) {
+		const startTime = performance.now()
+
+		return new Promise(resolve => {
+			validateResume(resumeData, (errors, isValid) => {
+				const endTime = performance.now()
+				const validationTime = Math.round(endTime - startTime)
+
+				const result = {
+					isValid: isValid === true,
+					errors: errors || [],
+					warnings: this.generateValidationWarnings(resumeData),
+					validationTime,
+					schema: 'JSON Resume Schema (Official @jsonresume/schema)',
+				}
+
+				if (result.isValid) {
+					console.log(`✅ Resume validation passed in ${validationTime}ms`)
+				} else {
+					console.warn(`❌ Resume validation failed with ${result.errors.length} errors`)
+				}
+
+				resolve(result)
+			})
+		})
+	}
+
+	/**
+	 * Generate warnings for potential issues (not schema violations)
+	 * @param {Object} resumeData - The resume data
+	 * @returns {Array} Array of warning objects
+	 */
+	generateValidationWarnings(resumeData) {
+		const warnings = []
+
+		try {
+			// Handle null or invalid data
+			if (!resumeData || typeof resumeData !== 'object') {
+				warnings.push({
+					type: 'invalid-data',
+					message: 'Resume data is missing or invalid',
+					severity: 'high',
+				})
+				return warnings
+			}
+
+			// Check for empty or missing basics section
+			if (!resumeData.basics || Object.keys(resumeData.basics).length === 0) {
+				warnings.push({
+					type: 'missing-section',
+					message: 'Basics section is missing or empty. This section typically contains name, email, and contact information.',
+					severity: 'high',
+				})
+			}
+
+			// Check for missing name
+			if (!resumeData.basics?.name) {
+				warnings.push({
+					type: 'missing-field',
+					message: 'Name is missing from basics section. This is highly recommended.',
+					severity: 'high',
+				})
+			}
+
+			// Check for missing email
+			if (!resumeData.basics?.email) {
+				warnings.push({
+					type: 'missing-field',
+					message: 'Email is missing from basics section. This is important for contact.',
+					severity: 'medium',
+				})
+			}
+
+			// Check for empty work experience
+			if (!resumeData.work || resumeData.work.length === 0) {
+				warnings.push({
+					type: 'missing-section',
+					message: 'Work experience section is empty. Consider adding your professional experience.',
+					severity: 'medium',
+				})
+			}
+
+			// Check for very short summary
+			if (resumeData.basics?.summary && resumeData.basics.summary.length < 50) {
+				warnings.push({
+					type: 'content-quality',
+					message: 'Summary is very short. Consider adding more details about your background.',
+					severity: 'low',
+				})
+			}
+
+			// Check for missing skills
+			if (!resumeData.skills || resumeData.skills.length === 0) {
+				warnings.push({
+					type: 'missing-section',
+					message: 'Skills section is empty. Adding skills can help highlight your expertise.',
+					severity: 'low',
+				})
+			}
+		} catch (error) {
+			console.warn('Error generating warnings:', error)
+		}
+
+		return warnings
+	}
+
+	/**
+	 * Apply default values for missing optional fields
+	 * @param {Object} data - Raw resume data
+	 * @returns {Object} Data with defaults applied
+	 */
 	applyDefaults(data) {
 		if (!data || typeof data !== 'object') {
 			console.warn('⚠️  Invalid resume data, using defaults')
@@ -297,6 +407,11 @@ class DataProcessor {
 			if (repaired[field] && typeof repaired[field] !== 'string') {
 				repaired[field] = String(repaired[field])
 			}
+		}
+
+		// Remove empty URL to avoid validation warnings
+		if (repaired.url === '') {
+			delete repaired.url
 		}
 
 		// Repair location object

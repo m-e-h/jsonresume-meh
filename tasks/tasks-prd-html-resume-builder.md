@@ -1,7 +1,6 @@
 ## Relevant Files
 
-- `src/scripts/json-schema-validator.js` - AJV-based JSON Resume Schema v1.0.0 validation
-- `src/scripts/json-schema-validator.test.js` - Unit tests for JSON schema validation
+- JSON schema validation is now handled directly within `data-processor.js` using the official `@jsonresume/schema` package
 - `src/scripts/data-processor.js` - JSON Resume data parsing and validation logic
 - `src/scripts/data-processor.test.js` - Unit tests for data processing functionality
 - `src/scripts/pdf-export.js` - Client-side PDF generation functionality

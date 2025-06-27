@@ -45,8 +45,7 @@
     "xo": "^1.1.1"
   },
   "dependencies": {
-    "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1"
+    "@jsonresume/schema": "^1.2.1"
   },
   "xo": {
     "semicolon": false
