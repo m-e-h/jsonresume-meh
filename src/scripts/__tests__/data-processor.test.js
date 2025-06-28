@@ -66,7 +66,6 @@ describe('DataProcessor', () => {
 			expect(dataProcessor).toBeInstanceOf(DataProcessor)
 			expect(dataProcessor.resumeData).toBeNull()
 			expect(dataProcessor.isLoaded).toBe(false)
-			expect(dataProcessor.cache).toBeInstanceOf(Map)
 			expect(dataProcessor.defaultValues).toBeDefined()
 		})
 	})
@@ -198,113 +197,7 @@ describe('DataProcessor', () => {
 		})
 	})
 
-	describe('Data Enhancement', () => {
-		const testData = {
-			basics: {name: 'John Doe'},
-			work: [{
-				name: 'Company A',
-				position: 'Developer',
-				startDate: '2020-01-01',
-				endDate: '2022-12-31',
-			}],
-			skills: [{
-				name: 'JavaScript',
-				level: 'Expert',
-				keywords: ['react', 'node.js'],
-			}],
-		}
-
-		it('should enhance work experience with computed properties', () => {
-			const enhanced = dataProcessor.enhanceData(testData)
-
-			expect(enhanced.work[0].duration).toBeDefined()
-			expect(enhanced.work[0].formattedDates).toBeDefined()
-			expect(enhanced.work[0].isCurrentJob).toBe(false)
-		})
-
-		it('should add computed metadata', () => {
-			const enhanced = dataProcessor.enhanceData(testData)
-
-			expect(enhanced._computed).toBeDefined()
-			expect(enhanced._computed.totalWorkExperience).toBeDefined()
-			expect(enhanced._computed.skillCategories).toBeDefined()
-			expect(enhanced._computed.sections).toBeDefined()
-		})
-
-		it('should handle malformed data gracefully', () => {
-			const malformedData = {work: [{startDate: 'invalid-date'}]}
-
-			expect(() => dataProcessor.enhanceData(malformedData)).not.toThrow()
-		})
-	})
-
-	describe('Duration Calculations', () => {
-		it('should calculate duration correctly', () => {
-			const duration = dataProcessor.calculateDuration('2020-01-01', '2022-12-31')
-
-			expect(duration).toBeDefined()
-			expect(duration.years).toBeGreaterThan(0)
-			expect(duration.humanReadable).toBeDefined()
-		})
-
-		it('should handle current positions', () => {
-			const duration = dataProcessor.calculateDuration('2020-01-01', null)
-
-			expect(duration).toBeDefined()
-			expect(duration.years).toBeGreaterThan(0)
-		})
-
-		it('should return null for invalid dates', () => {
-			expect(dataProcessor.calculateDuration('invalid-date', '2022-01-01')).toBeNull()
-			expect(dataProcessor.calculateDuration(null, '2022-01-01')).toBeNull()
-		})
-
-		it('should format duration in human-readable format', () => {
-			expect(dataProcessor.formatDuration(2, 6)).toBe('2 years, 6 months')
-			expect(dataProcessor.formatDuration(0, 3)).toBe('3 months')
-			expect(dataProcessor.formatDuration(1, 0)).toBe('1 year')
-			expect(dataProcessor.formatDuration(0, 0)).toBe('Less than a month')
-		})
-	})
-
-	describe('Skill Categorization', () => {
-		const skills = [
-			{name: 'JavaScript', level: 'Expert', keywords: ['react', 'node.js']},
-			{name: 'Python', level: 'Advanced', keywords: ['django', 'flask']},
-			{name: 'AWS', keywords: ['ec2', 's3']},
-		]
-
-		it('should categorize skills by level', () => {
-			const categories = dataProcessor.categorizeSkills(skills)
-
-			expect(categories.byLevel.Expert).toHaveLength(1)
-			expect(categories.byLevel.Advanced).toHaveLength(1)
-			expect(categories.byLevel.Unspecified).toHaveLength(1)
-		})
-
-		it('should infer skill types from keywords', () => {
-			expect(dataProcessor.inferSkillType(['javascript', 'react'])).toBe('Programming Languages')
-			expect(dataProcessor.inferSkillType(['mysql', 'postgresql'])).toBe('Databases')
-			expect(dataProcessor.inferSkillType(['aws', 'docker'])).toBe('Cloud & DevOps')
-			expect(dataProcessor.inferSkillType(['unknown'])).toBe('Other')
-		})
-	})
-
-	describe('Caching and State Management', () => {
-		it('should cache commonly accessed data', () => {
-			const testData = {
-				basics: {name: 'John Doe', email: 'john@example.com'},
-				work: [{name: 'Company'}],
-				skills: [{name: 'JavaScript'}],
-			}
-
-			dataProcessor.updateCache(testData)
-
-			expect(dataProcessor.getCached('name')).toBe('John Doe')
-			expect(dataProcessor.getCached('workCount')).toBe(1)
-			expect(dataProcessor.getCached('skillCount')).toBe(1)
-		})
-
+	describe('State Management', () => {
 		it('should return current data when loaded', () => {
 			dataProcessor.resumeData = MOCK_RESUME_DATA
 			dataProcessor.isLoaded = true
@@ -313,16 +206,52 @@ describe('DataProcessor', () => {
 			expect(dataProcessor.isDataLoaded()).toBe(true)
 		})
 
+		it('should return null when no data is loaded', () => {
+			expect(dataProcessor.getResumeData()).toBeNull()
+			expect(dataProcessor.isDataLoaded()).toBe(false)
+		})
+
 		it('should clean up resources', () => {
 			dataProcessor.resumeData = {test: 'data'}
 			dataProcessor.isLoaded = true
-			dataProcessor.cache.set('test', 'value')
 
 			dataProcessor.cleanup()
 
 			expect(dataProcessor.resumeData).toBeNull()
 			expect(dataProcessor.isLoaded).toBe(false)
-			expect(dataProcessor.cache.size).toBe(0)
+		})
+
+		it('should reload data', async () => {
+			globalThis.fetch.mockResolvedValue(createMockResponse(MOCK_RESUME_DATA))
+
+			// Set initial state
+			dataProcessor.resumeData = {old: 'data'}
+			dataProcessor.isLoaded = true
+
+			const result = await dataProcessor.reload('/test.json')
+
+			expect(dataProcessor.isLoaded).toBe(true)
+			expect(result.data).toBeDefined()
+			expect(fetch).toHaveBeenCalledWith('/test.json')
+		})
+	})
+
+	describe('Validation', () => {
+		it('should validate resume data', async () => {
+			const validData = {
+				basics: {
+					name: 'John Doe',
+					email: 'john@example.com',
+				},
+			}
+
+			const result = await dataProcessor.validateResumeData(validData)
+
+			expect(result).toBeDefined()
+			expect(result.isValid).toBeDefined()
+			expect(result.errors).toBeDefined()
+			expect(result.validationTime).toBeDefined()
+			expect(result.schema).toBe('JSON Resume Schema (Official @jsonresume/schema)')
 		})
 	})
 

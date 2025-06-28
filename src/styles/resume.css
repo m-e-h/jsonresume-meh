@@ -19,25 +19,23 @@
   --font-sans: Arial, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
   /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
+  --space-1: 0.25em;
+  --space-2: 0.5em;
+  --space-3: 0.75em;
+  --space-4: 1em;
+  --space-5: 1.25em;
+  --space-6: 1.5em;
+  --space-8: 2em;
+  --space-10: 2.5em;
+  --space-12: 3em;
 
   /* Typography scale */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
+  --text-sm: 0.875em;
+  --text-base: 1em;
+  --text-h4: 1.1em;
+  --text-h3: 1.25em;
+  --text-h2: 1.5em;
+  --text-h1: 2.25em;
 
   /* Effects */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -56,7 +54,7 @@
 
 body {
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 12pt;
   line-height: 1.5;
   color: var(--text-primary);
   background-color: var(--surface);
@@ -85,32 +83,23 @@ h6 {
 }
 
 h1 {
-  font-size: var(--text-4xl);
-  color: var(--primary-color);
+  font-size: var(--text-h1);
 }
 
 h2 {
-  font-size: var(--text-2xl);
-  color: var(--text-primary);
+  font-size: var(--text-h2);
 }
 
 h3 {
-  font-size: var(--text-xl);
-  color: var(--text-primary);
+  font-size: var(--text-h3);
 }
 
 h4 {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
+  font-size: var(--text-h4);
 }
 
 a {
   color: inherit;
-  text-decoration: underline;
-}
-
-a:hover {
-  color: var(--primary-color);
   text-decoration: underline;
 }
 
@@ -123,12 +112,7 @@ blockquote {
 
 /* Header Section */
 .resume-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-  margin-bottom: var(--space-12);
-  /* padding-bottom: var(--space-8); */
-  /* border-bottom: 2px solid var(--border); */
+  margin-bottom: var(--space-10);
 }
 
 .profile-image {
@@ -145,23 +129,21 @@ blockquote {
 }
 
 .header-content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
   text-align: center;
 }
 
 .name {
-  font-size: var(--text-4xl);
-  font-weight: 700;
-  color: var(--primary-color);
-  /* margin-bottom: var(--space-2); */
+  font-size: var(--text-h1);
   letter-spacing: -0.025em;
 }
 
 .title {
-  font-size: var(--text-xl);
+  font-size: var(--text-h3);
   font-weight: 400;
-  color: var(--text-secondary);
-  /* margin-bottom: var(--space-6); */
   font-style: italic;
 }
 
@@ -170,7 +152,6 @@ blockquote {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-4);
-  /* margin-bottom: var(--space-4); */
 }
 
 .contact-item {
@@ -231,20 +212,20 @@ blockquote {
 
 /* Sections */
 .section {
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-10);
 }
 
 .section-title {
-  font-size: var(--text-xl);
+  font-size: var(--text-h3);
   font-weight: 600;
   color: var(--primary-color);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-1);
   border-bottom: 2px solid var(--border);
 }
 
 .section-item {
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-6);
 }
 
 .section:last-child,
@@ -260,8 +241,7 @@ blockquote {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-3);
 }
 
 .item-header-right {
@@ -274,47 +254,29 @@ blockquote {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: var(--space-2);
+  gap: var(--space-1);
 }
 
 .item-title {
-  font-size: var(--text-lg);
-  font-weight: 600;
-  color: var(--text-primary);
-  /* margin-bottom: var(--space-1); */
+  font-size: var(--text-h4);
 }
-
-/* .item-title a {
-  color: var(--accent-color);
-  text-decoration: underline;
-} */
 
 .item-subtitle {
-  font-size: var(--text-base);
-  color: var(--accent-color);
-  font-weight: 500;
-  /* margin-bottom: var(--space-1); */
+  font-size: var(--text-h4);
 }
 
-.item-dates {
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
+.item-dates,
 .item-other-label {
-  color: var(--text-secondary);
   font-style: italic;
   font-weight: 500;
 }
 
 .item-summary {
-  color: var(--text-secondary);
   border-left: 3px solid var(--text-muted);
-  padding-left: var(--space-4);
+  padding-left: var(--space-3);
   margin: 0;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-3);
   font-style: italic;
-  font-size: 15px;
 }
 
 .item-list {
@@ -325,8 +287,8 @@ blockquote {
 .item-list li {
   position: relative;
   padding-left: var(--space-4);
-  margin-bottom: var(--space-3);
-  line-height: 1.5;
+  margin-bottom: var(--space-2);
+  line-height: 1.4;
 }
 
 .item-list li::before {
@@ -355,7 +317,7 @@ blockquote {
   background: var(--surface);
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-md);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
@@ -376,13 +338,11 @@ blockquote {
 .skill-name {
   font-size: var(--text-base);
   font-weight: 600;
-  color: var(--text-primary);
   margin: 0;
 }
 
 .skill-level {
   font-size: var(--text-sm);
-  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -395,7 +355,7 @@ blockquote {
 .keyword {
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-md);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--text-secondary);
   border: 1px solid var(--border);
 }
@@ -417,31 +377,8 @@ blockquote {
 }
 
 /* Projects */
-.project-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  text-align: right;
-}
-
-.project-entity {
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
 .project-roles {
   font-size: var(--text-sm);
-  color: var(--text-secondary);
-  /* margin-bottom: var(--space-2); */
-}
-
-.project-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
 }
 
 /* Responsive Design */
@@ -505,7 +442,6 @@ blockquote {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: var(--text-lg);
 }
 
 /* UI Components for Resume Builder */
@@ -683,9 +619,9 @@ blockquote {
     background: transparent !important;
   }
 
-  body {
+  /* body {
     font-size: 11pt;
-  }
+  } */
 
   a {
     color: inherit;
