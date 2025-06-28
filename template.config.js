@@ -7,9 +7,6 @@ export const templates = {
 	minimal: {
 		id: 'minimal',
 		name: 'Minimal',
-		description: 'Ultra-clean, minimalist design focusing on content clarity',
-		htmlFile: 'src/templates/template-minimal.html',
-		styleFile: 'src/styles/templates/minimal.scss',
 		preview: 'assets/previews/minimal-preview.png',
 		features: [
 			'Ultra-clean typography',
@@ -24,8 +21,6 @@ export const templates = {
 		id: 'classic',
 		name: 'Classic',
 		description: 'Traditional, professional resume layout with clean typography',
-		htmlFile: 'src/templates/template-classic.html',
-		styleFile: 'src/styles/templates/classic.scss',
 		preview: 'assets/previews/classic-preview.png',
 		features: [
 			'Traditional two-column layout',
@@ -40,8 +35,6 @@ export const templates = {
 		id: 'modern',
 		name: 'Modern',
 		description: 'Contemporary design with subtle colors and modern typography',
-		htmlFile: 'src/templates/template-modern.html',
-		styleFile: 'src/styles/templates/modern.scss',
 		preview: 'assets/previews/modern-preview.png',
 		features: [
 			'Contemporary color scheme',

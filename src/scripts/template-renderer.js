@@ -3,7 +3,7 @@
  * Handles dynamic template selection, data injection, and HTML rendering
  */
 
-import {getSelectedTemplate, getAllTemplates, templates} from '@config'
+import {getSelectedTemplate, getAllTemplates} from '@config'
 import {getTemplateFunction} from '@templates/layouts.js'
 
 /**
@@ -295,7 +295,7 @@ export class TemplateRenderer {
 	processResumeData(data) {
 		try {
 			// Create a deep copy to avoid modifying original data
-			const processedData = JSON.parse(JSON.stringify(data))
+			const processedData = structuredClone(data)
 
 			// Process work experience dates
 			processedData.work &&= processedData.work.map(job => ({
@@ -548,7 +548,17 @@ export class TemplateRenderer {
    * Get nested object value by path
    */
 	getNestedValue(object, path) {
-		return path.split('.').reduce((current, key) => current && current[key] !== undefined ? current[key] : undefined, object)
+		let current = object
+		const keys = path.split('.')
+		for (const key of keys) {
+			if (!current || current[key] === undefined) {
+				return undefined
+			}
+
+			current = current[key]
+		}
+
+		return current
 	}
 
 	/**

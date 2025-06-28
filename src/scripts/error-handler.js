@@ -189,7 +189,7 @@ export class ErrorHandler {
 		}
 
 		const styleId = 'error-handler-styles'
-		if (document.getElementById(styleId)) {
+		if (document.querySelector(`#${styleId}`)) {
 			return
 		}
 

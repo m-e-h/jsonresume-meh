@@ -81,7 +81,7 @@ export class UIManager {
 			select.append(option)
 		}
 
-		select.addEventListener('change', e => switchCallback(e.target.value))
+		select.addEventListener('change', event => switchCallback(event.target.value))
 
 		selectorContainer.append(label)
 		selectorContainer.append(select)
