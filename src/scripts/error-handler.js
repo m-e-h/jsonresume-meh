@@ -2,49 +2,94 @@
  * Error Handler Module
  * Centralized error management system for the JSON Resume Builder
  * Provides user-friendly error display and detailed error reporting
+ *
+ * @fileoverview This module is designed for browser environments and uses DOM APIs
+ * @module ErrorHandler
+ * @requires globalThis
+ * @requires document - Browser DOM API
+ * @requires console - Browser/Node console API
  */
 
 /**
- * Error severity levels
+ * Error severity levels enumeration
+ * @readonly
+ * @enum {string}
  */
 export const ErrorSeverity = {
+	/** Low priority errors - informational */
 	LOW: 'low',
+	/** Medium priority errors - warnings */
 	MEDIUM: 'medium',
+	/** High priority errors - significant issues */
 	HIGH: 'high',
+	/** Critical errors - application breaking */
 	CRITICAL: 'critical',
 }
 
 /**
- * Error categories for better classification
+ * Error categories for better classification and handling
+ * @readonly
+ * @enum {string}
  */
 export const ErrorCategory = {
+	/** Data validation errors */
 	VALIDATION: 'validation',
+	/** Network and connectivity errors */
 	NETWORK: 'network',
+	/** Template rendering errors */
 	RENDERING: 'rendering',
+	/** File system operation errors */
 	FILE_SYSTEM: 'file_system',
+	/** Template processing errors */
 	TEMPLATE: 'template',
+	/** Configuration and setup errors */
 	CONFIGURATION: 'configuration',
+	/** Uncategorized errors */
 	UNKNOWN: 'unknown',
 }
 
 /**
- * Custom error class for Resume Builder errors
+ * Custom error class for Resume Builder specific errors
+ * Extends the native Error class with additional metadata
+ * @extends Error
  */
 export class ResumeBuilderError extends Error {
+	/**
+	 * Create a new ResumeBuilderError
+	 * @param {string} message - The error message
+	 * @param {string} [category=ErrorCategory.UNKNOWN] - Error category
+	 * @param {string} [severity=ErrorSeverity.MEDIUM] - Error severity level
+	 * @param {Object} [details={}] - Additional error details and context
+	 */
 	constructor(message, category = ErrorCategory.UNKNOWN, severity = ErrorSeverity.MEDIUM, details = {}) {
 		super(message)
+
+		/** @type {string} Error name identifier */
 		this.name = 'ResumeBuilderError'
+
+		/** @type {string} Error category for classification */
 		this.category = category
+
+		/** @type {string} Error severity level */
 		this.severity = severity
+
+		/** @type {Object} Additional error details and context */
 		this.details = details
+
+		/** @type {string} ISO timestamp when error occurred */
 		this.timestamp = new Date().toISOString()
+
+		/** @type {string} User agent string for debugging */
 		this.userAgent = typeof navigator === 'undefined' ? 'Unknown' : navigator.userAgent
+
+		/** @type {string} Current page URL when error occurred */
 		this.url = globalThis.window === undefined ? 'Unknown' : globalThis.location.href
 	}
 
 	/**
-   * Convert error to JSON for logging
-   */
+	 * Convert error to JSON for logging and reporting
+	 * @returns {Object} JSON representation of the error
+	 */
 	toJSON() {
 		return {
 			name: this.name,
@@ -61,10 +106,22 @@ export class ResumeBuilderError extends Error {
 }
 
 /**
- * Error Handler Class
+ * Main Error Handler Class
+ * Provides centralized error management, user notifications, and logging
+ * @class
  */
 export class ErrorHandler {
+	/**
+	 * Create a new ErrorHandler instance
+	 * @param {Object} [options={}] - Configuration options
+	 * @param {boolean} [options.enableConsoleLogging=true] - Enable console error logging
+	 * @param {boolean} [options.enableUserNotifications=true] - Enable user-facing error notifications
+	 * @param {boolean} [options.enableErrorReporting=false] - Enable external error reporting
+	 * @param {number} [options.maxErrorsToStore=50] - Maximum number of errors to keep in history
+	 * @param {number} [options.autoHideDelay=5000] - Auto-hide delay for notifications (milliseconds)
+	 */
 	constructor(options = {}) {
+		/** @type {Object} Configuration options */
 		this.options = {
 			enableConsoleLogging: true,
 			enableUserNotifications: true,
@@ -74,9 +131,16 @@ export class ErrorHandler {
 			...options,
 		}
 
+		/** @type {ResumeBuilderError[]} Array of recent errors for debugging */
 		this.errorHistory = []
+
+		/** @type {HTMLElement|null} DOM container for error notifications */
 		this.errorContainer = null
+
+		/** @type {boolean} Whether the error handler has been initialized */
 		this.isInitialized = false
+
+		/** @type {Object.<string, number>} Count of errors by severity level */
 		this.errorCount = {
 			[ErrorSeverity.LOW]: 0,
 			[ErrorSeverity.MEDIUM]: 0,
@@ -88,8 +152,10 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Initialize error handler
-   */
+	 * Initialize the error handler
+	 * Sets up DOM elements, global error listeners, and styles
+	 * @returns {void}
+	 */
 	init() {
 		if (this.isInitialized) {
 			return
@@ -109,9 +175,13 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Create error display container
-   */
+	 * Create error display container in the DOM
+	 * Safely handles server-side rendering environments
+	 * @private
+	 * @returns {void}
+	 */
 	createErrorContainer() {
+		// Safe check for browser environment
 		if (typeof document === 'undefined') {
 			return
 		}
@@ -126,8 +196,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Set up global error handlers
-   */
+	 * Set up global error event listeners
+	 * Handles unhandled promise rejections, JavaScript errors, and resource loading errors
+	 * @private
+	 * @returns {void}
+	 */
 	setupGlobalErrorHandlers() {
 		if (globalThis.window === undefined) {
 			return
@@ -181,9 +254,13 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Initialize error display styles
-   */
+	 * Initialize error display styles by injecting CSS into the document
+	 * Safely handles server-side rendering environments
+	 * @private
+	 * @returns {void}
+	 */
 	initializeStyles() {
+		// Safe check for browser environment
 		if (typeof document === 'undefined') {
 			return
 		}
@@ -297,37 +374,6 @@ export class ErrorHandler {
         margin-top: 4px;
       }
 
-      .error-notification__actions {
-        margin-top: 12px;
-        display: flex;
-        gap: 8px;
-      }
-
-      .error-notification__action {
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 4px 8px;
-        border-radius: 3px;
-        font-size: 11px;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-      }
-
-      .error-notification__action:hover {
-        background: #0056b3;
-        color: white;
-      }
-
-      .error-notification__action--secondary {
-        background: #6c757d;
-      }
-
-      .error-notification__action--secondary:hover {
-        background: #545b62;
-      }
-
       @media (max-width: 480px) {
         .error-container {
           left: 10px;
@@ -347,10 +393,12 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Handle an error
-   * @param {Error|ResumeBuilderError} error - The error to handle
-   * @param {Object} context - Additional context
-   */
+	 * Main error handling method
+	 * Processes errors, logs them, shows notifications, and maintains history
+	 * @param {Error|ResumeBuilderError} error - The error to handle
+	 * @param {Object} [context={}] - Additional context information
+	 * @returns {ResumeBuilderError} The processed error object
+	 */
 	handleError(error, context = {}) {
 		// Convert to ResumeBuilderError if needed
 		const resumeError = error instanceof ResumeBuilderError
@@ -387,8 +435,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Categorize error based on error type and message
-   */
+	 * Automatically categorize error based on error type and message content
+	 * @private
+	 * @param {Error} error - The error to categorize
+	 * @returns {string} The determined error category
+	 */
 	categorizeError(error) {
 		const message = error.message?.toLowerCase() || ''
 		const name = error.name?.toLowerCase() || ''
@@ -417,8 +468,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Determine error severity
-   */
+	 * Automatically determine error severity based on error content
+	 * @private
+	 * @param {Error} error - The error to analyze
+	 * @returns {string} The determined error severity level
+	 */
 	determineSeverity(error) {
 		const message = error.message?.toLowerCase() || ''
 
@@ -438,8 +492,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Add error to history
-   */
+	 * Add error to history with automatic cleanup of old entries
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to add to history
+	 * @returns {void}
+	 */
 	addToHistory(error) {
 		this.errorHistory.unshift(error)
 
@@ -450,8 +507,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Log error to console
-   */
+	 * Log error to console with appropriate formatting and method
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to log
+	 * @returns {void}
+	 */
 	logError(error) {
 		const logMethod = this.getConsoleMethod(error.severity)
 		const prefix = `[${error.category.toUpperCase()}] [${error.severity.toUpperCase()}]`
@@ -460,8 +520,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Get appropriate console method for severity
-   */
+	 * Get appropriate console method based on error severity
+	 * @private
+	 * @param {string} severity - The error severity level
+	 * @returns {Function} The appropriate console method
+	 */
 	getConsoleMethod(severity) {
 		switch (severity) {
 			case ErrorSeverity.LOW: {
@@ -484,8 +547,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Show error notification to user
-   */
+	 * Display error notification to user with auto-hide functionality
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to display
+	 * @returns {void}
+	 */
 	showErrorNotification(error) {
 		if (!this.errorContainer) {
 			return
@@ -508,8 +574,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Create error notification element
-   */
+	 * Create DOM element for error notification
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to create notification for
+	 * @returns {HTMLElement} The created notification element
+	 */
 	createErrorNotification(error) {
 		const notification = document.createElement('div')
 		notification.className = `error-notification error-notification--${error.severity}`
@@ -539,14 +608,16 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Get user-friendly error title
-   */
+	 * Get user-friendly error title based on error category
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to get title for
+	 * @returns {string} User-friendly error title
+	 */
 	getErrorTitle(error) {
 		const titles = {
 			[ErrorCategory.VALIDATION]: 'Validation Error',
 			[ErrorCategory.NETWORK]: 'Network Error',
 			[ErrorCategory.RENDERING]: 'Display Error',
-
 			[ErrorCategory.FILE_SYSTEM]: 'File Error',
 			[ErrorCategory.TEMPLATE]: 'Template Error',
 			[ErrorCategory.CONFIGURATION]: 'Configuration Error',
@@ -557,8 +628,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Get user-friendly error message
-   */
+	 * Convert technical error messages to user-friendly descriptions
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to get message for
+	 * @returns {string} User-friendly error message
+	 */
 	getUserFriendlyMessage(error) {
 		// Map technical errors to user-friendly messages
 		const message = error.message.toLowerCase()
@@ -583,8 +657,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Get error details for display
-   */
+	 * Extract and format error details for display
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to get details for
+	 * @returns {string|null} Formatted error details or null if none
+	 */
 	getErrorDetails(error) {
 		if (!error.details || Object.keys(error.details).length === 0) {
 			return null
@@ -608,8 +685,11 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Hide error notification
-   */
+	 * Hide error notification with animation
+	 * @private
+	 * @param {HTMLElement} notification - The notification element to hide
+	 * @returns {void}
+	 */
 	hideErrorNotification(notification) {
 		notification.classList.remove('show')
 		notification.classList.add('hide')
@@ -622,147 +702,19 @@ export class ErrorHandler {
 	}
 
 	/**
-   * Report error to external service (if configured)
-   */
+	 * Report error to external service (currently just console logging)
+	 * @private
+	 * @param {ResumeBuilderError} error - The error to report
+	 * @returns {void}
+	 */
 	reportError(error) {
-		// This would integrate with error reporting services like Sentry, LogRocket, etc.
+		// Simple console logging for now
+		// This could be extended to integrate with services like Sentry, LogRocket, etc.
 		console.log('Error reported:', error.toJSON())
 	}
-
-	/**
-   * Clear all error notifications
-   */
-	clearAllNotifications() {
-		if (!this.errorContainer) {
-			return
-		}
-
-		const notifications = this.errorContainer.querySelectorAll('.error-notification')
-		for (const notification of notifications) {
-			this.hideErrorNotification(notification)
-		}
-	}
-
-	/**
-   * Get error statistics
-   */
-	getErrorStats() {
-		return {
-			total: this.errorHistory.length,
-			counts: {...this.errorCount},
-			recent: this.errorHistory.slice(0, 10),
-			categories: this.getErrorsByCategory(),
-			severities: this.getErrorsBySeverity(),
-		}
-	}
-
-	/**
-   * Get errors grouped by category
-   */
-	getErrorsByCategory() {
-		const categories = {}
-		for (const error of this.errorHistory) {
-			categories[error.category] = (categories[error.category] || 0) + 1
-		}
-
-		return categories
-	}
-
-	/**
-   * Get errors grouped by severity
-   */
-	getErrorsBySeverity() {
-		const severities = {}
-		for (const error of this.errorHistory) {
-			severities[error.severity] = (severities[error.severity] || 0) + 1
-		}
-
-		return severities
-	}
-
-	/**
-   * Reset error handler state
-   */
-	reset() {
-		this.errorHistory = []
-		this.errorCount = {
-			[ErrorSeverity.LOW]: 0,
-			[ErrorSeverity.MEDIUM]: 0,
-			[ErrorSeverity.HIGH]: 0,
-			[ErrorSeverity.CRITICAL]: 0,
-		}
-		this.clearAllNotifications()
-	}
 }
 
-// Export singleton instance
+// Export singleton instance for use throughout the application
 export const errorHandler = new ErrorHandler()
-
-// Export utility functions
-export const ErrorUtils = {
-	/**
-   * Create a validation error
-   */
-	createValidationError(message, field, value) {
-		return new ResumeBuilderError(
-			message,
-			ErrorCategory.VALIDATION,
-			ErrorSeverity.HIGH,
-			{field, value, type: 'validation'},
-		)
-	},
-
-	/**
-   * Create a network error
-   */
-	createNetworkError(message, url, status) {
-		return new ResumeBuilderError(
-			message,
-			ErrorCategory.NETWORK,
-			ErrorSeverity.MEDIUM,
-			{url, status, type: 'network'},
-		)
-	},
-
-	/**
-   * Create a rendering error
-   */
-	createRenderingError(message, template, data) {
-		return new ResumeBuilderError(
-			message,
-			ErrorCategory.RENDERING,
-			ErrorSeverity.MEDIUM,
-			{template, data, type: 'rendering'},
-		)
-	},
-
-	/**
-   * Wrap async function with error handling
-   */
-	wrapAsync(fn, context = 'Unknown operation') {
-		return async (...args) => {
-			try {
-				return await fn(...args)
-			} catch (error) {
-				errorHandler.handleError(error, {context, args})
-				throw error
-			}
-		}
-	},
-
-	/**
-   * Wrap function with error handling
-   */
-	wrap(fn, context = 'Unknown operation') {
-		return (...args) => {
-			try {
-				return fn(...args)
-			} catch (error) {
-				errorHandler.handleError(error, {context, args})
-				throw error
-			}
-		}
-	},
-}
 
 export default errorHandler

@@ -1,5 +1,14 @@
 /**
+ * @fileoverview Template Helper Functions
+ * Utility functions for date formatting and icon rendering in resume templates
+ * @author m-e-h
+ * @version 1.0.0
+ */
+
+/**
  * Helper function to format dates
+ * @param {string} dateString - Date string to format
+ * @returns {string} Formatted date string (e.g., "Jan 2020") or original string if invalid
  */
 export function formatDate(dateString) {
 	if (!dateString) {
@@ -8,7 +17,7 @@ export function formatDate(dateString) {
 
 	try {
 		const date = new Date(dateString)
-		if (isNaN(date.getTime())) {
+		if (Number.isNaN(date.getTime())) {
 			return dateString
 		}
 
@@ -20,6 +29,9 @@ export function formatDate(dateString) {
 
 /**
  * Helper function to format date ranges
+ * @param {string} startDate - Start date string
+ * @param {string} endDate - End date string (optional, "present" for current)
+ * @returns {string} Formatted date range (e.g., "Jan 2020 – Present" or "Jan 2020 – Dec 2022")
  */
 export function formatDateRange(startDate, endDate) {
 	if (!startDate) {
@@ -31,6 +43,11 @@ export function formatDateRange(startDate, endDate) {
 	return end === 'Present' || !endDate ? `${start} – ${end}` : `${start} – ${end}`
 }
 
+/**
+ * Helper function to render SVG icons
+ * @param {string} name - Icon name (e.g., 'mail', 'phone', 'github', 'linkedin', etc.)
+ * @returns {string} SVG markup for the specified icon, or empty string if icon not found
+ */
 export function icon(name) {
 	switch (name.toLowerCase()) {
 		case 'map-pin': {

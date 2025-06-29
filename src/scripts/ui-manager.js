@@ -12,51 +12,11 @@ export class UIManager {
 	}
 
 	/**
-   * Displays a loading indicator in the main app container.
-   */
-	showLoadingState() {
-		const loadingHTML = `
-      <div id="loading-state" class="loading-container">
-        <div class="loading-spinner"></div>
-        <p>Loading your resume...</p>
-      </div>
-    `
-		this.appContainer.innerHTML = loadingHTML
-	}
-
-	/**
-   * Hides the loading indicator.
-   */
-	hideLoadingState() {
-		const loadingElement = document.querySelector('#loading-state')
-		if (loadingElement) {
-			loadingElement.remove()
-		}
-	}
-
-	/**
-   * Creates the main container for the resume content if it doesn't exist.
-   * @returns {HTMLElement} The resume container element.
-   */
-	createResumeContainer() {
-		let container = document.querySelector('#resume-container')
-		if (!container) {
-			container = document.createElement('div')
-			container.id = 'resume-container'
-			container.className = 'resume-container'
-			document.body.append(container)
-		}
-
-		this.resumeContainer = container
-		return container
-	}
-
-	/**
-   * Sets up the template selector dropdown in the UI.
-   * @param {Array<object>} availableTemplates - A list of available template objects.
-   * @param {string} currentTemplateId - The ID of the currently active template.
-   * @param {Function} switchCallback - The function to call when a new template is selected.
-   */
+	 * Sets up the template selector dropdown in the UI.
+	 * @param {Array<object>} availableTemplates - A list of available template objects.
+	 * @param {string} currentTemplateId - The ID of the currently active template.
+	 * @param {Function} switchCallback - The function to call when a new template is selected.
+	 */
 	setupTemplateSelector(availableTemplates, currentTemplateId, switchCallback) {
 		if (availableTemplates.length <= 1) {
 			return
@@ -91,9 +51,9 @@ export class UIManager {
 	}
 
 	/**
-   * Sets up the print button in the UI.
-   * @param {Function} printCallback - The function to call when the print button is clicked.
-   */
+	 * Sets up the print button in the UI.
+	 * @param {Function} printCallback - The function to call when the print button is clicked.
+	 */
 	setupPrintButton(printCallback) {
 		const buttonContainer = document.createElement('div')
 		buttonContainer.id = 'action-buttons'
@@ -111,10 +71,10 @@ export class UIManager {
 	}
 
 	/**
-   * Renders the provided HTML into the resume container.
-   * @param {string} renderedHTML - The HTML string to render.
-   * @param {string} templateId - The ID of the current template.
-   */
+	 * Renders the provided HTML into the resume container.
+	 * @param {string} renderedHTML - The HTML string to render.
+	 * @param {string} templateId - The ID of the current template.
+	 */
 	renderTemplate(renderedHTML, templateId) {
 		const resumeContainerHTML = `
       <div id="resume-container" class="resume-container ${templateId}-template">
@@ -129,32 +89,9 @@ export class UIManager {
 	}
 
 	/**
-   * Displays a success message notification.
-   * @param {string} message - The message to display.
-   */
-	showSuccessMessage(message) {
-		const successMessage = document.createElement('div')
-		successMessage.className = 'success-message'
-
-		successMessage.innerHTML = `
-      <span>✅ ${message}</span>
-      <button onclick="this.parentElement.remove()" class="close-btn">×</button>
-    `
-
-		document.body.append(successMessage)
-
-		setTimeout(() => {
-			if (successMessage.parentElement) {
-				successMessage.classList.add('fade-out')
-				successMessage.addEventListener('animationend', () => successMessage.remove())
-			}
-		}, 4000)
-	}
-
-	/**
-   * Displays a fatal initialization error message.
-   * @param {Error} error - The error object.
-   */
+	 * Displays a fatal initialization error message.
+	 * @param {Error} error - The error object.
+	 */
 	showInitializationError(error) {
 		this.appContainer.innerHTML = `
       <div class="initialization-error">

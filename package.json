@@ -9,22 +9,9 @@
     "dev:modern": "VITE_RESUME_TEMPLATE=modern vite",
     "dev:minimal": "VITE_RESUME_TEMPLATE=minimal vite",
     "build": "vite build",
-    "build:classic": "VITE_RESUME_TEMPLATE=classic vite build",
-    "build:modern": "VITE_RESUME_TEMPLATE=modern vite build",
-    "build:minimal": "VITE_RESUME_TEMPLATE=minimal vite build",
-    "build:all": "VITE_BUILD_ALL_TEMPLATES=true vite build",
-    "build:prod": "NODE_ENV=production vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist node_modules/.vite",
-    "clean:all": "rm -rf dist node_modules/.vite node_modules",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --ci --coverage --watchAll=false",
-    "validate:json": "node scripts/validate-resume.js",
-    "validate:templates": "node scripts/validate-templates.js",
-    "start": "npm run dev",
-    "postinstall": "echo 'Dependencies installed successfully. Run npm run dev to start development server.'"
+    "clean:all": "rm -rf dist node_modules/.vite node_modules"
   },
   "keywords": [
     "resume",
@@ -37,18 +24,16 @@
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "autoprefixer": "^10.4.21",
+    "eslint": "^9.30.0",
+    "eslint-config-xo": "^0.47.0",
     "jest": "^30.0.3",
     "jest-environment-jsdom": "^30.0.2",
     "postcss": "^8.5.6",
     "sass": "^1.89.2",
-    "vite": "^5.2.0",
-    "xo": "^1.1.1"
+    "vite": "^5.2.0"
   },
   "dependencies": {
     "@jsonresume/schema": "^1.2.1"
-  },
-  "xo": {
-    "semicolon": false
   },
   "jest": {
     "testEnvironment": "jsdom",

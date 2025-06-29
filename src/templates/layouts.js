@@ -1,6 +1,8 @@
 /**
- * Resume Template Layouts
+ * @fileoverview Resume Template Layouts
  * Functions that compose components into complete resume templates
+ * @author m-e-h
+ * @version 1.0.0
  */
 
 import {
@@ -21,6 +23,9 @@ import {
 
 /**
  * Minimal Clean Template Layout
+ * A simple, single-column layout that displays all sections in a clean, minimal style
+ * @param {Object} data - Resume data object containing all resume information
+ * @returns {string} HTML string for the minimal template layout
  */
 export function minimalTemplate(data) {
 	return `
@@ -44,6 +49,9 @@ export function minimalTemplate(data) {
 
 /**
  * Classic Professional Template Layout
+ * A two-column layout with main content on the left and supplementary information on the right
+ * @param {Object} data - Resume data object containing all resume information
+ * @returns {string} HTML string for the classic template layout
  */
 export function classicTemplate(data) {
 	return `
@@ -75,6 +83,9 @@ export function classicTemplate(data) {
 
 /**
  * Modern Professional Template Layout
+ * A modern single-column layout with skills and qualifications prominently displayed at the top
+ * @param {Object} data - Resume data object containing all resume information
+ * @returns {string} HTML string for the modern template layout
  */
 export function modernTemplate(data) {
 	return `
@@ -98,8 +109,15 @@ export function modernTemplate(data) {
 
 /**
  * Get template function by ID
+ * Returns the appropriate template function based on the provided template ID
+ * @param {string} templateId - The ID of the template to retrieve ('minimal', 'classic', or 'modern')
+ * @returns {Function} Template function that accepts data and returns HTML string
+ * @example
+ * const templateFunc = getTemplateFunction('minimal');
+ * const html = templateFunc(resumeData);
  */
 export function getTemplateFunction(templateId) {
+	/** @type {Object<string, Function>} Map of template IDs to their corresponding functions */
 	const templates = {
 		minimal: minimalTemplate,
 		classic: classicTemplate,

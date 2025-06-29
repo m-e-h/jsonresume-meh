@@ -1,6 +1,12 @@
 /**
- * Data Processor for JSON Resume
- * Handles reading, parsing, validation, and processing of resume.json
+ * Data Processor Module for JSON Resume
+ * Handles reading, parsing, validation, and processing of resume.json files
+ *
+ * @fileoverview This module provides data processing capabilities for JSON Resume format
+ * @module DataProcessor
+ * @requires @jsonresume/schema - Official JSON Resume schema validation
+ * @requires fetch - Browser Fetch API for loading resume files
+ * @requires performance - Browser Performance API for timing measurements
  */
 
 import {validate as validateResume} from '@jsonresume/schema'
@@ -8,15 +14,31 @@ import {validate as validateResume} from '@jsonresume/schema'
 /**
  * Data Processor Class
  * Manages all resume data operations including loading, validation, and basic processing
+ * @class
  */
 class DataProcessor {
+	/**
+	 * Create a new DataProcessor instance
+	 * @constructor
+	 */
 	constructor() {
+		/** @type {Object|null} Currently loaded resume data */
 		this.resumeData = null
+
+		/** @type {boolean} Whether resume data has been successfully loaded */
 		this.isLoaded = false
+
+		/** @type {string|null} Last modified timestamp from HTTP headers */
 		this.lastModified = null
+
+		/** @type {Object|null} Result of resume data validation */
 		this.validationResult = null
 
-		// Default values for missing optional fields
+		/**
+		 * Default values for missing optional fields in resume data
+		 * @type {Object}
+		 * @readonly
+		 */
 		this.defaultValues = {
 			basics: {
 				name: '',
@@ -44,17 +66,20 @@ class DataProcessor {
 				lastModified: new Date().toISOString(),
 			},
 		}
-
-		console.log('📊 Data Processor initialized')
 	}
 
 	/**
-   * Load resume data from file
-   * @param {string} filePath - Path to resume.json file (defaults to /resume.json)
-   * @returns {Promise<Object>} Processed resume data
-   * @description If resume.json is not found (404) or if dev server returns HTML instead of JSON,
-   *              automatically falls back to sample.resume.json
-   */
+	 * Load resume data from file with automatic fallback to sample data
+	 * @param {string} [filePath='/resume.json'] - Path to resume.json file
+	 * @returns {Promise<Object>} Promise that resolves to processed resume data object
+	 * @throws {DataProcessorError} When file loading or processing fails
+	 * @description If resume.json is not found (404) or if dev server returns HTML instead of JSON,
+	 *              automatically falls back to sample.resume.json
+	 * @example
+	 * const processor = new DataProcessor();
+	 * const result = await processor.loadResumeData('/my-resume.json');
+	 * console.log(result.data, result.validation, result.metadata);
+	 */
 	async loadResumeData(filePath = '/resume.json') {
 		try {
 			console.log(`📄 Loading resume data from ${filePath}...`)
@@ -130,10 +155,14 @@ class DataProcessor {
 	}
 
 	/**
-   * Process and validate resume data
-   * @param {Object} rawData - Raw resume data from JSON file
-   * @returns {Promise<Object>} Processed and validated resume data
-   */
+	 * Process and validate resume data against JSON Resume schema
+	 * @param {Object} rawData - Raw resume data from JSON file
+	 * @returns {Promise<Object>} Promise that resolves to processed data with validation results
+	 * @throws {DataProcessorError} When data processing fails
+	 * @example
+	 * const result = await processor.processResumeData(jsonData);
+	 * // result = { data: {...}, validation: {...}, metadata: {...} }
+	 */
 	async processResumeData(rawData) {
 		try {
 			console.log('🔍 Processing and validating resume data...')
@@ -174,7 +203,14 @@ class DataProcessor {
 	/**
 	 * Validate resume data using official @jsonresume/schema package
 	 * @param {Object} resumeData - The resume data to validate
-	 * @returns {Promise<Object>} Validation result with isValid flag and errors
+	 * @returns {Promise<Object>} Promise that resolves to validation result object
+	 * @example
+	 * const validation = await processor.validateResumeData(resumeData);
+	 * if (validation.isValid) {
+	 *   console.log('Resume is valid!');
+	 * } else {
+	 *   console.log('Validation errors:', validation.errors);
+	 * }
 	 */
 	validateResumeData(resumeData) {
 		const startTime = performance.now()
@@ -201,9 +237,11 @@ class DataProcessor {
 	}
 
 	/**
-	 * Apply default values for missing optional fields
-	 * @param {Object} data - Raw resume data
-	 * @returns {Object} Data with defaults applied
+	 * Apply default values for missing optional fields in resume data
+	 * @param {Object} data - Raw resume data that may have missing fields
+	 * @returns {Object} Resume data with default values applied for missing fields
+	 * @example
+	 * const resumeWithDefaults = processor.applyDefaults(incompleteResumeData);
 	 */
 	applyDefaults(data) {
 		if (!data || typeof data !== 'object') {
@@ -236,69 +274,53 @@ class DataProcessor {
 
 		return result
 	}
-
-	/**
-   * Get current resume data
-   * @returns {Object|null} Current resume data or null if not loaded
-   */
-	getResumeData() {
-		return this.resumeData
-	}
-
-	/**
-   * Get validation result
-   * @returns {Object|null} Validation result or null if not validated
-   */
-	getValidationResult() {
-		return this.validationResult
-	}
-
-	/**
-   * Check if data is loaded
-   * @returns {boolean} Whether data is loaded
-   */
-	isDataLoaded() {
-		return this.isLoaded
-	}
-
-	/**
-   * Reload resume data
-   * @param {string} filePath - Optional file path
-   * @returns {Promise<Object>} Reloaded resume data
-   */
-	async reload(filePath) {
-		console.log('🔄 Reloading resume data...')
-		this.isLoaded = false
-		this.resumeData = null
-		this.validationResult = null
-
-		return this.loadResumeData(filePath)
-	}
-
-	/**
-   * Clean up resources
-   */
-	cleanup() {
-		this.resumeData = null
-		this.isLoaded = false
-		this.validationResult = null
-	}
 }
 
 /**
- * Custom error class for data processor errors
+ * Custom error class for data processor specific errors
+ * @class
+ * @extends Error
  */
 class DataProcessorError extends Error {
+	/**
+	 * Create a new DataProcessorError
+	 * @param {string} message - The error message
+	 * @param {string} code - Error code for categorization
+	 * @param {Object} [details={}] - Additional error details and context
+	 * @example
+	 * throw new DataProcessorError('File not found', 'FILE_NOT_FOUND', {path: '/resume.json'});
+	 */
 	constructor(message, code, details = {}) {
 		super(message)
+
+		/** @type {string} Error name identifier */
 		this.name = 'DataProcessorError'
+
+		/** @type {string} Error code for categorization and handling */
 		this.code = code
+
+		/** @type {Object} Additional error details and context */
 		this.details = details
+
+		/** @type {string} ISO timestamp when error occurred */
 		this.timestamp = new Date().toISOString()
 	}
 }
 
-// Export singleton instance and class
+/**
+ * Singleton instance of DataProcessor for use throughout the application
+ * @type {DataProcessor}
+ * @example
+ * import { dataProcessor } from './data-processor.js';
+ * const result = await dataProcessor.loadResumeData();
+ */
 export const dataProcessor = new DataProcessor()
+
+// Export class and error for direct usage
 export {DataProcessor, DataProcessorError}
+
+/**
+ * Default export of the singleton DataProcessor instance
+ * @type {DataProcessor}
+ */
 export default dataProcessor
