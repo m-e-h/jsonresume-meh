@@ -3,7 +3,7 @@ import {formatDateRange} from '../utils/helpers.js'
 /**
  * Education component
  */
-export function Education({education = []}) {
+export function education({education = []}) {
 	if (education.length === 0) {
 		return ''
 	}

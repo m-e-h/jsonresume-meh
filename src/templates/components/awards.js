@@ -3,7 +3,7 @@ import {formatDate} from '../utils/helpers.js'
 /**
  * Awards component
  */
-export function Awards({awards = []}) {
+export function awards({awards = []}) {
 	if (awards.length === 0) {
 		return ''
 	}

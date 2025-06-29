@@ -1,7 +1,7 @@
 /**
  * Languages component
  */
-export function Languages({languages = []}) {
+export function languages({languages = []}) {
 	if (languages.length === 0) {
 		return ''
 	}

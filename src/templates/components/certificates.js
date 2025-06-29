@@ -3,7 +3,7 @@ import {formatDate} from '../utils/helpers.js'
 /**
  * Certificates component
  */
-export function Certificates({certificates = []}) {
+export function certificates({certificates = []}) {
 	if (certificates.length === 0) {
 		return ''
 	}

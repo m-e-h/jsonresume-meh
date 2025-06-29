@@ -3,7 +3,7 @@ import {formatDateRange} from '../utils/helpers.js'
 /**
  * Volunteer Experience component
  */
-export function VolunteerExperience({volunteer = []}) {
+export function volunteerExperience({volunteer = []}) {
 	if (volunteer.length === 0) {
 		return ''
 	}

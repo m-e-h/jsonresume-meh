@@ -3,7 +3,7 @@ import {formatDateRange} from '../utils/helpers.js'
 /**
  * Projects component
  */
-export function Projects({projects = []}) {
+export function projects({projects = []}) {
 	if (projects.length === 0) {
 		return ''
 	}

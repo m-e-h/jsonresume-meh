@@ -1,9 +1,9 @@
 /**
  * Header component with contact information
  */
-import {Icon} from '../utils/helpers.js'
+import {icon} from '../utils/helpers.js'
 
-export function Header({basics = {}}) {
+export function header({basics = {}}) {
 	const {name, label, email, phone, url, location = {}, profiles = []} = basics
 
 	return `
@@ -24,7 +24,7 @@ export function Header({basics = {}}) {
           ${email
 				? `
             <div class="contact-item">
-              <span class="contact-label icon">${Icon('mail')}</span>
+              <span class="contact-label icon">${icon('mail')}</span>
               <a href="mailto:${email}" class="contact-value">${email}</a>
             </div>
           `
@@ -33,7 +33,7 @@ export function Header({basics = {}}) {
           ${phone
 				? `
             <div class="contact-item">
-              <span class="contact-label icon">${Icon('phone')}</span>
+              <span class="contact-label icon">${icon('phone')}</span>
               <span class="contact-value">${phone}</span>
             </div>
           `
@@ -42,7 +42,7 @@ export function Header({basics = {}}) {
           ${url
 				? `
             <div class="contact-item">
-              <span class="contact-label icon">${Icon('globe')}</span>
+              <span class="contact-label icon">${icon('globe')}</span>
               <a href="${url}" class="contact-value" target="_blank">${url}</a>
             </div>
           `
@@ -51,7 +51,7 @@ export function Header({basics = {}}) {
           ${location.city || location.region
 				? `
             <div class="contact-item">
-              <span class="contact-label icon">${Icon('map-pin')}</span>
+              <span class="contact-label icon">${icon('map-pin')}</span>
               <span class="contact-value">
                 ${[location.city, location.region, location.countryCode].filter(Boolean).join(', ')}
               </span>
@@ -65,7 +65,7 @@ export function Header({basics = {}}) {
           <div class="social-profiles">
             ${profiles.map(profile => `
               <a href="${profile.url}" class="profile-link" target="_blank">
-                <span class="icon icon-${profile.network} profile-network">${Icon(profile.network)}</span>
+                <span class="icon icon-${profile.network} profile-network">${icon(profile.network)}</span>
                 ${profile.username ? ` ${profile.username}` : ''}
               </a>
             `).join('')}

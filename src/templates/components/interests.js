@@ -1,7 +1,7 @@
 /**
  * Interests component
  */
-export function Interests({interests = []}) {
+export function interests({interests = []}) {
 	if (interests.length === 0) {
 		return ''
 	}

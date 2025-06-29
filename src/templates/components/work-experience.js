@@ -3,7 +3,7 @@ import {formatDateRange} from '../utils/helpers.js'
 /**
  * Work Experience component
  */
-export function WorkExperience({work = []}) {
+export function workExperience({work = []}) {
 	if (work.length === 0) {
 		return ''
 	}

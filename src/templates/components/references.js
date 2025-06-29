@@ -1,7 +1,7 @@
 /**
  * References component
  */
-export function References({references = []}) {
+export function references({references = []}) {
 	if (references.length === 0) {
 		return ''
 	}

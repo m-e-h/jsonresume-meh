@@ -1,7 +1,7 @@
 /**
  * Summary component
  */
-export function Summary({basics = {}}) {
+export function summary({basics = {}}) {
 	if (!basics.summary) {
 		return ''
 	}

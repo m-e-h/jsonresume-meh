@@ -3,7 +3,7 @@ import {formatDate} from '../utils/helpers.js'
 /**
  * Publications component
  */
-export function Publications({publications = []}) {
+export function publications({publications = []}) {
 	if (publications.length === 0) {
 		return ''
 	}

@@ -4,40 +4,40 @@
  */
 
 import {
-	Header,
-	Summary,
-	WorkExperience,
-	Education,
-	Skills,
-	Languages,
-	VolunteerExperience,
-	Publications,
-	Awards,
-	Certificates,
-	Projects,
-	References,
-	Interests,
+	header,
+	summary,
+	workExperience,
+	education,
+	skills,
+	languages,
+	volunteerExperience,
+	publications,
+	awards,
+	certificates,
+	projects,
+	references,
+	interests,
 } from './components/index.js'
 
 /**
  * Minimal Clean Template Layout
  */
-export function MinimalTemplate(data) {
+export function minimalTemplate(data) {
 	return `
     <div class="resume-wrap">
-      ${Header(data)}
-      ${Summary(data)}
-      ${WorkExperience(data)}
-      ${Skills(data)}
-      ${Projects(data)}
-      ${Education(data)}
-      ${VolunteerExperience(data)}
-      ${Publications(data)}
-      ${Languages(data)}
-      ${Awards(data)}
-      ${Certificates(data)}
-      ${References(data)}
-      ${Interests(data)}
+      ${header(data)}
+      ${summary(data)}
+      ${workExperience(data)}
+      ${skills(data)}
+      ${projects(data)}
+      ${education(data)}
+      ${volunteerExperience(data)}
+      ${publications(data)}
+      ${languages(data)}
+      ${awards(data)}
+      ${certificates(data)}
+      ${references(data)}
+      ${interests(data)}
     </div>
   `
 }
@@ -45,28 +45,28 @@ export function MinimalTemplate(data) {
 /**
  * Classic Professional Template Layout
  */
-export function ClassicTemplate(data) {
+export function classicTemplate(data) {
 	return `
     <div class="resume-wrap">
-      ${Header(data)}
+      ${header(data)}
 
       <main class="resume-main">
         <div class="left-column">
-          ${Summary(data)}
-          ${WorkExperience(data)}
-          ${Projects(data)}
-          ${Education(data)}
+          ${summary(data)}
+          ${workExperience(data)}
+          ${projects(data)}
+          ${education(data)}
         </div>
 
         <div class="right-column">
-          ${Skills(data)}
-          ${Languages(data)}
-          ${Certificates(data)}
-          ${Awards(data)}
-          ${Publications(data)}
-          ${VolunteerExperience(data)}
-          ${References(data)}
-          ${Interests(data)}
+          ${skills(data)}
+          ${languages(data)}
+          ${certificates(data)}
+          ${awards(data)}
+          ${publications(data)}
+          ${volunteerExperience(data)}
+          ${references(data)}
+          ${interests(data)}
         </div>
       </main>
     </div>
@@ -76,22 +76,22 @@ export function ClassicTemplate(data) {
 /**
  * Modern Professional Template Layout
  */
-export function ModernTemplate(data) {
+export function modernTemplate(data) {
 	return `
     <div class="resume-wrap">
-      ${Header(data)}
-      ${Skills(data)}
-      ${Languages(data)}
-      ${Certificates(data)}
-      ${Interests(data)}
-      ${Summary(data)}
-      ${WorkExperience(data)}
-      ${Projects(data)}
-      ${VolunteerExperience(data)}
-      ${Education(data)}
-      ${Publications(data)}
-      ${Awards(data)}
-      ${References(data)}
+      ${header(data)}
+      ${skills(data)}
+      ${languages(data)}
+      ${certificates(data)}
+      ${interests(data)}
+      ${summary(data)}
+      ${workExperience(data)}
+      ${projects(data)}
+      ${volunteerExperience(data)}
+      ${education(data)}
+      ${publications(data)}
+      ${awards(data)}
+      ${references(data)}
     </div>
   `
 }
@@ -101,10 +101,10 @@ export function ModernTemplate(data) {
  */
 export function getTemplateFunction(templateId) {
 	const templates = {
-		minimal: MinimalTemplate,
-		classic: ClassicTemplate,
-		modern: ModernTemplate,
+		minimal: minimalTemplate,
+		classic: classicTemplate,
+		modern: modernTemplate,
 	}
 
-	return templates[templateId] || templates.classic
+	return templates[templateId] || templates.minimal
 }

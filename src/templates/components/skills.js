@@ -1,7 +1,7 @@
 /**
  * Skills component
  */
-export function Skills({skills = []}) {
+export function skills({skills = []}) {
 	if (skills.length === 0) {
 		return ''
 	}
