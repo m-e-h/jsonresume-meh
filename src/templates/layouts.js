@@ -18,7 +18,7 @@ import {
 	certificates,
 	projects,
 	references,
-	interests,
+	interests
 } from './components/index.js'
 
 /**
@@ -121,7 +121,7 @@ export function getTemplateFunction(templateId) {
 	const templates = {
 		minimal: minimalTemplate,
 		classic: classicTemplate,
-		modern: modernTemplate,
+		modern: modernTemplate
 	}
 
 	return templates[templateId] || templates.minimal

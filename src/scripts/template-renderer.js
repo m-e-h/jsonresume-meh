@@ -88,7 +88,7 @@ export class TemplateRenderer {
 				this.templates.set(template.id, {
 					...template,
 					templateFunction: getTemplateFunction(template.id),
-					loaded: true,
+					loaded: true
 				})
 			}
 		} catch (error) {
@@ -105,7 +105,7 @@ export class TemplateRenderer {
 			id: template.id,
 			name: template.name,
 			description: template.description,
-			preview: template.preview,
+			preview: template.preview
 		}))
 	}
 
@@ -174,25 +174,25 @@ export class TemplateRenderer {
 			// Process work experience dates
 			processedData.work &&= processedData.work.map(job => ({
 				...job,
-				formattedDates: formatDateRange(job.startDate, job.endDate),
+				formattedDates: formatDateRange(job.startDate, job.endDate)
 			}))
 
 			// Process education dates
 			processedData.education &&= processedData.education.map(edu => ({
 				...edu,
-				formattedDates: formatDateRange(edu.startDate, edu.endDate),
+				formattedDates: formatDateRange(edu.startDate, edu.endDate)
 			}))
 
 			// Process project dates
 			processedData.projects &&= processedData.projects.map(project => ({
 				...project,
-				formattedDates: formatDateRange(project.startDate, project.endDate),
+				formattedDates: formatDateRange(project.startDate, project.endDate)
 			}))
 
 			// Process volunteer dates
 			processedData.volunteer &&= processedData.volunteer.map(vol => ({
 				...vol,
-				formattedDates: formatDateRange(vol.startDate, vol.endDate),
+				formattedDates: formatDateRange(vol.startDate, vol.endDate)
 			}))
 
 			return processedData

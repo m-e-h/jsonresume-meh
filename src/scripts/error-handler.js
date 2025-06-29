@@ -23,7 +23,7 @@ export const ErrorSeverity = {
 	/** High priority errors - significant issues */
 	HIGH: 'high',
 	/** Critical errors - application breaking */
-	CRITICAL: 'critical',
+	CRITICAL: 'critical'
 }
 
 /**
@@ -45,7 +45,7 @@ export const ErrorCategory = {
 	/** Configuration and setup errors */
 	CONFIGURATION: 'configuration',
 	/** Uncategorized errors */
-	UNKNOWN: 'unknown',
+	UNKNOWN: 'unknown'
 }
 
 /**
@@ -100,7 +100,7 @@ export class ResumeBuilderError extends Error {
 			timestamp: this.timestamp,
 			userAgent: this.userAgent,
 			url: this.url,
-			stack: this.stack,
+			stack: this.stack
 		}
 	}
 }
@@ -128,7 +128,7 @@ export class ErrorHandler {
 			enableErrorReporting: false,
 			maxErrorsToStore: 50,
 			autoHideDelay: 5000,
-			...options,
+			...options
 		}
 
 		/** @type {ResumeBuilderError[]} Array of recent errors for debugging */
@@ -145,7 +145,7 @@ export class ErrorHandler {
 			[ErrorSeverity.LOW]: 0,
 			[ErrorSeverity.MEDIUM]: 0,
 			[ErrorSeverity.HIGH]: 0,
-			[ErrorSeverity.CRITICAL]: 0,
+			[ErrorSeverity.CRITICAL]: 0
 		}
 
 		this.init()
@@ -215,8 +215,8 @@ export class ErrorHandler {
 				{
 					reason: event.reason,
 					promise: event.promise,
-					type: 'unhandledrejection',
-				},
+					type: 'unhandledrejection'
+				}
 			))
 		})
 
@@ -231,8 +231,8 @@ export class ErrorHandler {
 					lineno: event.lineno,
 					colno: event.colno,
 					error: event.error,
-					type: 'javascript',
-				},
+					type: 'javascript'
+				}
 			))
 		})
 
@@ -246,8 +246,8 @@ export class ErrorHandler {
 					{
 						tagName: event.target.tagName,
 						src: event.target.src || event.target.href,
-						type: 'resource',
-					},
+						type: 'resource'
+					}
 				))
 			}
 		}, true)
@@ -407,7 +407,7 @@ export class ErrorHandler {
 				error.message || 'Unknown error occurred',
 				this.categorizeError(error),
 				this.determineSeverity(error),
-				{originalError: error, ...context},
+				{originalError: error, ...context}
 			)
 
 		// Add to error history
@@ -621,7 +621,7 @@ export class ErrorHandler {
 			[ErrorCategory.FILE_SYSTEM]: 'File Error',
 			[ErrorCategory.TEMPLATE]: 'Template Error',
 			[ErrorCategory.CONFIGURATION]: 'Configuration Error',
-			[ErrorCategory.UNKNOWN]: 'Application Error',
+			[ErrorCategory.UNKNOWN]: 'Application Error'
 		}
 
 		return titles[error.category] || 'Error'

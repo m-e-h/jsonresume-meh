@@ -135,7 +135,7 @@ class ResumeBuilder {
 			this.uiManager.setupTemplateSelector(
 				availableTemplates,
 				this.currentTemplate.id,
-				this.switchTemplate.bind(this),
+				this.switchTemplate.bind(this)
 			)
 		}
 
@@ -227,7 +227,7 @@ class ResumeBuilder {
 		// Use the centralized error handler
 		return errorHandler.handleError(error, {
 			component: 'ResumeBuilder',
-			...context,
+			...context
 		})
 	}
 }

@@ -47,7 +47,7 @@ class DataProcessor {
 				phone: '',
 				summary: '',
 				location: {},
-				profiles: [],
+				profiles: []
 			},
 			work: [],
 			volunteer: [],
@@ -63,8 +63,8 @@ class DataProcessor {
 			meta: {
 				canonical: '',
 				version: '1.0.0',
-				lastModified: new Date().toISOString(),
-			},
+				lastModified: new Date().toISOString()
+			}
 		}
 	}
 
@@ -108,7 +108,7 @@ class DataProcessor {
 				throw new DataProcessorError(
 					`Failed to load resume file: ${response.status} ${response.statusText}`,
 					'FILE_LOAD_ERROR',
-					{status: response.status, filePath},
+					{status: response.status, filePath}
 				)
 			}
 
@@ -134,7 +134,7 @@ class DataProcessor {
 				throw new DataProcessorError(
 					`Invalid JSON format in resume file: ${error.message}`,
 					'JSON_PARSE_ERROR',
-					{originalError: error.message},
+					{originalError: error.message}
 				)
 			}
 
@@ -142,14 +142,14 @@ class DataProcessor {
 				throw new DataProcessorError(
 					`Network error loading resume file: ${error.message}`,
 					'NETWORK_ERROR',
-					{originalError: error.message},
+					{originalError: error.message}
 				)
 			}
 
 			throw new DataProcessorError(
 				`Unexpected error loading resume data: ${error.message}`,
 				'UNKNOWN_ERROR',
-				{originalError: error.message},
+				{originalError: error.message}
 			)
 		}
 	}
@@ -188,14 +188,14 @@ class DataProcessor {
 					loadedAt: new Date().toISOString(),
 					lastModified: this.lastModified,
 					processingTime: Math.round(processTime),
-					isValid: this.validationResult.isValid,
-				},
+					isValid: this.validationResult.isValid
+				}
 			}
 		} catch (error) {
 			throw new DataProcessorError(
 				`Error processing resume data: ${error.message}`,
 				'DATA_PROCESSING_ERROR',
-				{originalError: error.message},
+				{originalError: error.message}
 			)
 		}
 	}
@@ -224,7 +224,7 @@ class DataProcessor {
 					isValid: isValid === true,
 					errors: errors || [],
 					validationTime,
-					schema: 'JSON Resume Schema (Official @jsonresume/schema)',
+					schema: 'JSON Resume Schema (Official @jsonresume/schema)'
 				}
 
 				if (result.errors.length > 0) {
@@ -264,7 +264,7 @@ class DataProcessor {
 				// Merge defaults for object sections
 				result[section] = {
 					...this.defaultValues[section],
-					...result[section],
+					...result[section]
 				}
 			}
 		}
