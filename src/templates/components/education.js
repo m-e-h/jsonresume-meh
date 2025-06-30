@@ -10,7 +10,7 @@ export function education({education = []}) {
 
 	return `
     <section class="section education-section">
-      <h3 class="section-title keep-with-next">Education</h3>
+      <h3 class="section-title">Education</h3>
       <div class="section-content">
         ${education.map(edu => educationItem(edu)).join('')}
       </div>

@@ -10,7 +10,7 @@ export function workExperience({work = []}) {
 
 	return `
     <section class="section work-section">
-      <h3 class="section-title keep-with-next">Experience</h3>
+      <h3 class="section-title">Experience</h3>
       <div class="section-content">
         ${work.map(job => workItem(job)).join('')}
       </div>

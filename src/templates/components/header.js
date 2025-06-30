@@ -23,10 +23,10 @@ export function header({basics = {}}) {
         <div class="contact-info">
           ${email
 				? `
-            <div class="contact-item">
+            <a href="mailto:${email}" class="contact-item">
               <span class="contact-label icon">${icon('mail')}</span>
-              <a href="mailto:${email}" class="contact-value">${email}</a>
-            </div>
+              <span class="contact-value">${email}</span>
+            </a>
           `
 				: ''}
 
@@ -66,7 +66,7 @@ export function header({basics = {}}) {
             ${profiles.map(profile => `
               <a href="${profile.url}" class="profile-link" target="_blank">
                 <span class="icon icon-${profile.network} profile-network">${icon(profile.network)}</span>
-                ${profile.username ? ` ${profile.username}` : ''}
+                <span class="profile-username">${profile.username ? ` ${profile.username}` : ''}</span>
               </a>
             `).join('')}
           </div>
