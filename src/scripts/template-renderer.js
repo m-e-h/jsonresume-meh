@@ -23,13 +23,9 @@ export class TemplateRenderError extends Error {
 	 */
 	constructor(message, template = null, data = null) {
 		super(message)
-		/** @type {string} */
 		this.name = 'TemplateRenderError'
-		/** @type {string|null} */
 		this.template = template
-		/** @type {Object|null} */
 		this.data = data
-		/** @type {string} */
 		this.timestamp = new Date().toISOString()
 	}
 }
@@ -44,13 +40,8 @@ export class TemplateRenderer {
 	 * Creates an instance of TemplateRenderer
 	 */
 	constructor() {
-		/** @type {Map<string, Object>} */
 		this.templates = new Map()
-		/** @type {Object|null} */
 		this.currentTemplate = null
-		/** @type {Map<string, string>} */
-		this.templateCache = new Map()
-		/** @type {boolean} */
 		this.isInitialized = false
 	}
 

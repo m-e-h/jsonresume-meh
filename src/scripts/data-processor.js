@@ -22,16 +22,7 @@ class DataProcessor {
 	 * @constructor
 	 */
 	constructor() {
-		/** @type {Object|null} Currently loaded resume data */
-		this.resumeData = null
-
-		/** @type {boolean} Whether resume data has been successfully loaded */
-		this.isLoaded = false
-
-		/** @type {string|null} Last modified timestamp from HTTP headers */
 		this.lastModified = null
-
-		/** @type {Object|null} Result of resume data validation */
 		this.validationResult = null
 
 		/**
@@ -113,8 +104,7 @@ class DataProcessor {
 			}
 
 			// Get the last modified timestamp
-			this.lastModified
-        = response.headers.get('last-modified') || new Date().toISOString()
+			this.lastModified = response.headers.get('last-modified') || new Date().toISOString()
 
 			// Parse JSON
 			const rawData = await response.json()
@@ -173,10 +163,6 @@ class DataProcessor {
 
 			// Validate the data against JSON Resume schema
 			this.validationResult = await this.validateResumeData(processedData)
-
-			// Store the processed data
-			this.resumeData = processedData
-			this.isLoaded = true
 
 			const processTime = performance.now() - startTime
 			console.log(`✅ Resume data processed in ${Math.round(processTime)}ms`)

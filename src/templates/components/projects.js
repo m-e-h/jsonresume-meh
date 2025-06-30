@@ -12,7 +12,7 @@ export function projects({projects = []}) {
     <section class="section projects-section">
       <h3 class="section-title">Projects</h3>
       <div class="section-content">
-        ${projects.map(project => ProjectItem(project)).join('')}
+        ${projects.map(project => projectItem(project)).join('')}
       </div>
     </section>
   `
@@ -21,11 +21,11 @@ export function projects({projects = []}) {
 /**
  * Individual project item component
  */
-function ProjectItem(project) {
+function projectItem(project) {
 	const {name, description, highlights = [], url, startDate, endDate, roles = [], entity, type, formattedDates} = project
 
 	return `
-    <div class="project-item section-item page-break-inside-avoid">
+    <div class="project-item section-item">
       <div class="project-header item-header">
         <div class="item-header-left">
           <h4 class="project-name item-title">

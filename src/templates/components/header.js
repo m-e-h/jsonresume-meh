@@ -7,7 +7,7 @@ export function header({basics = {}}) {
 	const {name, label, email, phone, url, location = {}, profiles = []} = basics
 
 	return `
-    <header class="resume-header page-break-inside-avoid">
+    <header class="resume-header">
       ${basics.image
 			? `
         <div class="profile-image">

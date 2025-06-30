@@ -7,7 +7,7 @@ export function summary({basics = {}}) {
 	}
 
 	return `
-    <section class="section summary-section page-break-inside-avoid">
+    <section class="section summary-section">
       <h3 class="section-title keep-with-next">Summary</h3>
       <div class="section-content">
         <p class="summary-text">${basics.summary}</p>

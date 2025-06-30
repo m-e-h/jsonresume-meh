@@ -12,7 +12,7 @@ export function workExperience({work = []}) {
     <section class="section work-section">
       <h3 class="section-title keep-with-next">Experience</h3>
       <div class="section-content">
-        ${work.map(job => WorkItem(job)).join('')}
+        ${work.map(job => workItem(job)).join('')}
       </div>
     </section>
   `
@@ -21,11 +21,11 @@ export function workExperience({work = []}) {
 /**
  * Individual work item component
  */
-function WorkItem(job) {
+function workItem(job) {
 	const {position, name, url, startDate, endDate, summary, location, highlights = [], formattedDates} = job
 
 	return `
-    <div class="work-item section-item experience-item page-break-inside-avoid">
+    <div class="work-item section-item experience-item">
       <div class="work-header item-header">
         <div class="item-header-left">
           <h4 class="work-company item-title">

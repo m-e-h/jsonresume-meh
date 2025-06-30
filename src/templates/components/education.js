@@ -12,7 +12,7 @@ export function education({education = []}) {
     <section class="section education-section">
       <h3 class="section-title keep-with-next">Education</h3>
       <div class="section-content">
-        ${education.map(edu => EducationItem(edu)).join('')}
+        ${education.map(edu => educationItem(edu)).join('')}
       </div>
     </section>
   `
@@ -21,11 +21,11 @@ export function education({education = []}) {
 /**
  * Individual education item component
  */
-function EducationItem(edu) {
+function educationItem(edu) {
 	const {institution, url, area, studyType, startDate, endDate, score, courses = [], formattedDates} = edu
 
 	return `
-    <div class="education-item page-break-inside-avoid">
+    <div class="education-item">
       <div class="education-header item-header">
         <div class="item-header-left">
           <h4 class="education-degree item-title">

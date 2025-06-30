@@ -8,7 +8,6 @@
 import {getSelectedTemplate, templateConfig} from '@config'
 import {DataProcessor} from './scripts/data-processor.js'
 import {TemplateRenderer} from './scripts/template-renderer.js'
-import {errorHandler} from './scripts/error-handler.js'
 import {UIManager} from './scripts/ui-manager.js'
 import './styles/resume.css'
 
@@ -23,21 +22,10 @@ class ResumeBuilder {
 	 * Initializes all core modules and sets up initial state
 	 */
 	constructor() {
-		/** @type {boolean} Whether the application has been successfully initialized */
-		this.isInitialized = false
-		/** @type {Object|null} Currently selected template configuration */
 		this.currentTemplate = null
-		/** @type {Object|null} Loaded and processed resume data */
 		this.resumeData = null
-		/** @type {Object} Collection of initialized modules */
-		this.modules = {}
-
-		// Initialize modules
-		/** @type {DataProcessor} Data processing and validation module */
 		this.dataProcessor = new DataProcessor()
-		/** @type {TemplateRenderer} Template rendering and processing module */
 		this.templateRenderer = new TemplateRenderer()
-		/** @type {UIManager} User interface management module */
 		this.uiManager = new UIManager()
 	}
 
@@ -49,9 +37,6 @@ class ResumeBuilder {
 	 */
 	async init() {
 		try {
-			// Initialize error handling first
-			this.initializeErrorHandling()
-
 			// Load and validate resume data
 			await this.loadResumeData()
 
@@ -63,27 +48,10 @@ class ResumeBuilder {
 
 			// Render the initial template
 			await this.renderTemplate()
-
-			this.isInitialized = true
 		} catch (error) {
 			console.error('❌ Failed to initialize Resume Builder:', error)
 			this.uiManager.showInitializationError(error)
 		}
-	}
-
-	/**
-	 * Initialize error handling system
-	 * Sets up global error handlers and makes error handler available for debugging
-	 */
-	initializeErrorHandling() {
-		// The errorHandler module automatically sets up global error handlers
-		// We just need to ensure it's initialized (it auto-initializes on import)
-		if (!errorHandler.isInitialized) {
-			errorHandler.init()
-		}
-
-		// Make error handler available globally for debugging
-		globalThis.errorHandler = errorHandler
 	}
 
 	/**
@@ -158,7 +126,6 @@ class ResumeBuilder {
 			await this.renderTemplate()
 		} catch (error) {
 			console.error('Template switch failed:', error)
-			this.handleError(error)
 		}
 	}
 
@@ -172,7 +139,6 @@ class ResumeBuilder {
 			globalThis.print()
 		} catch (error) {
 			console.error('Print failed:', error)
-			this.handleError(error, {operation: 'Print resume'})
 		}
 	}
 
@@ -214,21 +180,6 @@ class ResumeBuilder {
 			// Fallback to a basic title
 			document.title = 'Resume'
 		}
-	}
-
-	/**
-	 * Handle application errors
-	 * Delegates error handling to the centralized error handler
-	 * @param {Error} error - The error to handle
-	 * @param {Object} [context={}] - Additional context information
-	 * @returns {ResumeBuilderError} The processed error object
-	 */
-	handleError(error, context = {}) {
-		// Use the centralized error handler
-		return errorHandler.handleError(error, {
-			component: 'ResumeBuilder',
-			...context
-		})
 	}
 }
 

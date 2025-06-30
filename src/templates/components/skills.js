@@ -10,7 +10,7 @@ export function skills({skills = []}) {
     <section class="section skills-section">
       <h3 class="section-title">Skills</h3>
       <div class="section-content">
-        ${skills.map(skill => SkillItem(skill)).join('')}
+        ${skills.map(skill => skillItem(skill)).join('')}
       </div>
     </section>
   `
@@ -19,7 +19,7 @@ export function skills({skills = []}) {
 /**
  * Individual skill item component
  */
-function SkillItem(skill) {
+function skillItem(skill) {
 	const {name, level, keywords = []} = skill
 
 	return `

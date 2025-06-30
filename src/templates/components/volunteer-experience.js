@@ -12,7 +12,7 @@ export function volunteerExperience({volunteer = []}) {
     <section class="section volunteer-section">
       <h3 class="section-title">Volunteer Experience</h3>
       <div class="section-content">
-        ${volunteer.map(vol => VolunteerItem(vol)).join('')}
+        ${volunteer.map(vol => volunteerItem(vol)).join('')}
       </div>
     </section>
   `
@@ -21,11 +21,11 @@ export function volunteerExperience({volunteer = []}) {
 /**
  * Individual volunteer item component
  */
-function VolunteerItem(vol) {
+function volunteerItem(vol) {
 	const {organization, position, url, startDate, endDate, summary, highlights = [], formattedDates} = vol
 
 	return `
-    <div class="volunteer-item section-item page-break-inside-avoid">
+    <div class="volunteer-item section-item">
       <div class="volunteer-header item-header">
         <div class="item-header-left">
           <h4 class="volunteer-position item-title">${position || ''}</h4>
@@ -35,7 +35,7 @@ function VolunteerItem(vol) {
         </div>
         <div class="item-header-right">
           <div class="volunteer-dates item-dates">
-            ${formattedDates || formatDateRange(startDate, endDate)}
+            ${formattedDates}
           </div>
         </div>
       </div>
