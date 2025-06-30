@@ -31,7 +31,10 @@ function projectItem(project) {
           <h4 class="project-name item-title">
             ${url ? `<a href="${url}" target="_blank">${name}</a>` : name}
           </h4>
-          ${entity ? `<div class="project-entity item-subtitle">${entity}</div>` : ''}
+        ${roles.length > 0
+			? `<div class="project-roles item-subtitle">
+            ${roles.join(', ')}</div>`
+			: ''}
         </div>
         <div class="item-header-right">
           ${startDate
@@ -41,17 +44,9 @@ function projectItem(project) {
             </div>
           `
 				: ''}
-          ${type ? `<div class="project-type item-other-label">${type}</div>` : ''}
+        ${entity ? `<div class="project-entity">${entity}</div>` : ''}
         </div>
       </div>
-
-      ${roles.length > 0
-			? `
-        <div class="project-roles">
-          <strong>Roles:</strong> ${roles.join(', ')}
-        </div>
-      `
-			: ''}
 
       ${description
 			? `

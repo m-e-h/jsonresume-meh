@@ -34,10 +34,10 @@ export function minimalTemplate(data) {
       ${summary(data)}
       ${workExperience(data)}
       ${skills(data)}
-      ${projects(data)}
-      ${education(data)}
       ${volunteerExperience(data)}
+      ${projects(data)}
       ${publications(data)}
+      ${education(data)}
       ${languages(data)}
       ${awards(data)}
       ${certificates(data)}

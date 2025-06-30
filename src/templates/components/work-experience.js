@@ -29,10 +29,10 @@ function workItem(job) {
       <div class="work-header item-header">
         <div class="item-header-left">
           <h4 class="work-company item-title">
-            ${url ? `<a href="${url}" target="_blank">${name}</a>` : name}
+            ${position || ''}
           </h4>
           <div class="work-position item-subtitle">
-            ${position || ''}
+            ${url ? `<a href="${url}" target="_blank">${name}</a>` : name}
           </div>
         </div>
         <div class="item-header-right">

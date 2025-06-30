@@ -10,7 +10,7 @@ export function volunteerExperience({volunteer = []}) {
 
 	return `
     <section class="section volunteer-section">
-      <h3 class="section-title">Volunteer Experience</h3>
+      <h3 class="section-title">Contributions</h3>
       <div class="section-content">
         ${volunteer.map(vol => volunteerItem(vol)).join('')}
       </div>
@@ -22,7 +22,7 @@ export function volunteerExperience({volunteer = []}) {
  * Individual volunteer item component
  */
 function volunteerItem(vol) {
-	const {organization, position, url, startDate, endDate, summary, highlights = [], formattedDates} = vol
+	const {organization, position, url, summary, highlights = [], formattedDates} = vol
 
 	return `
     <div class="volunteer-item section-item">
