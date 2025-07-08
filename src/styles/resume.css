@@ -1,5 +1,83 @@
-/* Simplified Resume Styles */
-/* Modern, clean styling that works for all templates */
+/* Font Face Declarations */
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-RegularItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* CSS Variables */
 :root {
@@ -15,6 +93,11 @@
 
   /* Typography */
   --font-sans: Arial, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
 
   /* Typography scale */
   --text-sm: 0.875em;
@@ -65,7 +148,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   line-height: 1.25;
 }
 
@@ -114,7 +197,7 @@ blockquote {
 
 /* Header Section */
 .resume-header {
-  margin-bottom: var(--text-base);
+  margin-bottom: var(--space-8);
 }
 
 .profile-image {
@@ -150,7 +233,7 @@ blockquote {
 
 .title {
   font-size: var(--text-h3);
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   font-style: italic;
 }
 
@@ -198,8 +281,7 @@ blockquote {
 }
 
 .section-title {
-  font-size: var(--text-h3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: var(--primary-color);
   margin-bottom: var(--text-base);
   padding-bottom: var(--space-1);
@@ -244,7 +326,7 @@ blockquote {
 }
 
 .item-subtitle {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: var(--text-secondary);
 }
 
@@ -252,7 +334,7 @@ blockquote {
 .item-other-label,
 .item-header-right {
   font-style: italic;
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   color: var(--text-secondary);
 }
 
@@ -311,13 +393,13 @@ blockquote {
 
 .skill-name {
   font-size: var(--text-base);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin: 0;
 }
 
 .skill-level {
   font-size: var(--text-sm);
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
 }
 
 .skill-keywords {
@@ -327,12 +409,13 @@ blockquote {
 }
 
 .keyword {
-  padding: var(--space-1) var(--space-2);
+  padding: 0 var(--space-2);
   border-radius: 4px;
   font-size: var(--text-sm);
   color: var(--text-secondary);
   border: 1px solid var(--border);
-  line-height: 1;
+  line-height: 1.4;
+  padding-top: 2px;
 }
 
 /* Languages */
@@ -373,7 +456,7 @@ blockquote {
 
 /* Minimal Template - Clean, simple styling */
 .minimal-template {
-  /* --font-sans: 'IBM Plex Sans', sans-serif; */
+  --font-sans: 'Atkinson Hyperlegible Next', sans-serif;
   --primary-color: #0a3069;
   --accent-color: #64748b;
   --text-primary: #1f2328;
@@ -385,7 +468,7 @@ blockquote {
 }
 
 .minimal-template .section-title {
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);

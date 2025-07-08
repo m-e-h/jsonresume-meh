@@ -17,12 +17,14 @@ export function publications({publications = []}) {
             <div class="publication-header item-header">
               <div class="item-header-left">
                 <h4 class="publication-name item-title">
-                  ${pub.url ? `<a href="${pub.url}" target="_blank">${pub.name}</a>` : pub.name}
+                  ${pub.name || ''}
                 </h4>
+                <div class="work-position item-subtitle">
+                  ${pub.url ? `<a href="${pub.url}" target="_blank">${pub.publisher}</a>` : pub.publisher}
+                </div>
               </div>
               <div class="item-header-right">
                 ${pub.releaseDate ? `<div class="publication-date item-dates">${formatDate(pub.releaseDate)}</div>` : ''}
-                ${pub.publisher ? `<div class="publication-publisher">${pub.publisher}</div>` : ''}
               </div>
             </div>
             ${pub.summary ? `<p class="publication-summary item-summary">${pub.summary}</p>` : ''}

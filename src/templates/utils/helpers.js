@@ -21,7 +21,7 @@ export function formatDate(dateString) {
 			return dateString
 		}
 
-		return date.toLocaleDateString('en-US', {month: 'short', year: 'numeric'})
+		return date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
 	} catch {
 		return dateString
 	}
@@ -34,13 +34,13 @@ export function formatDate(dateString) {
  * @returns {string} Formatted date range (e.g., "Jan 2020 – Present" or "Jan 2020 – Dec 2022")
  */
 export function formatDateRange(startDate, endDate) {
-	if (!startDate) {
+	if (!startDate && !endDate) {
 		return ''
 	}
 
-	const start = formatDate(startDate)
+	const start = startDate ? formatDate(startDate) + ' – ' : ''
 	const end = endDate && endDate.toLowerCase() !== 'present' ? formatDate(endDate) : 'Present'
-	return end === 'Present' || !endDate ? `${start} – ${end}` : `${start} – ${end}`
+	return `${start}${end}`
 }
 
 /**
