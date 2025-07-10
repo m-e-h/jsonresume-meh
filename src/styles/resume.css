@@ -33,6 +33,22 @@
 
 @font-face {
   font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('../fonts/AtkinsonHyperlegibleNext-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
   src: url('../fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
@@ -90,6 +106,7 @@
   --background: #ffffff;
   --surface: #f6f8fa;
   --border: #e2e8f0;
+  --border-left: #e2e8f0;
 
   /* Typography */
   --font-sans: Arial, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -97,7 +114,7 @@
   /* Font Weights */
   --font-weight-light: 300;
   --font-weight-normal: 400;
-  --font-weight-bold: 600;
+  --font-weight-bold: 500;
 
   /* Typography scale */
   --text-sm: 0.875em;
@@ -124,6 +141,7 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --radius-md: 0.3px;
   --radius-lg: 0.5rem;
+  --border-width: 1px;
 }
 
 /* Base Styles */
@@ -174,18 +192,11 @@ a {
 }
 
 blockquote {
-  color: var(--text-secondary);
-  border-left: 3px solid var(--accent-color);
-  padding-left: var(--space-4);
   margin: 0;
 }
 
 /* Resume Container */
 .resume-container {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: 1.5;
-  color: var(--text-primary);
   background: var(--background);
   box-shadow: var(--shadow-lg);
   border-radius: var(--radius-lg);
@@ -193,6 +204,13 @@ blockquote {
   min-height: 11in;
   margin: 2rem auto;
   padding: 0.5in;
+}
+
+.resume-main {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
 /* Header Section */
@@ -216,17 +234,19 @@ blockquote {
 .header-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   gap: var(--space-2);
   text-align: center;
 }
 
 .name {
+  color: var(--primary-color);
 	font-size: var(--text-h1);
-	letter-spacing: -0.025em;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
 	padding-bottom: var(--space-1);
 	margin-bottom: var(--space-1);
-	border-bottom: 1px solid var(--border);
+	border-bottom: var(--border-width) solid var(--border);
 	display: block;
 	width: 100%;
 }
@@ -268,11 +288,11 @@ blockquote {
   margin-bottom: -2px;
 }
 
+blockquote,
+.item-summary,
 .summary-text {
 	padding: 0 1em;
-	color: var(--text-secondary);
-	border-left: 0.25em solid var(--border);
-	background-color: #fff;
+	border-left: var(--border-width) solid var(--border-left);
 }
 
 /* Sections */
@@ -285,7 +305,7 @@ blockquote {
   color: var(--primary-color);
   margin-bottom: var(--text-base);
   padding-bottom: var(--space-1);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--border-width) solid var(--border);
 }
 
 .section-item {
@@ -322,12 +342,11 @@ blockquote {
 }
 
 .item-title {
-  font-size: var(--text-h4);
+  font-size: var(--text-base);
 }
 
 .item-subtitle {
-  font-weight: var(--font-weight-bold);
-  color: var(--text-secondary);
+  font-weight: var(--font-weight-normal);
 }
 
 .item-dates,
@@ -340,7 +359,6 @@ blockquote {
 
 .item-summary {
   margin-bottom: var(--text-base);
-  font-style: italic;
 }
 
 .item-list {
@@ -412,7 +430,6 @@ blockquote {
   padding: 0 var(--space-2);
   border-radius: 4px;
   font-size: var(--text-sm);
-  color: var(--text-secondary);
   border: 1px solid var(--border);
   line-height: 1.4;
   padding-top: 2px;
@@ -457,12 +474,14 @@ blockquote {
 /* Minimal Template - Clean, simple styling */
 .minimal-template {
   --font-sans: 'Atkinson Hyperlegible Next', sans-serif;
-  --primary-color: #0a3069;
-  --accent-color: #64748b;
-  --text-primary: #1f2328;
-  --text-secondary: #59636e;
-  --text-muted: #626d7d;
-  --border: #d1d9e0;
+  --primary-color: #b58900;
+  --accent-color: #268bd2;
+  --text-primary: #586e75;
+  --text-secondary: #657b83;
+  --text-muted: #93a1a1;
+  --border: #eee8d5;
+  --border-left: var(--accent-color);
+  --border-width: 2px;
 
   font-family: var(--font-sans);
 }
@@ -470,8 +489,7 @@ blockquote {
 .minimal-template .section-title {
   font-weight: var(--font-weight-normal);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
+  color: var(--primary-color);
 }
 
 .minimal-template .summary-section .section-title {

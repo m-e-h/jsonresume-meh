@@ -29,7 +29,7 @@ import {
  */
 export function minimalTemplate(data) {
 	return `
-    <div class="resume-wrap">
+    <div class="resume-main">
       ${header(data)}
       ${summary(data)}
       ${workExperience(data)}
@@ -55,7 +55,7 @@ export function minimalTemplate(data) {
  */
 export function classicTemplate(data) {
 	return `
-    <div class="resume-wrap">
+    <div class="resume-main">
       ${header(data)}
 
       <main class="resume-main">
@@ -89,7 +89,7 @@ export function classicTemplate(data) {
  */
 export function modernTemplate(data) {
 	return `
-    <div class="resume-wrap">
+    <div class="resume-main">
       ${header(data)}
       ${skills(data)}
       ${languages(data)}
