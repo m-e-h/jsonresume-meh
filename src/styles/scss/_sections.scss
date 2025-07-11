@@ -1,0 +1,79 @@
+@use 'variables';
+
+/* Sections */
+.section {
+  margin-bottom: variables.$space-8;
+}
+
+.section-title {
+  font-weight: variables.$font-weight-bold;
+  color: variables.$primary-color;
+  margin-bottom: variables.$text-base;
+  padding-bottom: variables.$space-1;
+  border-bottom: variables.$border-width solid variables.$border;
+}
+
+.section-item {
+  margin-bottom: variables.$space-6;
+}
+
+.section:last-child,
+.section-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.item-header {
+  line-height: 1.2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: variables.$text-base;
+}
+
+.item-header-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.item-header-left,
+.item-header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: variables.$space-1;
+}
+
+.item-title {
+  font-size: variables.$text-base;
+}
+
+.item-subtitle {
+  font-weight: variables.$font-weight-normal;
+}
+
+.item-dates,
+.item-other-label,
+.item-header-right {
+  font-style: italic;
+  font-weight: variables.$font-weight-normal;
+  color: variables.$text-secondary;
+}
+
+.item-summary {
+  margin-bottom: variables.$text-base;
+}
+
+.item-list {
+  padding-left: 1em;
+}
+
+.item-list li {
+  margin-bottom: variables.$space-1;
+}
+
+.item-list li::marker {
+  color: variables.$primary-color;
+}

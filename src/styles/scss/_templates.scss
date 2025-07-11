@@ -1,0 +1,123 @@
+@use 'variables';
+
+/* Template Specific Overrides */
+
+// Template Variables - Override defaults
+$classic-font-sans: 'Source Sans Pro', sans-serif;
+$classic-primary-color: #1e40af;
+$classic-accent-color: #3b82f6;
+
+$modern-font-sans: 'Inter', sans-serif;
+$modern-primary-color: #7c3aed;
+$modern-accent-color: #8b5cf6;
+
+$minimal-font-sans: 'Atkinson Hyperlegible Next', sans-serif;
+$minimal-primary-color: #b58900;
+$minimal-accent-color: #268bd2;
+$minimal-text-primary: #586e75;
+$minimal-text-secondary: #657b83;
+$minimal-text-muted: #93a1a1;
+$minimal-border: #eee8d5;
+$minimal-border-left: $minimal-accent-color;
+$minimal-border-width: 2px;
+
+/* Classic Template - Traditional styling */
+.classic-template {
+  font-family: $classic-font-sans;
+
+  .name {
+    color: $classic-primary-color;
+  }
+
+  .section-title {
+    color: $classic-primary-color;
+  }
+
+  .item-list li::marker {
+    color: $classic-primary-color;
+  }
+}
+
+/* Modern Template - Contemporary styling */
+.modern-template {
+  font-family: $modern-font-sans;
+
+  .name {
+    color: $modern-primary-color;
+  }
+
+  .section-title {
+    color: $modern-primary-color;
+  }
+
+  .item-list li::marker {
+    color: $modern-primary-color;
+  }
+}
+
+/* Minimal Template - Clean, simple styling */
+.minimal-template {
+  font-family: $minimal-font-sans;
+
+  .name {
+    color: $minimal-primary-color;
+  }
+
+  .section-title {
+    color: $minimal-primary-color;
+  }
+
+  .item-list li::marker {
+    color: $minimal-primary-color;
+  }
+
+  .resume-main {
+    color: $minimal-text-primary;
+  }
+
+  .item-dates,
+  .item-other-label,
+  .item-header-right {
+    color: $minimal-text-secondary;
+  }
+
+  .education-score {
+    color: $minimal-text-secondary;
+  }
+
+  .courses-list li {
+    color: $minimal-text-secondary;
+  }
+
+  .section-title {
+    border-bottom: $minimal-border-width solid $minimal-border;
+  }
+
+  .name {
+    border-bottom: $minimal-border-width solid $minimal-border;
+  }
+
+  .profile-photo {
+    border: 4px solid $minimal-border;
+  }
+
+  .keyword {
+    border: 1px solid $minimal-border;
+  }
+
+  blockquote,
+  .item-summary,
+  .summary-text {
+    border-left: $minimal-border-width solid $minimal-border-left;
+  }
+}
+
+.minimal-template .section-title {
+  font-weight: variables.$font-weight-normal;
+  text-transform: uppercase;
+  color: $minimal-primary-color;
+}
+
+.minimal-template .summary-section .section-title {
+  display: none;
+}

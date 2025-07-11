@@ -1,0 +1,23 @@
+// Main resume stylesheet - imports all partials
+
+// 1. Core styles
+@use 'fonts';
+@use 'variables';
+@use 'base';
+
+// 2. Layout
+@use 'layout';
+
+// 3. Components
+@use 'header';
+@use 'sections';
+@use 'components';
+
+// 4. Theme variants
+@use 'templates';
+
+// 5. UI components
+@use 'ui';
+
+// 6. Print styles
+@use 'print';

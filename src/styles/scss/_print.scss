@@ -1,0 +1,54 @@
+/* Print Styles */
+@media print {
+
+  * {
+    background: transparent !important;
+  }
+
+  a::after,
+  nav,
+  button .print-button,
+  .action-buttons,
+  .template-selector,
+  .no-print {
+    display: none !important;
+  }
+
+  .resume-container {
+    max-width: 100% !important;
+    min-height: unset !important;
+    margin: 0 !important;
+    padding: 2px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* .projects-section, */
+  /* .education-section, */
+  /* .work-section, */
+  /* .volunteer-section, */
+  /* .awards-section, */
+  /* .publications-section, */
+  /* .references-section, */
+  /* .languages-section, */
+  .skills-section,
+  li,
+  .section-item:not(:first-child) {
+    page-break-inside: avoid;
+  }
+
+  .profile-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* .work-item,
+  .education-item,
+  .project-item {
+    page-break-inside: avoid;
+  } */
+
+  /* .section-title {
+    page-break-after: avoid;
+  } */
+}

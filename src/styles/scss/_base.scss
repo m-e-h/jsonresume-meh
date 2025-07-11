@@ -1,0 +1,52 @@
+@use 'variables';
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 12pt;
+  line-height: 1.5;
+  color: #000;
+  background-color: variables.$surface;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: variables.$font-weight-bold;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: variables.$text-h1;
+}
+
+h2 {
+  font-size: variables.$text-h2;
+}
+
+h3 {
+  font-size: variables.$text-h3;
+}
+
+h4 {
+  font-size: variables.$text-h4;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+blockquote {
+  margin: 0;
+}

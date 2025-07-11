@@ -10,29 +10,29 @@ export default defineConfig({
 						'> 1%',
 						'last 2 versions',
 						'not dead',
-						'not ie 11',
-					],
-				}),
-			],
-		},
+						'not ie 11'
+					]
+				})
+			]
+		}
 	},
 	build: {
 		outDir: 'dist',
 		assetsDir: 'assets',
-		sourcemap: true,
+		sourcemap: false,
 		rollupOptions: {
 			input: {
-				main: './index.html',
-			},
-		},
+				main: './index.html'
+			}
+		}
 	},
 	server: {
 		port: 3000,
 		open: true,
 		watch: {
 			usePolling: true,
-			include: ['src/**/*', 'resume.json', 'template.config.js'],
-		},
+			include: ['src/**/*', 'public/**/*', 'template.config.js']
+		}
 	},
 	resolve: {
 		alias: {
@@ -40,7 +40,7 @@ export default defineConfig({
 			'@styles': '/src/styles',
 			'@scripts': '/src/scripts',
 			'@templates': '/src/templates',
-			'@config': '/template.config.js',
-		},
-	},
+			'@config': '/template.config.js'
+		}
+	}
 })

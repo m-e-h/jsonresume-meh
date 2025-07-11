@@ -9,7 +9,7 @@ import {getSelectedTemplate, templateConfig} from '@config'
 import {DataProcessor} from './scripts/data-processor.js'
 import {TemplateRenderer} from './scripts/template-renderer.js'
 import {UIManager} from './scripts/ui-manager.js'
-import './styles/resume.css'
+import './styles/scss/resume.scss'
 
 /**
  * Main Application Class
