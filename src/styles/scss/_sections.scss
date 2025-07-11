@@ -1,20 +1,18 @@
-@use 'variables';
-
 /* Sections */
 .section {
-  margin-bottom: variables.$space-8;
+  margin-bottom: var(--space-8);
 }
 
 .section-title {
-  font-weight: variables.$font-weight-bold;
-  color: variables.$primary-color;
-  margin-bottom: variables.$text-base;
-  padding-bottom: variables.$space-1;
-  border-bottom: variables.$border-width solid variables.$border;
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  margin-bottom: var(--text-base);
+  padding-bottom: var(--space-1);
+  border-bottom: var(--border-width) solid var(--border);
 }
 
 .section-item {
-  margin-bottom: variables.$space-6;
+  margin-bottom: var(--space-6);
 }
 
 .section:last-child,
@@ -30,7 +28,7 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin-bottom: variables.$text-base;
+  margin-bottom: var(--text-base);
 }
 
 .item-header-right {
@@ -43,27 +41,27 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: variables.$space-1;
+  gap: var(--space-1);
 }
 
 .item-title {
-  font-size: variables.$text-base;
+  font-size: var(--text-base);
 }
 
 .item-subtitle {
-  font-weight: variables.$font-weight-normal;
+  font-weight: var(--font-weight-normal);
 }
 
 .item-dates,
 .item-other-label,
 .item-header-right {
   font-style: italic;
-  font-weight: variables.$font-weight-normal;
-  color: variables.$text-secondary;
+  font-weight: var(--font-weight-normal);
+  color: var(--text-secondary);
 }
 
 .item-summary {
-  margin-bottom: variables.$text-base;
+  margin-bottom: var(--text-base);
 }
 
 .item-list {
@@ -71,9 +69,9 @@
 }
 
 .item-list li {
-  margin-bottom: variables.$space-1;
+  margin-bottom: var(--space-1);
 }
 
 .item-list li::marker {
-  color: variables.$primary-color;
+  color: var(--primary-color);
 }

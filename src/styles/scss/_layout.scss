@@ -1,10 +1,8 @@
-@use 'variables';
-
 /* Resume Container */
 .resume-container {
-  background: variables.$background;
-  box-shadow: variables.$shadow-lg;
-  border-radius: variables.$radius-lg;
+  background: var(--background);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
   max-width: 8.5in;
   min-height: 11in;
   margin: 2rem auto;
@@ -12,8 +10,8 @@
 }
 
 .resume-main {
-  font-family: variables.$font-sans;
-  font-size: variables.$text-base;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
   line-height: 1.5;
-  color: variables.$text-primary;
+  color: var(--text-primary);
 }

@@ -1,63 +1,61 @@
-@use 'variables';
-
 /* Education */
 .education-score {
-  font-size: variables.$text-sm;
-  color: variables.$text-secondary;
-  margin-bottom: variables.$space-2;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
 }
 
 .courses-list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: variables.$space-2;
+  gap: var(--space-2);
 }
 
 .courses-list li {
-  background: variables.$surface;
-  padding: variables.$space-1 variables.$space-2;
-  border-radius: variables.$radius-md;
-  font-size: variables.$text-sm;
-  color: variables.$text-secondary;
+  background: var(--surface);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 /* Skills */
 .skills-section .section-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: variables.$space-6;
+  gap: var(--space-6);
 }
 
 .skill-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: variables.$text-base;
+  margin-bottom: var(--text-base);
 }
 
 .skill-name {
-  font-size: variables.$text-base;
-  font-weight: variables.$font-weight-bold;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
   margin: 0;
 }
 
 .skill-level {
-  font-size: variables.$text-sm;
-  font-weight: variables.$font-weight-normal;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-normal);
 }
 
 .skill-keywords {
   display: flex;
   flex-wrap: wrap;
-  gap: variables.$space-2;
+  gap: var(--space-2);
 }
 
 .keyword {
-  padding: 0 variables.$space-2;
+  padding: 0 var(--space-2);
   border-radius: 4px;
-  font-size: variables.$text-sm;
-  border: 1px solid variables.$border;
+  font-size: var(--text-sm);
+  border: 1px solid var(--border);
   line-height: 1.4;
   padding-top: 2px;
 }
@@ -67,13 +65,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: variables.$space-3;
-  padding: variables.$space-2 0;
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) 0;
 }
 
 /* Interests */
 .interest-keywords {
   display: flex;
   flex-wrap: wrap;
-  gap: variables.$space-2;
+  gap: var(--space-2);
 }
