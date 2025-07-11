@@ -12,9 +12,9 @@ export const templates = {
 			'Ultra-clean typography',
 			'Maximum white space',
 			'Focus on content',
-			'Minimal visual elements',
+			'Minimal visual elements'
 		],
-		recommended: ['academia', 'research', 'creative', 'freelance'],
+		recommended: ['academia', 'research', 'creative', 'freelance']
 	},
 
 	classic: {
@@ -26,9 +26,9 @@ export const templates = {
 			'Traditional two-column layout',
 			'Professional typography',
 			'Clear section headers',
-			'Optimized for ATS systems',
+			'Optimized for ATS systems'
 		],
-		recommended: ['corporate', 'finance', 'legal', 'consulting'],
+		recommended: ['corporate', 'finance', 'legal', 'consulting']
 	},
 
 	modern: {
@@ -40,10 +40,10 @@ export const templates = {
 			'Contemporary color scheme',
 			'Modern typography stack',
 			'Visual hierarchy emphasis',
-			'Balanced white space',
+			'Balanced white space'
 		],
-		recommended: ['tech', 'design', 'marketing', 'startup'],
-	},
+		recommended: ['tech', 'design', 'marketing', 'startup']
+	}
 }
 
 export const templateConfig = {
@@ -67,7 +67,7 @@ export const templateConfig = {
 
 		// Whether to include template selector in the build
 		includeTemplateSelector: (import.meta !== undefined && import.meta.env?.DEV)
-			|| (globalThis.global !== undefined && globalThis.importMeta?.env?.DEV),
+			|| (globalThis.global !== undefined && globalThis.importMeta?.env?.DEV)
 	},
 
 	// Shared template settings
@@ -82,7 +82,7 @@ export const templateConfig = {
 		breakpoints: {
 			mobile: '768px',
 			tablet: '1024px',
-			desktop: '1200px',
+			desktop: '1200px'
 		},
 
 		// Print settings
@@ -90,9 +90,9 @@ export const templateConfig = {
 			format: 'A4',
 			orientation: 'portrait',
 			margin: '0.5in',
-			printBackground: true,
-		},
-	},
+			printBackground: true
+		}
+	}
 }
 
 /**
