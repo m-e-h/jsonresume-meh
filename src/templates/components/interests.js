@@ -7,7 +7,7 @@ export function interests({interests = []}) {
 	}
 
 	return `
-    <section class="section interests-section">
+    <section class="resume-section interests-section">
       <h3 class="section-title">Interests</h3>
       <div class="section-content">
         ${interests.map(interest => `

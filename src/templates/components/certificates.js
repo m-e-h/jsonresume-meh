@@ -9,7 +9,7 @@ export function certificates({certificates = []}) {
 	}
 
 	return `
-    <section class="section certificates-section">
+    <section class="resume-section certificates-section">
       <h3 class="section-title">Certifications</h3>
       <div class="section-content">
         ${certificates.map(cert => `

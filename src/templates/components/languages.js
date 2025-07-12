@@ -7,7 +7,7 @@ export function languages({languages = []}) {
 	}
 
 	return `
-    <section class="section languages-section">
+    <section class="resume-section languages-section">
       <h3 class="section-title">Languages</h3>
       <div class="section-content">
         ${languages.map(lang => `

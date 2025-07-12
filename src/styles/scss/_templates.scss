@@ -21,7 +21,7 @@
 /* Minimal Template - Clean, simple styling */
 .minimal-template {
   --font-sans: 'Atkinson Hyperlegible Next', sans-serif;
-  --primary-color: #b58900;
+  --primary-color: #268bd2;
   --accent-color: #268bd2;
   --text-primary: #586e75;
   --text-secondary: #657b83;
@@ -33,7 +33,7 @@
   font-family: var(--font-sans);
 }
 
-.minimal-template .section-title {
+.minimal-template h3 {
   font-weight: var(--font-weight-normal);
   text-transform: uppercase;
   color: var(--primary-color);

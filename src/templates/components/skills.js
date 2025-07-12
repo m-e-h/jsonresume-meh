@@ -7,7 +7,7 @@ export function skills({skills = []}) {
 	}
 
 	return `
-    <section class="section skills-section">
+    <section class="resume-section skills-section">
       <h3 class="section-title">Skills</h3>
       <div class="section-content">
         ${skills.map(skill => skillItem(skill)).join('')}

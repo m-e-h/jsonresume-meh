@@ -9,7 +9,7 @@ export function publications({publications = []}) {
 	}
 
 	return `
-    <section class="section publications-section">
+    <section class="resume-section publications-section">
       <h3 class="section-title">Publications</h3>
       <div class="section-content">
         ${publications.map(pub => `

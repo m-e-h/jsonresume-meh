@@ -9,7 +9,7 @@ export function awards({awards = []}) {
 	}
 
 	return `
-    <section class="section awards-section">
+    <section class="resume-section awards-section">
       <h3 class="section-title">Awards & Recognition</h3>
       <div class="section-content">
         ${awards.map(award => `

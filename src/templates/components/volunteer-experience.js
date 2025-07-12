@@ -9,7 +9,7 @@ export function volunteerExperience({volunteer = []}) {
 	}
 
 	return `
-    <section class="section volunteer-section">
+    <section class="resume-section volunteer-section">
       <h3 class="section-title">Contributions</h3>
       <div class="section-content">
         ${volunteer.map(vol => volunteerItem(vol)).join('')}

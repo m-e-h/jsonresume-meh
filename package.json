@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:classic": "VITE_RESUME_TEMPLATE=classic vite",
-    "dev:modern": "VITE_RESUME_TEMPLATE=modern vite",
-    "dev:minimal": "VITE_RESUME_TEMPLATE=minimal vite",
-    "build": "vite build",
+    "build": "npm run build:browser && npm run build:static && npm run build:pdf",
+    "build:browser": "vite build",
+    "build:static": "node src/scripts/build-static-html.js",
+    "build:pdf": "pandoc dist/index.html -o dist/resume.pdf --pdf-engine=weasyprint --css=$(find dist -name '*.css' -type f | head -1)",
     "preview": "vite preview",
     "clean": "rm -rf dist node_modules/.vite",
     "clean:all": "rm -rf dist node_modules/.vite node_modules"

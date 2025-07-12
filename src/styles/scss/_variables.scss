@@ -1,18 +1,18 @@
 /* CSS Variables */
 :root {
   /* Colors */
-  --primary-color: #2563eb;
-  --accent-color: #64748b;
-  --text-primary: #1e293b;
-  --text-secondary: #374151;
-  --text-muted: #94a3b8;
+  --primary-color: #b58900;
+  --accent-color: #268bd2;
+  --text-primary: #586e75;
+  --text-secondary: #657b83;
+  --text-muted: #93a1a1;
+  --border: #eee8d5;
   --background: #ffffff;
   --surface: #f6f8fa;
-  --border: #e2e8f0;
-  --border-left: #e2e8f0;
+  --border-left: var(--accent-color);
 
   /* Typography */
-  --font-sans: Arial, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Atkinson Hyperlegible Next', sans-serif;
 
   /* Font Weights */
   --font-weight-light: 300;
@@ -44,5 +44,5 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --radius-md: 0.3px;
   --radius-lg: 0.5rem;
-  --border-width: 1px;
+  --border-width: 2px;
 }

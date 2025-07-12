@@ -7,7 +7,7 @@ export function references({references = []}) {
 	}
 
 	return `
-    <section class="section references-section">
+    <section class="resume-section references-section">
       <h3 class="section-title">References</h3>
       <div class="section-content">
         ${references.map(reference => referenceItem(reference)).join('')}

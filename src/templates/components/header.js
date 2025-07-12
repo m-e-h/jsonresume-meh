@@ -23,10 +23,10 @@ export function header({basics = {}}) {
         <div class="contact-info">
           ${email
 				? `
-            <a href="mailto:${email}" class="contact-item">
+            <div class="contact-item">
               <span class="contact-label icon">${icon('mail')}</span>
-              <span class="contact-value">${email}</span>
-            </a>
+              <a href="mailto:${email}" class="contact-value">${email}</a>
+            </div>
           `
 				: ''}
 
@@ -52,9 +52,7 @@ export function header({basics = {}}) {
 				? `
             <div class="contact-item">
               <span class="contact-label icon">${icon('map-pin')}</span>
-              <span class="contact-value">
-                ${[location.city, location.region, location.countryCode].filter(Boolean).join(', ')}
-              </span>
+              <span class="contact-value">${[location.city, location.region, location.countryCode].filter(Boolean).join(', ')}</span>
             </div>
           `
 				: ''}

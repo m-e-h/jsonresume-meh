@@ -9,7 +9,7 @@ export function projects({projects = []}) {
 	}
 
 	return `
-    <section class="section projects-section">
+    <section class="resume-section projects-section">
       <h3 class="section-title">Projects</h3>
       <div class="section-content">
         ${projects.map(project => projectItem(project)).join('')}
